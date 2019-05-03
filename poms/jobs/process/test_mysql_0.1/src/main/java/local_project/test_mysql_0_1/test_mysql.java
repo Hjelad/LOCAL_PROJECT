@@ -320,6 +320,28 @@ public class test_mysql implements TalendJob {
 		tMsgBox_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tDBInput_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tDBInput_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tFileOutputDelimited_2_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tDBInput_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tPostjob_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -408,6 +430,17 @@ public class test_mysql implements TalendJob {
 
 	}
 
+	public void tDBInput_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void tPostjob_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -474,9 +507,9 @@ public class test_mysql implements TalendJob {
 			return this.ID;
 		}
 
-		public Character Item;
+		public Integer Item;
 
-		public Character getItem() {
+		public Integer getItem() {
 			return this.Item;
 		}
 
@@ -512,12 +545,7 @@ public class test_mysql implements TalendJob {
 
 					this.ID = readInteger(dis);
 
-					length = dis.readByte();
-					if (length == -1) {
-						this.Item = null;
-					} else {
-						this.Item = dis.readChar();
-					}
+					this.Item = readInteger(dis);
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -535,14 +563,9 @@ public class test_mysql implements TalendJob {
 
 				writeInteger(this.ID, dos);
 
-				// Character
+				// Integer
 
-				if (this.Item == null) {
-					dos.writeByte(-1);
-				} else {
-					dos.writeByte(0);
-					dos.writeChar(this.Item);
-				}
+				writeInteger(this.Item, dos);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -690,7 +713,7 @@ public class test_mysql implements TalendJob {
 							.createStatement()) {
 						stmtCreate_tDBOutput_1.execute("CREATE TABLE `"
 								+ tableName_tDBOutput_1
-								+ "`(`ID` INT(1)  ,`Item` CHAR(1)  )");
+								+ "`(`ID` INT(1)  ,`Item` INT(1)  )");
 					}
 				}
 
@@ -795,7 +818,7 @@ public class test_mysql implements TalendJob {
 								try {
 
 									row1.Item = ParserUtils
-											.parseTo_Character(temp);
+											.parseTo_Integer(temp);
 
 								} catch (java.lang.Exception ex_tFileInputDelimited_1) {
 									rowstate_tFileInputDelimited_1
@@ -879,17 +902,9 @@ public class test_mysql implements TalendJob {
 
 							if (row1.Item == null) {
 								pstmt_tDBOutput_1.setNull(2,
-										java.sql.Types.CHAR);
+										java.sql.Types.INTEGER);
 							} else {
-								if (row1.Item == null) {
-									pstmt_tDBOutput_1.setNull(2,
-											java.sql.Types.CHAR);
-								} else if (row1.Item == ' ') {
-									pstmt_tDBOutput_1.setString(2, "");
-								} else {
-									pstmt_tDBOutput_1.setString(2,
-											String.valueOf(row1.Item));
-								}
+								pstmt_tDBOutput_1.setInt(2, row1.Item);
 							}
 
 							pstmt_tDBOutput_1.addBatch();
@@ -1362,6 +1377,19 @@ public class test_mysql implements TalendJob {
 				 */
 			}// end the resume
 
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil.addLog("CHECKPOINT",
+						"CONNECTION:SUBJOB_OK:tMsgBox_2:OnSubjobOk", "", Thread
+								.currentThread().getId() + "", "", "", "", "",
+						"");
+			}
+
+			if (execStat) {
+				runStat.updateStatOnConnection("OnSubjobOk4", 0, "ok");
+			}
+
+			tDBInput_1Process(globalMap);
+
 		} catch (java.lang.Exception e) {
 
 			TalendException te = new TalendException(e, currentComponent,
@@ -1395,6 +1423,498 @@ public class test_mysql implements TalendJob {
 		}
 
 		globalMap.put("tMsgBox_2_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row2Struct implements
+			routines.system.IPersistableRow<row2Struct> {
+		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test_mysql = new byte[0];
+		static byte[] commonByteArray_LOCAL_PROJECT_test_mysql = new byte[0];
+
+		public long item;
+
+		public long getItem() {
+			return this.item;
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_LOCAL_PROJECT_test_mysql) {
+
+				try {
+
+					int length = 0;
+
+					this.item = dis.readLong();
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// long
+
+				dos.writeLong(this.item);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("item=" + String.valueOf(item));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row2Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tDBInput_1Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tDBInput_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				row2Struct row2 = new row2Struct();
+
+				/**
+				 * [tFileOutputDelimited_2 begin ] start
+				 */
+
+				ok_Hash.put("tFileOutputDelimited_2", false);
+				start_Hash.put("tFileOutputDelimited_2",
+						System.currentTimeMillis());
+
+				currentComponent = "tFileOutputDelimited_2";
+
+				if (execStat) {
+					if (resourceMap.get("inIterateVComp") == null) {
+
+						runStat.updateStatOnConnection("row2" + iterateId, 0, 0);
+
+					}
+				}
+
+				int tos_count_tFileOutputDelimited_2 = 0;
+
+				String fileName_tFileOutputDelimited_2 = "";
+				fileName_tFileOutputDelimited_2 = (new java.io.File(
+						"C:/Users/Marine/Desktop/out.csv")).getAbsolutePath()
+						.replace("\\", "/");
+				String fullName_tFileOutputDelimited_2 = null;
+				String extension_tFileOutputDelimited_2 = null;
+				String directory_tFileOutputDelimited_2 = null;
+				if ((fileName_tFileOutputDelimited_2.indexOf("/") != -1)) {
+					if (fileName_tFileOutputDelimited_2.lastIndexOf(".") < fileName_tFileOutputDelimited_2
+							.lastIndexOf("/")) {
+						fullName_tFileOutputDelimited_2 = fileName_tFileOutputDelimited_2;
+						extension_tFileOutputDelimited_2 = "";
+					} else {
+						fullName_tFileOutputDelimited_2 = fileName_tFileOutputDelimited_2
+								.substring(0, fileName_tFileOutputDelimited_2
+										.lastIndexOf("."));
+						extension_tFileOutputDelimited_2 = fileName_tFileOutputDelimited_2
+								.substring(fileName_tFileOutputDelimited_2
+										.lastIndexOf("."));
+					}
+					directory_tFileOutputDelimited_2 = fileName_tFileOutputDelimited_2
+							.substring(0, fileName_tFileOutputDelimited_2
+									.lastIndexOf("/"));
+				} else {
+					if (fileName_tFileOutputDelimited_2.lastIndexOf(".") != -1) {
+						fullName_tFileOutputDelimited_2 = fileName_tFileOutputDelimited_2
+								.substring(0, fileName_tFileOutputDelimited_2
+										.lastIndexOf("."));
+						extension_tFileOutputDelimited_2 = fileName_tFileOutputDelimited_2
+								.substring(fileName_tFileOutputDelimited_2
+										.lastIndexOf("."));
+					} else {
+						fullName_tFileOutputDelimited_2 = fileName_tFileOutputDelimited_2;
+						extension_tFileOutputDelimited_2 = "";
+					}
+					directory_tFileOutputDelimited_2 = "";
+				}
+				boolean isFileGenerated_tFileOutputDelimited_2 = true;
+				java.io.File filetFileOutputDelimited_2 = new java.io.File(
+						fileName_tFileOutputDelimited_2);
+				globalMap.put("tFileOutputDelimited_2_FILE_NAME",
+						fileName_tFileOutputDelimited_2);
+				if (filetFileOutputDelimited_2.exists()) {
+					throw new RuntimeException(
+							"The particular file \""
+									+ filetFileOutputDelimited_2
+											.getAbsoluteFile()
+									+ "\" already exist. If you want to overwrite the file, please uncheck the"
+									+ " \"Throw an error if the file already exist\" option in Advanced settings.");
+				}
+				int nb_line_tFileOutputDelimited_2 = 0;
+				int splitedFileNo_tFileOutputDelimited_2 = 0;
+				int currentRow_tFileOutputDelimited_2 = 0;
+
+				final String OUT_DELIM_tFileOutputDelimited_2 = /**
+				 * Start field
+				 * tFileOutputDelimited_2:FIELDSEPARATOR
+				 */
+				";"/** End field tFileOutputDelimited_2:FIELDSEPARATOR */
+				;
+
+				final String OUT_DELIM_ROWSEP_tFileOutputDelimited_2 = /**
+				 * Start
+				 * field tFileOutputDelimited_2:ROWSEPARATOR
+				 */
+				"\n"/** End field tFileOutputDelimited_2:ROWSEPARATOR */
+				;
+
+				// create directory only if not exists
+				if (directory_tFileOutputDelimited_2 != null
+						&& directory_tFileOutputDelimited_2.trim().length() != 0) {
+					java.io.File dir_tFileOutputDelimited_2 = new java.io.File(
+							directory_tFileOutputDelimited_2);
+					if (!dir_tFileOutputDelimited_2.exists()) {
+						dir_tFileOutputDelimited_2.mkdirs();
+					}
+				}
+
+				// routines.system.Row
+				java.io.Writer outtFileOutputDelimited_2 = null;
+
+				java.io.File fileToDelete_tFileOutputDelimited_2 = new java.io.File(
+						fileName_tFileOutputDelimited_2);
+				if (fileToDelete_tFileOutputDelimited_2.exists()) {
+					fileToDelete_tFileOutputDelimited_2.delete();
+				}
+				outtFileOutputDelimited_2 = new java.io.BufferedWriter(
+						new java.io.OutputStreamWriter(
+								new java.io.FileOutputStream(
+										fileName_tFileOutputDelimited_2, false),
+								"ISO-8859-15"));
+
+				resourceMap.put("out_tFileOutputDelimited_2",
+						outtFileOutputDelimited_2);
+				resourceMap.put("nb_line_tFileOutputDelimited_2",
+						nb_line_tFileOutputDelimited_2);
+
+				/**
+				 * [tFileOutputDelimited_2 begin ] stop
+				 */
+
+				/**
+				 * [tDBInput_1 begin ] start
+				 */
+
+				ok_Hash.put("tDBInput_1", false);
+				start_Hash.put("tDBInput_1", System.currentTimeMillis());
+
+				currentComponent = "tDBInput_1";
+
+				int tos_count_tDBInput_1 = 0;
+
+				java.util.Calendar calendar_tDBInput_1 = java.util.Calendar
+						.getInstance();
+				calendar_tDBInput_1.set(0, 0, 0, 0, 0, 0);
+				java.util.Date year0_tDBInput_1 = calendar_tDBInput_1.getTime();
+				int nb_line_tDBInput_1 = 0;
+				java.sql.Connection conn_tDBInput_1 = null;
+				conn_tDBInput_1 = (java.sql.Connection) globalMap
+						.get("conn_tDBConnection_1");
+
+				java.sql.Statement stmt_tDBInput_1 = conn_tDBInput_1
+						.createStatement();
+
+				String dbquery_tDBInput_1 = "SELECT item \nFROM transactions \nGROUP  BY item \nHAVING COUNT(item)>"
+						+ ((String) globalMap.get("tMsgBox_1_RESULT"));
+
+				globalMap.put("tDBInput_1_QUERY", dbquery_tDBInput_1);
+				java.sql.ResultSet rs_tDBInput_1 = null;
+
+				try {
+					rs_tDBInput_1 = stmt_tDBInput_1
+							.executeQuery(dbquery_tDBInput_1);
+					java.sql.ResultSetMetaData rsmd_tDBInput_1 = rs_tDBInput_1
+							.getMetaData();
+					int colQtyInRs_tDBInput_1 = rsmd_tDBInput_1
+							.getColumnCount();
+
+					String tmpContent_tDBInput_1 = null;
+
+					while (rs_tDBInput_1.next()) {
+						nb_line_tDBInput_1++;
+
+						if (colQtyInRs_tDBInput_1 < 1) {
+							row2.item = 0;
+						} else {
+
+							if (rs_tDBInput_1.getObject(1) != null) {
+								row2.item = rs_tDBInput_1.getLong(1);
+							} else {
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+						}
+
+						/**
+						 * [tDBInput_1 begin ] stop
+						 */
+
+						/**
+						 * [tDBInput_1 main ] start
+						 */
+
+						currentComponent = "tDBInput_1";
+
+						tos_count_tDBInput_1++;
+
+						/**
+						 * [tDBInput_1 main ] stop
+						 */
+
+						/**
+						 * [tDBInput_1 process_data_begin ] start
+						 */
+
+						currentComponent = "tDBInput_1";
+
+						/**
+						 * [tDBInput_1 process_data_begin ] stop
+						 */
+
+						/**
+						 * [tFileOutputDelimited_2 main ] start
+						 */
+
+						currentComponent = "tFileOutputDelimited_2";
+
+						// row2
+						// row2
+
+						if (execStat) {
+							runStat.updateStatOnConnection("row2" + iterateId,
+									1, 1);
+						}
+
+						StringBuilder sb_tFileOutputDelimited_2 = new StringBuilder();
+						sb_tFileOutputDelimited_2.append(row2.item);
+						sb_tFileOutputDelimited_2
+								.append(OUT_DELIM_ROWSEP_tFileOutputDelimited_2);
+
+						nb_line_tFileOutputDelimited_2++;
+						resourceMap.put("nb_line_tFileOutputDelimited_2",
+								nb_line_tFileOutputDelimited_2);
+
+						outtFileOutputDelimited_2
+								.write(sb_tFileOutputDelimited_2.toString());
+
+						tos_count_tFileOutputDelimited_2++;
+
+						/**
+						 * [tFileOutputDelimited_2 main ] stop
+						 */
+
+						/**
+						 * [tFileOutputDelimited_2 process_data_begin ] start
+						 */
+
+						currentComponent = "tFileOutputDelimited_2";
+
+						/**
+						 * [tFileOutputDelimited_2 process_data_begin ] stop
+						 */
+
+						/**
+						 * [tFileOutputDelimited_2 process_data_end ] start
+						 */
+
+						currentComponent = "tFileOutputDelimited_2";
+
+						/**
+						 * [tFileOutputDelimited_2 process_data_end ] stop
+						 */
+
+						/**
+						 * [tDBInput_1 process_data_end ] start
+						 */
+
+						currentComponent = "tDBInput_1";
+
+						/**
+						 * [tDBInput_1 process_data_end ] stop
+						 */
+
+						/**
+						 * [tDBInput_1 end ] start
+						 */
+
+						currentComponent = "tDBInput_1";
+
+					}
+				} finally {
+					if (rs_tDBInput_1 != null) {
+						rs_tDBInput_1.close();
+					}
+					if (stmt_tDBInput_1 != null) {
+						stmt_tDBInput_1.close();
+					}
+				}
+
+				globalMap.put("tDBInput_1_NB_LINE", nb_line_tDBInput_1);
+
+				ok_Hash.put("tDBInput_1", true);
+				end_Hash.put("tDBInput_1", System.currentTimeMillis());
+
+				/**
+				 * [tDBInput_1 end ] stop
+				 */
+
+				/**
+				 * [tFileOutputDelimited_2 end ] start
+				 */
+
+				currentComponent = "tFileOutputDelimited_2";
+
+				if (outtFileOutputDelimited_2 != null) {
+					outtFileOutputDelimited_2.flush();
+					outtFileOutputDelimited_2.close();
+				}
+
+				globalMap.put("tFileOutputDelimited_2_NB_LINE",
+						nb_line_tFileOutputDelimited_2);
+				globalMap.put("tFileOutputDelimited_2_FILE_NAME",
+						fileName_tFileOutputDelimited_2);
+
+				resourceMap.put("finish_tFileOutputDelimited_2", true);
+
+				if (execStat) {
+					if (resourceMap.get("inIterateVComp") == null
+							|| !((Boolean) resourceMap.get("inIterateVComp"))) {
+						runStat.updateStatOnConnection("row2" + iterateId, 2, 0);
+					}
+				}
+
+				ok_Hash.put("tFileOutputDelimited_2", true);
+				end_Hash.put("tFileOutputDelimited_2",
+						System.currentTimeMillis());
+
+				/**
+				 * [tFileOutputDelimited_2 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tDBInput_1 finally ] start
+				 */
+
+				currentComponent = "tDBInput_1";
+
+				/**
+				 * [tDBInput_1 finally ] stop
+				 */
+
+				/**
+				 * [tFileOutputDelimited_2 finally ] start
+				 */
+
+				currentComponent = "tFileOutputDelimited_2";
+
+				if (resourceMap.get("finish_tFileOutputDelimited_2") == null) {
+
+					java.io.Writer outtFileOutputDelimited_2 = (java.io.Writer) resourceMap
+							.get("out_tFileOutputDelimited_2");
+					if (outtFileOutputDelimited_2 != null) {
+						outtFileOutputDelimited_2.flush();
+						outtFileOutputDelimited_2.close();
+					}
+
+				}
+
+				/**
+				 * [tFileOutputDelimited_2 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tDBInput_1_SUBPROCESS_STATE", 1);
 	}
 
 	public void tPostjob_1Process(final java.util.Map<String, Object> globalMap)
@@ -2502,6 +3022,6 @@ public class test_mysql implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 68446 characters generated by Talend Open Studio for Data Integration on the
- * 3 mai 2019 10:27:16 CEST
+ * 83275 characters generated by Talend Open Studio for Data Integration on the
+ * 3 mai 2019 14:27:03 CEST
  ************************************************************************************************/
