@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // ============================================================================
 //
 // Copyright (c) 2006-2015, Talend Inc.
@@ -299,6 +298,17 @@ public class test_mysql implements TalendJob {
 				globalMap);
 	}
 
+	public void tDBCommit_2_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tDBCommit_2_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tMsgBox_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -354,7 +364,7 @@ public class test_mysql implements TalendJob {
 		tPostjob_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tDBCommit_1_error(Exception exception, String errorComponent,
+	public void tDBClose_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -362,7 +372,7 @@ public class test_mysql implements TalendJob {
 
 		status = "failure";
 
-		tDBCommit_1_onSubJobError(exception, errorComponent, globalMap);
+		tDBClose_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tPrejob_1_error(Exception exception, String errorComponent,
@@ -399,6 +409,17 @@ public class test_mysql implements TalendJob {
 	}
 
 	public void tFileInputDelimited_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tDBCommit_2_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -453,7 +474,7 @@ public class test_mysql implements TalendJob {
 
 	}
 
-	public void tDBCommit_1_onSubJobError(Exception exception,
+	public void tDBClose_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1080,7 +1101,7 @@ public class test_mysql implements TalendJob {
 				if (execStat) {
 					runStat.updateStatOnConnection("OnComponentOk3", 0, "ok");
 				}
-				tMsgBox_1Process(globalMap);
+				tDBCommit_2Process(globalMap);
 
 				/**
 				 * [tDBOutput_1 end ] stop
@@ -1140,6 +1161,138 @@ public class test_mysql implements TalendJob {
 		}
 
 		globalMap.put("tFileInputDelimited_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tDBCommit_2Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tDBCommit_2_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tDBCommit_2 begin ] start
+				 */
+
+				ok_Hash.put("tDBCommit_2", false);
+				start_Hash.put("tDBCommit_2", System.currentTimeMillis());
+
+				currentComponent = "tDBCommit_2";
+
+				int tos_count_tDBCommit_2 = 0;
+
+				/**
+				 * [tDBCommit_2 begin ] stop
+				 */
+
+				/**
+				 * [tDBCommit_2 main ] start
+				 */
+
+				currentComponent = "tDBCommit_2";
+
+				java.sql.Connection conn_tDBCommit_2 = (java.sql.Connection) globalMap
+						.get("conn_tDBConnection_1");
+
+				if (conn_tDBCommit_2 != null && !conn_tDBCommit_2.isClosed()) {
+
+					conn_tDBCommit_2.commit();
+
+				}
+
+				tos_count_tDBCommit_2++;
+
+				/**
+				 * [tDBCommit_2 main ] stop
+				 */
+
+				/**
+				 * [tDBCommit_2 process_data_begin ] start
+				 */
+
+				currentComponent = "tDBCommit_2";
+
+				/**
+				 * [tDBCommit_2 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tDBCommit_2 process_data_end ] start
+				 */
+
+				currentComponent = "tDBCommit_2";
+
+				/**
+				 * [tDBCommit_2 process_data_end ] stop
+				 */
+
+				/**
+				 * [tDBCommit_2 end ] start
+				 */
+
+				currentComponent = "tDBCommit_2";
+
+				ok_Hash.put("tDBCommit_2", true);
+				end_Hash.put("tDBCommit_2", System.currentTimeMillis());
+
+				if (execStat) {
+					runStat.updateStatOnConnection("OnComponentOk4", 0, "ok");
+				}
+				tMsgBox_1Process(globalMap);
+
+				/**
+				 * [tDBCommit_2 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tDBCommit_2 finally ] start
+				 */
+
+				currentComponent = "tDBCommit_2";
+
+				/**
+				 * [tDBCommit_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tDBCommit_2_SUBPROCESS_STATE", 1);
 	}
 
 	public void tMsgBox_1Process(final java.util.Map<String, Object> globalMap)
@@ -1999,7 +2152,7 @@ public class test_mysql implements TalendJob {
 				if (execStat) {
 					runStat.updateStatOnConnection("OnComponentOk2", 0, "ok");
 				}
-				tDBCommit_1Process(globalMap);
+				tDBClose_1Process(globalMap);
 
 				/**
 				 * [tPostjob_1 end ] stop
@@ -2041,9 +2194,9 @@ public class test_mysql implements TalendJob {
 		globalMap.put("tPostjob_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tDBCommit_1Process(final java.util.Map<String, Object> globalMap)
+	public void tDBClose_1Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tDBCommit_1_SUBPROCESS_STATE", 0);
+		globalMap.put("tDBClose_1_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -2064,80 +2217,72 @@ public class test_mysql implements TalendJob {
 				globalResumeTicket = true;
 
 				/**
-				 * [tDBCommit_1 begin ] start
+				 * [tDBClose_1 begin ] start
 				 */
 
-				ok_Hash.put("tDBCommit_1", false);
-				start_Hash.put("tDBCommit_1", System.currentTimeMillis());
+				ok_Hash.put("tDBClose_1", false);
+				start_Hash.put("tDBClose_1", System.currentTimeMillis());
 
-				currentComponent = "tDBCommit_1";
+				currentComponent = "tDBClose_1";
 
-				int tos_count_tDBCommit_1 = 0;
+				int tos_count_tDBClose_1 = 0;
 
 				/**
-				 * [tDBCommit_1 begin ] stop
+				 * [tDBClose_1 begin ] stop
 				 */
 
 				/**
-				 * [tDBCommit_1 main ] start
+				 * [tDBClose_1 main ] start
 				 */
 
-				currentComponent = "tDBCommit_1";
+				currentComponent = "tDBClose_1";
 
-				java.sql.Connection conn_tDBCommit_1 = (java.sql.Connection) globalMap
+				java.sql.Connection conn_tDBClose_1 = (java.sql.Connection) globalMap
 						.get("conn_tDBConnection_1");
 
-				if (conn_tDBCommit_1 != null && !conn_tDBCommit_1.isClosed()) {
+				if (conn_tDBClose_1 != null && !conn_tDBClose_1.isClosed()) {
 
-					try {
-
-						conn_tDBCommit_1.commit();
-
-					} finally {
-
-						conn_tDBCommit_1.close();
-
-					}
+					conn_tDBClose_1.close();
 
 				}
 
-				tos_count_tDBCommit_1++;
+				tos_count_tDBClose_1++;
 
 				/**
-				 * [tDBCommit_1 main ] stop
+				 * [tDBClose_1 main ] stop
 				 */
 
 				/**
-				 * [tDBCommit_1 process_data_begin ] start
+				 * [tDBClose_1 process_data_begin ] start
 				 */
 
-				currentComponent = "tDBCommit_1";
+				currentComponent = "tDBClose_1";
 
 				/**
-				 * [tDBCommit_1 process_data_begin ] stop
-				 */
-
-				/**
-				 * [tDBCommit_1 process_data_end ] start
-				 */
-
-				currentComponent = "tDBCommit_1";
-
-				/**
-				 * [tDBCommit_1 process_data_end ] stop
+				 * [tDBClose_1 process_data_begin ] stop
 				 */
 
 				/**
-				 * [tDBCommit_1 end ] start
+				 * [tDBClose_1 process_data_end ] start
 				 */
 
-				currentComponent = "tDBCommit_1";
-
-				ok_Hash.put("tDBCommit_1", true);
-				end_Hash.put("tDBCommit_1", System.currentTimeMillis());
+				currentComponent = "tDBClose_1";
 
 				/**
-				 * [tDBCommit_1 end ] stop
+				 * [tDBClose_1 process_data_end ] stop
+				 */
+
+				/**
+				 * [tDBClose_1 end ] start
+				 */
+
+				currentComponent = "tDBClose_1";
+
+				ok_Hash.put("tDBClose_1", true);
+				end_Hash.put("tDBClose_1", System.currentTimeMillis());
+
+				/**
+				 * [tDBClose_1 end ] stop
 				 */
 			}// end the resume
 
@@ -2157,13 +2302,13 @@ public class test_mysql implements TalendJob {
 			try {
 
 				/**
-				 * [tDBCommit_1 finally ] start
+				 * [tDBClose_1 finally ] start
 				 */
 
-				currentComponent = "tDBCommit_1";
+				currentComponent = "tDBClose_1";
 
 				/**
-				 * [tDBCommit_1 finally ] stop
+				 * [tDBClose_1 finally ] stop
 				 */
 			} catch (java.lang.Exception e) {
 				// ignore
@@ -2173,7 +2318,7 @@ public class test_mysql implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tDBCommit_1_SUBPROCESS_STATE", 1);
+		globalMap.put("tDBClose_1_SUBPROCESS_STATE", 1);
 	}
 
 	public void tPrejob_1Process(final java.util.Map<String, Object> globalMap)
@@ -3023,8 +3168,6 @@ public class test_mysql implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 83275 characters generated by Talend Open Studio for Data Integration on the
- * 3 mai 2019 14:27:03 CEST
+ * 86737 characters generated by Talend Open Studio for Data Integration on the
+ * 3 mai 2019 15:01:13 CEST
  ************************************************************************************************/
-=======
->>>>>>> a9fe861ed6322bacf27bb8d8475fc50badba0b75
