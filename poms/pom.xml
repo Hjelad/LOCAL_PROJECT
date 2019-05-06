@@ -12,6 +12,7 @@
     <module>code/routines</module>
     <module>jobs/process/test_mysql_0.1</module>
     <module>jobs/process/insert_table_0.1</module>
+    <module>jobs/process/test_taile_2_0.1</module>
   </modules>
   <properties>
     <talend.project.name>LOCAL_PROJECT</talend.project.name>
