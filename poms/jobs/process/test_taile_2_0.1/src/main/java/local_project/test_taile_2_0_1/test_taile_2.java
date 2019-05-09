@@ -553,6 +553,17 @@ public class test_taile_2 implements TalendJob {
 		tDBInput_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tDBOutput_4_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tDBInput_2_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tDBCommit_5_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1545,10 +1556,10 @@ public class test_taile_2 implements TalendJob {
 		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test_taile_2 = new byte[0];
 		static byte[] commonByteArray_LOCAL_PROJECT_test_taile_2 = new byte[0];
 
-		public String item;
+		public String item1;
 
-		public String getItem() {
-			return this.item;
+		public String getItem1() {
+			return this.item1;
 		}
 
 		private String readString(ObjectInputStream dis) throws IOException {
@@ -1594,7 +1605,7 @@ public class test_taile_2 implements TalendJob {
 
 					int length = 0;
 
-					this.item = readString(dis);
+					this.item1 = readString(dis);
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -1610,7 +1621,7 @@ public class test_taile_2 implements TalendJob {
 
 				// String
 
-				writeString(this.item, dos);
+				writeString(this.item1, dos);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -1623,7 +1634,7 @@ public class test_taile_2 implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("item=" + item);
+			sb.append("item1=" + item1);
 			sb.append("]");
 
 			return sb.toString();
@@ -1668,10 +1679,10 @@ public class test_taile_2 implements TalendJob {
 		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test_taile_2 = new byte[0];
 		static byte[] commonByteArray_LOCAL_PROJECT_test_taile_2 = new byte[0];
 
-		public long item;
+		public long item1;
 
-		public long getItem() {
-			return this.item;
+		public long getItem1() {
+			return this.item1;
 		}
 
 		public void readData(ObjectInputStream dis) {
@@ -1682,7 +1693,7 @@ public class test_taile_2 implements TalendJob {
 
 					int length = 0;
 
-					this.item = dis.readLong();
+					this.item1 = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -1698,7 +1709,7 @@ public class test_taile_2 implements TalendJob {
 
 				// long
 
-				dos.writeLong(this.item);
+				dos.writeLong(this.item1);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -1711,7 +1722,7 @@ public class test_taile_2 implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("item=" + String.valueOf(item));
+			sb.append("item1=" + String.valueOf(item1));
 			sb.append("]");
 
 			return sb.toString();
@@ -1756,10 +1767,10 @@ public class test_taile_2 implements TalendJob {
 		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test_taile_2 = new byte[0];
 		static byte[] commonByteArray_LOCAL_PROJECT_test_taile_2 = new byte[0];
 
-		public long item;
+		public long item1;
 
-		public long getItem() {
-			return this.item;
+		public long getItem1() {
+			return this.item1;
 		}
 
 		public void readData(ObjectInputStream dis) {
@@ -1770,7 +1781,7 @@ public class test_taile_2 implements TalendJob {
 
 					int length = 0;
 
-					this.item = dis.readLong();
+					this.item1 = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -1786,7 +1797,7 @@ public class test_taile_2 implements TalendJob {
 
 				// long
 
-				dos.writeLong(this.item);
+				dos.writeLong(this.item1);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -1799,7 +1810,7 @@ public class test_taile_2 implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("item=" + String.valueOf(item));
+			sb.append("item1=" + String.valueOf(item1));
 			sb.append("]");
 
 			return sb.toString();
@@ -2051,27 +2062,37 @@ public class test_taile_2 implements TalendJob {
 
 				int count_tDBOutput_2 = 0;
 
-				int rsTruncCountNumber_tDBOutput_2 = 0;
-				try (java.sql.Statement stmtTruncCount_tDBOutput_2 = conn_tDBOutput_2
-						.createStatement()) {
-					try (java.sql.ResultSet rsTruncCount_tDBOutput_2 = stmtTruncCount_tDBOutput_2
-							.executeQuery("SELECT COUNT(1) FROM `"
-									+ tableName_tDBOutput_2 + "`")) {
-						if (rsTruncCount_tDBOutput_2.next()) {
-							rsTruncCountNumber_tDBOutput_2 = rsTruncCount_tDBOutput_2
-									.getInt(1);
+				java.sql.DatabaseMetaData dbMetaData_tDBOutput_2 = conn_tDBOutput_2
+						.getMetaData();
+				boolean whetherExist_tDBOutput_2 = false;
+				try (java.sql.ResultSet rsTable_tDBOutput_2 = dbMetaData_tDBOutput_2
+						.getTables(context.test_Database, null, null,
+								new String[] { "TABLE" })) {
+					while (rsTable_tDBOutput_2.next()) {
+						String table_tDBOutput_2 = rsTable_tDBOutput_2
+								.getString("TABLE_NAME");
+						if (table_tDBOutput_2.equalsIgnoreCase("item_frequent")) {
+							whetherExist_tDBOutput_2 = true;
+							break;
 						}
 					}
 				}
-				try (java.sql.Statement stmtTrunc_tDBOutput_2 = conn_tDBOutput_2
+				if (whetherExist_tDBOutput_2) {
+					try (java.sql.Statement stmtDrop_tDBOutput_2 = conn_tDBOutput_2
+							.createStatement()) {
+						stmtDrop_tDBOutput_2.execute("DROP TABLE `"
+								+ tableName_tDBOutput_2 + "`");
+					}
+				}
+				try (java.sql.Statement stmtCreate_tDBOutput_2 = conn_tDBOutput_2
 						.createStatement()) {
-					stmtTrunc_tDBOutput_2.executeUpdate("TRUNCATE TABLE `"
-							+ tableName_tDBOutput_2 + "`");
-					deletedCount_tDBOutput_2 += rsTruncCountNumber_tDBOutput_2;
+					stmtCreate_tDBOutput_2.execute("CREATE TABLE `"
+							+ tableName_tDBOutput_2
+							+ "`(`item1` BIGINT(2)   not null )");
 				}
 
 				String insert_tDBOutput_2 = "INSERT INTO `" + "item_frequent"
-						+ "` (`item`) VALUES (?)";
+						+ "` (`item1`) VALUES (?)";
 				int batchSize_tDBOutput_2 = 100;
 				int batchSizeCounter_tDBOutput_2 = 0;
 
@@ -2106,7 +2127,7 @@ public class test_taile_2 implements TalendJob {
 				java.sql.Statement stmt_tDBInput_1 = conn_tDBInput_1
 						.createStatement();
 
-				String dbquery_tDBInput_1 = "SELECT item \nFROM transactions \nGROUP  BY item \nHAVING COUNT(item)>="
+				String dbquery_tDBInput_1 = "SELECT item AS item1\nFROM transactions \nGROUP  BY item \nHAVING COUNT(item)>="
 						+ context.support;
 
 				globalMap.put("tDBInput_1_QUERY", dbquery_tDBInput_1);
@@ -2126,11 +2147,11 @@ public class test_taile_2 implements TalendJob {
 						nb_line_tDBInput_1++;
 
 						if (colQtyInRs_tDBInput_1 < 1) {
-							row2.item = 0;
+							row2.item1 = 0;
 						} else {
 
 							if (rs_tDBInput_1.getObject(1) != null) {
-								row2.item = rs_tDBInput_1.getLong(1);
+								row2.item1 = rs_tDBInput_1.getLong(1);
 							} else {
 								throw new RuntimeException(
 										"Null value in non-Nullable column");
@@ -2179,7 +2200,7 @@ public class test_taile_2 implements TalendJob {
 
 						row5 = null;
 						whetherReject_tDBOutput_2 = false;
-						pstmt_tDBOutput_2.setLong(1, row2.item);
+						pstmt_tDBOutput_2.setLong(1, row2.item1);
 
 						pstmt_tDBOutput_2.addBatch();
 						nb_line_tDBOutput_2++;
@@ -2187,7 +2208,7 @@ public class test_taile_2 implements TalendJob {
 						batchSizeCounter_tDBOutput_2++;
 						if (!whetherReject_tDBOutput_2) {
 							row5 = new row5Struct();
-							row5.item = row2.item;
+							row5.item1 = row2.item1;
 						}
 						if (batchSize_tDBOutput_2 <= batchSizeCounter_tDBOutput_2) {
 							try {
@@ -2246,7 +2267,7 @@ public class test_taile_2 implements TalendJob {
 
 							// Code généré selon les schémas d'entrée et de
 							// sortie
-							row7.item = Long.toString(row5.item);
+							row7.item1 = Long.toString(row5.item1);
 
 							nb_line_tJavaRow_2++;
 
@@ -2281,8 +2302,8 @@ public class test_taile_2 implements TalendJob {
 							}
 
 							StringBuilder sb_tFileOutputDelimited_1 = new StringBuilder();
-							if (row7.item != null) {
-								sb_tFileOutputDelimited_1.append(row7.item);
+							if (row7.item1 != null) {
+								sb_tFileOutputDelimited_1.append(row7.item1);
 							}
 							sb_tFileOutputDelimited_1
 									.append(OUT_DELIM_ROWSEP_tFileOutputDelimited_1);
@@ -2739,38 +2760,16 @@ public class test_taile_2 implements TalendJob {
 		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test_taile_2 = new byte[0];
 		static byte[] commonByteArray_LOCAL_PROJECT_test_taile_2 = new byte[0];
 
-		public Integer i1;
+		public long item1;
 
-		public Integer getI1() {
-			return this.i1;
+		public long getItem1() {
+			return this.item1;
 		}
 
-		public Integer i2;
+		public long item2;
 
-		public Integer getI2() {
-			return this.i2;
-		}
-
-		private Integer readInteger(ObjectInputStream dis) throws IOException {
-			Integer intReturn;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				intReturn = null;
-			} else {
-				intReturn = dis.readInt();
-			}
-			return intReturn;
-		}
-
-		private void writeInteger(Integer intNum, ObjectOutputStream dos)
-				throws IOException {
-			if (intNum == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeInt(intNum);
-			}
+		public long getItem2() {
+			return this.item2;
 		}
 
 		public void readData(ObjectInputStream dis) {
@@ -2781,9 +2780,9 @@ public class test_taile_2 implements TalendJob {
 
 					int length = 0;
 
-					this.i1 = readInteger(dis);
+					this.item1 = dis.readLong();
 
-					this.i2 = readInteger(dis);
+					this.item2 = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -2797,13 +2796,13 @@ public class test_taile_2 implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// Integer
+				// long
 
-				writeInteger(this.i1, dos);
+				dos.writeLong(this.item1);
 
-				// Integer
+				// long
 
-				writeInteger(this.i2, dos);
+				dos.writeLong(this.item2);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -2816,8 +2815,8 @@ public class test_taile_2 implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("i1=" + String.valueOf(i1));
-			sb.append(",i2=" + String.valueOf(i2));
+			sb.append("item1=" + String.valueOf(item1));
+			sb.append(",item2=" + String.valueOf(item2));
 			sb.append("]");
 
 			return sb.toString();
@@ -2931,27 +2930,38 @@ public class test_taile_2 implements TalendJob {
 
 				int count_tDBOutput_3 = 0;
 
-				int rsTruncCountNumber_tDBOutput_3 = 0;
-				try (java.sql.Statement stmtTruncCount_tDBOutput_3 = conn_tDBOutput_3
-						.createStatement()) {
-					try (java.sql.ResultSet rsTruncCount_tDBOutput_3 = stmtTruncCount_tDBOutput_3
-							.executeQuery("SELECT COUNT(1) FROM `"
-									+ tableName_tDBOutput_3 + "`")) {
-						if (rsTruncCount_tDBOutput_3.next()) {
-							rsTruncCountNumber_tDBOutput_3 = rsTruncCount_tDBOutput_3
-									.getInt(1);
+				java.sql.DatabaseMetaData dbMetaData_tDBOutput_3 = conn_tDBOutput_3
+						.getMetaData();
+				boolean whetherExist_tDBOutput_3 = false;
+				try (java.sql.ResultSet rsTable_tDBOutput_3 = dbMetaData_tDBOutput_3
+						.getTables(context.test_Database, null, null,
+								new String[] { "TABLE" })) {
+					while (rsTable_tDBOutput_3.next()) {
+						String table_tDBOutput_3 = rsTable_tDBOutput_3
+								.getString("TABLE_NAME");
+						if (table_tDBOutput_3.equalsIgnoreCase("item_candidat")) {
+							whetherExist_tDBOutput_3 = true;
+							break;
 						}
 					}
 				}
-				try (java.sql.Statement stmtTrunc_tDBOutput_3 = conn_tDBOutput_3
+				if (whetherExist_tDBOutput_3) {
+					try (java.sql.Statement stmtDrop_tDBOutput_3 = conn_tDBOutput_3
+							.createStatement()) {
+						stmtDrop_tDBOutput_3.execute("DROP TABLE `"
+								+ tableName_tDBOutput_3 + "`");
+					}
+				}
+				try (java.sql.Statement stmtCreate_tDBOutput_3 = conn_tDBOutput_3
 						.createStatement()) {
-					stmtTrunc_tDBOutput_3.executeUpdate("TRUNCATE TABLE `"
-							+ tableName_tDBOutput_3 + "`");
-					deletedCount_tDBOutput_3 += rsTruncCountNumber_tDBOutput_3;
+					stmtCreate_tDBOutput_3
+							.execute("CREATE TABLE `"
+									+ tableName_tDBOutput_3
+									+ "`(`item1` BIGINT(2)   not null ,`item2` BIGINT(2)   not null )");
 				}
 
 				String insert_tDBOutput_3 = "INSERT INTO `" + "item_candidat"
-						+ "` (`i1`,`i2`) VALUES (?,?)";
+						+ "` (`item1`,`item2`) VALUES (?,?)";
 				int batchSize_tDBOutput_3 = 100;
 				int batchSizeCounter_tDBOutput_3 = 0;
 
@@ -2986,7 +2996,7 @@ public class test_taile_2 implements TalendJob {
 				java.sql.Statement stmt_tDBInput_3 = conn_tDBInput_3
 						.createStatement();
 
-				String dbquery_tDBInput_3 = "SELECT t1.item AS i1, t2.item AS i2\nFROM item_frequent AS t1, item_frequent AS t2\nWHERE   t1.item<t2.item";
+				String dbquery_tDBInput_3 = "SELECT t1.item1 AS item1, t2.item1 AS item2\nFROM item_frequent AS t1, item_frequent AS t2\nWHERE   t1.item1<t2.item1";
 
 				globalMap.put("tDBInput_3_QUERY", dbquery_tDBInput_3);
 				java.sql.ResultSet rs_tDBInput_3 = null;
@@ -3005,23 +3015,25 @@ public class test_taile_2 implements TalendJob {
 						nb_line_tDBInput_3++;
 
 						if (colQtyInRs_tDBInput_3 < 1) {
-							row4.i1 = null;
+							row4.item1 = 0;
 						} else {
 
 							if (rs_tDBInput_3.getObject(1) != null) {
-								row4.i1 = rs_tDBInput_3.getInt(1);
+								row4.item1 = rs_tDBInput_3.getLong(1);
 							} else {
-								row4.i1 = null;
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
 							}
 						}
 						if (colQtyInRs_tDBInput_3 < 2) {
-							row4.i2 = null;
+							row4.item2 = 0;
 						} else {
 
 							if (rs_tDBInput_3.getObject(2) != null) {
-								row4.i2 = rs_tDBInput_3.getInt(2);
+								row4.item2 = rs_tDBInput_3.getLong(2);
 							} else {
-								row4.i2 = null;
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
 							}
 						}
 
@@ -3066,19 +3078,9 @@ public class test_taile_2 implements TalendJob {
 						}
 
 						whetherReject_tDBOutput_3 = false;
-						if (row4.i1 == null) {
-							pstmt_tDBOutput_3
-									.setNull(1, java.sql.Types.INTEGER);
-						} else {
-							pstmt_tDBOutput_3.setInt(1, row4.i1);
-						}
+						pstmt_tDBOutput_3.setLong(1, row4.item1);
 
-						if (row4.i2 == null) {
-							pstmt_tDBOutput_3
-									.setNull(2, java.sql.Types.INTEGER);
-						} else {
-							pstmt_tDBOutput_3.setInt(2, row4.i2);
-						}
+						pstmt_tDBOutput_3.setLong(2, row4.item2);
 
 						pstmt_tDBOutput_3.addBatch();
 						nb_line_tDBOutput_3++;
@@ -3573,6 +3575,107 @@ public class test_taile_2 implements TalendJob {
 
 	}
 
+	public static class outStruct implements
+			routines.system.IPersistableRow<outStruct> {
+		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test_taile_2 = new byte[0];
+		static byte[] commonByteArray_LOCAL_PROJECT_test_taile_2 = new byte[0];
+
+		public long item1;
+
+		public long getItem1() {
+			return this.item1;
+		}
+
+		public long item2;
+
+		public long getItem2() {
+			return this.item2;
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_LOCAL_PROJECT_test_taile_2) {
+
+				try {
+
+					int length = 0;
+
+					this.item1 = dis.readLong();
+
+					this.item2 = dis.readLong();
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// long
+
+				dos.writeLong(this.item1);
+
+				// long
+
+				dos.writeLong(this.item2);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("item1=" + String.valueOf(item1));
+			sb.append(",item2=" + String.valueOf(item2));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(outStruct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
 	public static class row3Struct implements
 			routines.system.IPersistableRow<row3Struct> {
 		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test_taile_2 = new byte[0];
@@ -3712,6 +3815,7 @@ public class test_taile_2 implements TalendJob {
 
 				row3Struct row3 = new row3Struct();
 				out1Struct out1 = new out1Struct();
+				outStruct out = new outStruct();
 
 				/**
 				 * [tFileOutputDelimited_2 begin ] start
@@ -3825,6 +3929,99 @@ public class test_taile_2 implements TalendJob {
 				 */
 
 				/**
+				 * [tDBOutput_4 begin ] start
+				 */
+
+				ok_Hash.put("tDBOutput_4", false);
+				start_Hash.put("tDBOutput_4", System.currentTimeMillis());
+
+				currentComponent = "tDBOutput_4";
+
+				if (execStat) {
+					if (resourceMap.get("inIterateVComp") == null) {
+
+						runStat.updateStatOnConnection("out" + iterateId, 0, 0);
+
+					}
+				}
+
+				int tos_count_tDBOutput_4 = 0;
+
+				int nb_line_tDBOutput_4 = 0;
+				int nb_line_update_tDBOutput_4 = 0;
+				int nb_line_inserted_tDBOutput_4 = 0;
+				int nb_line_deleted_tDBOutput_4 = 0;
+				int nb_line_rejected_tDBOutput_4 = 0;
+
+				int deletedCount_tDBOutput_4 = 0;
+				int updatedCount_tDBOutput_4 = 0;
+				int insertedCount_tDBOutput_4 = 0;
+
+				int rejectedCount_tDBOutput_4 = 0;
+
+				String tableName_tDBOutput_4 = "item_frequent";
+				boolean whetherReject_tDBOutput_4 = false;
+
+				java.util.Calendar calendar_tDBOutput_4 = java.util.Calendar
+						.getInstance();
+				calendar_tDBOutput_4.set(1, 0, 1, 0, 0, 0);
+				long year1_tDBOutput_4 = calendar_tDBOutput_4.getTime()
+						.getTime();
+				calendar_tDBOutput_4.set(10000, 0, 1, 0, 0, 0);
+				long year10000_tDBOutput_4 = calendar_tDBOutput_4.getTime()
+						.getTime();
+				long date_tDBOutput_4;
+
+				java.sql.Connection conn_tDBOutput_4 = null;
+				conn_tDBOutput_4 = (java.sql.Connection) globalMap
+						.get("conn_tDBConnection_1");
+
+				int count_tDBOutput_4 = 0;
+
+				java.sql.DatabaseMetaData dbMetaData_tDBOutput_4 = conn_tDBOutput_4
+						.getMetaData();
+				boolean whetherExist_tDBOutput_4 = false;
+				try (java.sql.ResultSet rsTable_tDBOutput_4 = dbMetaData_tDBOutput_4
+						.getTables(context.test_Database, null, null,
+								new String[] { "TABLE" })) {
+					while (rsTable_tDBOutput_4.next()) {
+						String table_tDBOutput_4 = rsTable_tDBOutput_4
+								.getString("TABLE_NAME");
+						if (table_tDBOutput_4.equalsIgnoreCase("item_frequent")) {
+							whetherExist_tDBOutput_4 = true;
+							break;
+						}
+					}
+				}
+				if (whetherExist_tDBOutput_4) {
+					try (java.sql.Statement stmtDrop_tDBOutput_4 = conn_tDBOutput_4
+							.createStatement()) {
+						stmtDrop_tDBOutput_4.execute("DROP TABLE `"
+								+ tableName_tDBOutput_4 + "`");
+					}
+				}
+				try (java.sql.Statement stmtCreate_tDBOutput_4 = conn_tDBOutput_4
+						.createStatement()) {
+					stmtCreate_tDBOutput_4
+							.execute("CREATE TABLE `"
+									+ tableName_tDBOutput_4
+									+ "`(`item1` BIGINT(2)   not null ,`item2` BIGINT(2)   not null )");
+				}
+
+				String insert_tDBOutput_4 = "INSERT INTO `" + "item_frequent"
+						+ "` (`item1`,`item2`) VALUES (?,?)";
+				int batchSize_tDBOutput_4 = 100;
+				int batchSizeCounter_tDBOutput_4 = 0;
+
+				java.sql.PreparedStatement pstmt_tDBOutput_4 = conn_tDBOutput_4
+						.prepareStatement(insert_tDBOutput_4);
+				resourceMap.put("pstmt_tDBOutput_4", pstmt_tDBOutput_4);
+
+				/**
+				 * [tDBOutput_4 begin ] stop
+				 */
+
+				/**
 				 * [tMap_1 begin ] start
 				 */
 
@@ -3857,6 +4054,7 @@ public class test_taile_2 implements TalendJob {
 				// ###############################
 				// # Outputs initialization
 				out1Struct out1_tmp = new out1Struct();
+				outStruct out_tmp = new outStruct();
 				// ###############################
 
 				/**
@@ -3886,8 +4084,8 @@ public class test_taile_2 implements TalendJob {
 				java.sql.Statement stmt_tDBInput_2 = conn_tDBInput_2
 						.createStatement();
 
-				String dbquery_tDBInput_2 = "SELECT T1.item, T2.item, COUNT(distinct(T1.id))\nFROM transactions as T1, transactions AS T2, item_candidat AS c\nWHERE"
-						+ " T1.id = T2.id AND T1.item < T2.item\nAND T1.item=c.i1 AND T2.item=c.i2\nGROUP BY T1.item, T2.item";
+				String dbquery_tDBInput_2 = "SELECT t1.item, t2.item, COUNT(distinct(t1.id))\nFROM transactions as t1, transactions AS t2, item_candidat AS c\nWHERE"
+						+ " t1.id = t2.id AND t1.item < t2.item\nAND t1.item=c.item1 AND t2.item=c.item2\nGROUP BY t1.item, t2.item";
 
 				globalMap.put("tDBInput_2_QUERY", dbquery_tDBInput_2);
 				java.sql.ResultSet rs_tDBInput_2 = null;
@@ -3998,6 +4196,7 @@ public class test_taile_2 implements TalendJob {
 							// # Output tables
 
 							out1 = null;
+							out = null;
 
 							// # Output table : 'out1'
 							// # Filter conditions
@@ -4008,6 +4207,18 @@ public class test_taile_2 implements TalendJob {
 							) {
 								out1_tmp.Item = row3.item + "  " + row3.item1;
 								out1 = out1_tmp;
+							} // closing filter/reject
+
+							// # Output table : 'out'
+							// # Filter conditions
+							if (
+
+							row3.COUNT_distinct_T1_id__ >= context.support
+
+							) {
+								out_tmp.item1 = row3.item;
+								out_tmp.item2 = row3.item1;
+								out = out_tmp;
 							} // closing filter/reject
 								// ###############################
 
@@ -4089,6 +4300,85 @@ public class test_taile_2 implements TalendJob {
 							 */
 
 						} // End of branch "out1"
+
+						// Start of branch "out"
+						if (out != null) {
+
+							/**
+							 * [tDBOutput_4 main ] start
+							 */
+
+							currentComponent = "tDBOutput_4";
+
+							// out
+							// out
+
+							if (execStat) {
+								runStat.updateStatOnConnection("out"
+										+ iterateId, 1, 1);
+							}
+
+							whetherReject_tDBOutput_4 = false;
+							pstmt_tDBOutput_4.setLong(1, out.item1);
+
+							pstmt_tDBOutput_4.setLong(2, out.item2);
+
+							pstmt_tDBOutput_4.addBatch();
+							nb_line_tDBOutput_4++;
+
+							batchSizeCounter_tDBOutput_4++;
+							if (!whetherReject_tDBOutput_4) {
+							}
+							if (batchSize_tDBOutput_4 <= batchSizeCounter_tDBOutput_4) {
+								try {
+									int countSum_tDBOutput_4 = 0;
+									for (int countEach_tDBOutput_4 : pstmt_tDBOutput_4
+											.executeBatch()) {
+										countSum_tDBOutput_4 += (countEach_tDBOutput_4 == java.sql.Statement.EXECUTE_FAILED ? 0
+												: 1);
+									}
+									insertedCount_tDBOutput_4 += countSum_tDBOutput_4;
+								} catch (java.sql.BatchUpdateException e) {
+									int countSum_tDBOutput_4 = 0;
+									for (int countEach_tDBOutput_4 : e
+											.getUpdateCounts()) {
+										countSum_tDBOutput_4 += (countEach_tDBOutput_4 < 0 ? 0
+												: countEach_tDBOutput_4);
+									}
+									insertedCount_tDBOutput_4 += countSum_tDBOutput_4;
+									System.err.println(e.getMessage());
+								}
+
+								batchSizeCounter_tDBOutput_4 = 0;
+							}
+
+							tos_count_tDBOutput_4++;
+
+							/**
+							 * [tDBOutput_4 main ] stop
+							 */
+
+							/**
+							 * [tDBOutput_4 process_data_begin ] start
+							 */
+
+							currentComponent = "tDBOutput_4";
+
+							/**
+							 * [tDBOutput_4 process_data_begin ] stop
+							 */
+
+							/**
+							 * [tDBOutput_4 process_data_end ] start
+							 */
+
+							currentComponent = "tDBOutput_4";
+
+							/**
+							 * [tDBOutput_4 process_data_end ] stop
+							 */
+
+						} // End of branch "out"
 
 						/**
 						 * [tMap_1 process_data_end ] start
@@ -4188,13 +4478,91 @@ public class test_taile_2 implements TalendJob {
 				end_Hash.put("tFileOutputDelimited_2",
 						System.currentTimeMillis());
 
+				/**
+				 * [tFileOutputDelimited_2 end ] stop
+				 */
+
+				/**
+				 * [tDBOutput_4 end ] start
+				 */
+
+				currentComponent = "tDBOutput_4";
+
+				try {
+					if (batchSizeCounter_tDBOutput_4 != 0) {
+						int countSum_tDBOutput_4 = 0;
+
+						for (int countEach_tDBOutput_4 : pstmt_tDBOutput_4
+								.executeBatch()) {
+							countSum_tDBOutput_4 += (countEach_tDBOutput_4 == java.sql.Statement.EXECUTE_FAILED ? 0
+									: 1);
+						}
+
+						insertedCount_tDBOutput_4 += countSum_tDBOutput_4;
+
+					}
+
+				} catch (java.sql.BatchUpdateException e) {
+
+					int countSum_tDBOutput_4 = 0;
+					for (int countEach_tDBOutput_4 : e.getUpdateCounts()) {
+						countSum_tDBOutput_4 += (countEach_tDBOutput_4 < 0 ? 0
+								: countEach_tDBOutput_4);
+					}
+
+					insertedCount_tDBOutput_4 += countSum_tDBOutput_4;
+
+					globalMap.put(currentComponent + "_ERROR_MESSAGE",
+							e.getMessage());
+					System.err.println(e.getMessage());
+
+				}
+				batchSizeCounter_tDBOutput_4 = 0;
+
+				if (pstmt_tDBOutput_4 != null) {
+
+					pstmt_tDBOutput_4.close();
+					resourceMap.remove("pstmt_tDBOutput_4");
+
+				}
+				resourceMap.put("statementClosed_tDBOutput_4", true);
+
+				nb_line_deleted_tDBOutput_4 = nb_line_deleted_tDBOutput_4
+						+ deletedCount_tDBOutput_4;
+				nb_line_update_tDBOutput_4 = nb_line_update_tDBOutput_4
+						+ updatedCount_tDBOutput_4;
+				nb_line_inserted_tDBOutput_4 = nb_line_inserted_tDBOutput_4
+						+ insertedCount_tDBOutput_4;
+				nb_line_rejected_tDBOutput_4 = nb_line_rejected_tDBOutput_4
+						+ rejectedCount_tDBOutput_4;
+
+				globalMap.put("tDBOutput_4_NB_LINE", nb_line_tDBOutput_4);
+				globalMap.put("tDBOutput_4_NB_LINE_UPDATED",
+						nb_line_update_tDBOutput_4);
+				globalMap.put("tDBOutput_4_NB_LINE_INSERTED",
+						nb_line_inserted_tDBOutput_4);
+				globalMap.put("tDBOutput_4_NB_LINE_DELETED",
+						nb_line_deleted_tDBOutput_4);
+				globalMap.put("tDBOutput_4_NB_LINE_REJECTED",
+						nb_line_rejected_tDBOutput_4);
+
+				if (execStat) {
+					if (resourceMap.get("inIterateVComp") == null
+							|| !((Boolean) resourceMap.get("inIterateVComp"))) {
+						runStat.updateStatOnConnection("out" + iterateId, 2, 0);
+					}
+				}
+
+				ok_Hash.put("tDBOutput_4", true);
+				end_Hash.put("tDBOutput_4", System.currentTimeMillis());
+
 				if (execStat) {
 					runStat.updateStatOnConnection("OnComponentOk9", 0, "ok");
 				}
 				tDBCommit_5Process(globalMap);
 
 				/**
-				 * [tFileOutputDelimited_2 end ] stop
+				 * [tDBOutput_4 end ] stop
 				 */
 
 			}// end the resume
@@ -4253,6 +4621,24 @@ public class test_taile_2 implements TalendJob {
 
 				/**
 				 * [tFileOutputDelimited_2 finally ] stop
+				 */
+
+				/**
+				 * [tDBOutput_4 finally ] start
+				 */
+
+				currentComponent = "tDBOutput_4";
+
+				if (resourceMap.get("statementClosed_tDBOutput_4") == null) {
+					java.sql.PreparedStatement pstmtToClose_tDBOutput_4 = null;
+					if ((pstmtToClose_tDBOutput_4 = (java.sql.PreparedStatement) resourceMap
+							.remove("pstmt_tDBOutput_4")) != null) {
+						pstmtToClose_tDBOutput_4.close();
+					}
+				}
+
+				/**
+				 * [tDBOutput_4 finally ] stop
 				 */
 
 			} catch (java.lang.Exception e) {
@@ -5609,6 +5995,6 @@ public class test_taile_2 implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 151087 characters generated by Talend Open Studio for Data Integration on the
- * 9 mai 2019 09:52:37 CEST
+ * 163739 characters generated by Talend Open Studio for Data Integration on the
+ * 9 mai 2019 10:28:43 CEST
  ************************************************************************************************/
