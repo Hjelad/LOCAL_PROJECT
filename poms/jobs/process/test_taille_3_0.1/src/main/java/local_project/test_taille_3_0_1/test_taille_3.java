@@ -44,6 +44,9 @@ import java.util.Comparator;
 //the import part of tJavaRow_2
 //import java.util.List;
 
+//the import part of tJava_1
+//import java.util.List;
+
 @SuppressWarnings("unused")
 /**
  * Job: test_taille_3 Purpose: <br>
@@ -181,6 +184,19 @@ public class test_taille_3 implements TalendJob {
 
 			}
 
+			if (compteur != null) {
+
+				this.setProperty("compteur", compteur.toString());
+
+			}
+
+			if (generation_candidat != null) {
+
+				this.setProperty("generation_candidat",
+						generation_candidat.toString());
+
+			}
+
 		}
 
 		public String chemin_entree;
@@ -241,6 +257,18 @@ public class test_taille_3 implements TalendJob {
 
 		public String getTest_AdditionalParams() {
 			return this.test_AdditionalParams;
+		}
+
+		public Integer compteur;
+
+		public Integer getCompteur() {
+			return this.compteur;
+		}
+
+		public String generation_candidat;
+
+		public String getGeneration_candidat() {
+			return this.generation_candidat;
 		}
 	}
 
@@ -641,6 +669,17 @@ public class test_taille_3 implements TalendJob {
 		tDBInput_5_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tJava_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tJava_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tDBOutput_6_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -829,6 +868,17 @@ public class test_taille_3 implements TalendJob {
 	}
 
 	public void tDBInput_5_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJava_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -6732,6 +6782,11 @@ public class test_taille_3 implements TalendJob {
 				end_Hash.put("tFileOutputDelimited_3",
 						System.currentTimeMillis());
 
+				if (execStat) {
+					runStat.updateStatOnConnection("OnComponentOk14", 0, "ok");
+				}
+				tJava_1Process(globalMap);
+
 				/**
 				 * [tFileOutputDelimited_3 end ] stop
 				 */
@@ -6905,6 +6960,153 @@ public class test_taille_3 implements TalendJob {
 		}
 
 		globalMap.put("tDBInput_5_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJava_1Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJava_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJava_1 begin ] start
+				 */
+
+				ok_Hash.put("tJava_1", false);
+				start_Hash.put("tJava_1", System.currentTimeMillis());
+
+				currentComponent = "tJava_1";
+
+				int tos_count_tJava_1 = 0;
+
+				String select = "SELECT ";
+				String where = " WHERE ";
+				String from = " FROM item_frequent AS t1, item_frequent AS t2";
+				int i = 1;
+
+				if (context.compteur > 2) {
+					while (i < context.compteur) {
+						select = select + "t1.item" + i + " AS item" + i + ", ";
+						i = i + 1;
+					}
+					select = select + "t2.item" + (i - 1) + " AS item" + i;
+				} else {
+					select = select + "t1.item1 AS item1, t2.item1 AS item2";
+				}
+
+				i = 2;
+				if (context.compteur > 2) {
+					where = where + "t1.item1 = t2.item1";
+					while (i < context.compteur - 1) {
+						where = where + " AND t1.item" + i + "=t2.item" + i;
+						i = i + 1;
+					}
+					where = where + " AND t1.item" + i + "<t2.item" + i;
+				} else {
+					where = where + "t1.item1<t2.item1";
+				}
+				context.generation_candidat = select + from + where + ";";
+				System.out.println(context.generation_candidat);
+
+				/**
+				 * [tJava_1 begin ] stop
+				 */
+
+				/**
+				 * [tJava_1 main ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				tos_count_tJava_1++;
+
+				/**
+				 * [tJava_1 main ] stop
+				 */
+
+				/**
+				 * [tJava_1 process_data_begin ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				/**
+				 * [tJava_1 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tJava_1 process_data_end ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				/**
+				 * [tJava_1 process_data_end ] stop
+				 */
+
+				/**
+				 * [tJava_1 end ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				ok_Hash.put("tJava_1", true);
+				end_Hash.put("tJava_1", System.currentTimeMillis());
+
+				/**
+				 * [tJava_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJava_1 finally ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				/**
+				 * [tJava_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJava_1_SUBPROCESS_STATE", 1);
 	}
 
 	public void tDBCommit_7Process(final java.util.Map<String, Object> globalMap)
@@ -7956,6 +8158,21 @@ public class test_taille_3 implements TalendJob {
 
 			context.test_AdditionalParams = (String) context
 					.getProperty("test_AdditionalParams");
+			context.setContextType("compteur", "id_Integer");
+
+			try {
+				context.compteur = routines.system.ParserUtils
+						.parseTo_Integer(context.getProperty("compteur"));
+			} catch (NumberFormatException e) {
+				System.err.println(String.format(
+						"Null value will be used for context parameter %s: %s",
+						"compteur", e.getMessage()));
+				context.compteur = null;
+			}
+			context.setContextType("generation_candidat", "id_String");
+
+			context.generation_candidat = (String) context
+					.getProperty("generation_candidat");
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
 			ie.printStackTrace();
@@ -7999,6 +8216,13 @@ public class test_taille_3 implements TalendJob {
 			if (parentContextMap.containsKey("test_AdditionalParams")) {
 				context.test_AdditionalParams = (String) parentContextMap
 						.get("test_AdditionalParams");
+			}
+			if (parentContextMap.containsKey("compteur")) {
+				context.compteur = (Integer) parentContextMap.get("compteur");
+			}
+			if (parentContextMap.containsKey("generation_candidat")) {
+				context.generation_candidat = (String) parentContextMap
+						.get("generation_candidat");
 			}
 		}
 
@@ -8250,6 +8474,6 @@ public class test_taille_3 implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 225019 characters generated by Talend Open Studio for Data Integration on the
- * 9 mai 2019 11:30:33 CEST
+ * 230396 characters generated by Talend Open Studio for Data Integration on the
+ * 9 mai 2019 14:39:41 CEST
  ************************************************************************************************/
