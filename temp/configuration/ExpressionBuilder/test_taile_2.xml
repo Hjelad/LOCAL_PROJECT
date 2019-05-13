@@ -1,6 +1,0 @@
-<?xml version="1.1" encoding="UTF-8"?>
-<expression:EMFExpression xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore" id="tMap_1=>" expression="row3.item.toString()+&quot;-&quot;+row3.item1.toString()">
-  <variables name="row3.item" value="0" talendType="id_Long"/>
-  <variables name="row3.item1" value="0" talendType="id_Long"/>
-  <variables name="row3.COUNT_distinct_T1_id__" value="0" talendType="id_Long"/>
-</expression:EMFExpression>
