@@ -15,6 +15,8 @@
     <module>jobs/process/test_taile_2_0.1</module>
     <module>jobs/process/test_taille_3_0.1</module>
     <module>jobs/process/test1_automatise_0.1</module>
+    <module>jobs/process/test_automatise_0.1</module>
+    <module>jobs/process/test2_automatise_0.1</module>
   </modules>
   <properties>
     <talend.project.name>LOCAL_PROJECT</talend.project.name>

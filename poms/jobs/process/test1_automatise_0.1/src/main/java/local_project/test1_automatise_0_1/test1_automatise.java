@@ -47,6 +47,9 @@ import java.util.Comparator;
 //the import part of tJava_2
 //import java.util.List;
 
+//the import part of tJava_1
+//import java.util.List;
+
 @SuppressWarnings("unused")
 /**
  * Job: test1_automatise Purpose: <br>
@@ -197,6 +200,13 @@ public class test1_automatise implements TalendJob {
 
 			}
 
+			if (definition_frequent != null) {
+
+				this.setProperty("definition_frequent",
+						definition_frequent.toString());
+
+			}
+
 		}
 
 		public String chemin_entree;
@@ -269,6 +279,12 @@ public class test1_automatise implements TalendJob {
 
 		public String getGeneration_candidat() {
 			return this.generation_candidat;
+		}
+
+		public String definition_frequent;
+
+		public String getDefinition_frequent() {
+			return this.definition_frequent;
 		}
 	}
 
@@ -570,6 +586,17 @@ public class test1_automatise implements TalendJob {
 		tDBCommit_4_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tJava_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tJava_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tDBInput_2_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -581,7 +608,7 @@ public class test1_automatise implements TalendJob {
 		tDBInput_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tMap_1_error(Exception exception, String errorComponent,
+	public void tDBOutput_4_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -594,17 +621,6 @@ public class test1_automatise implements TalendJob {
 
 	public void tFileOutputDelimited_2_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tDBInput_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tDBOutput_4_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
 		end_Hash.put(errorComponent, System.currentTimeMillis());
@@ -747,6 +763,17 @@ public class test1_automatise implements TalendJob {
 	}
 
 	public void tDBCommit_4_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJava_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -2899,27 +2926,15 @@ public class test1_automatise implements TalendJob {
 					NB_ITERATE_tJava_2++;
 
 					if (execStat) {
-						runStat.updateStatOnConnection("OnComponentOk7", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("out1", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row3", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row4", 3, 0);
-					}
-
-					if (execStat) {
 						runStat.updateStatOnConnection("OnComponentOk5", 3, 0);
 					}
 
 					if (execStat) {
-						runStat.updateStatOnConnection("OnSubjobOk3", 3, 0);
+						runStat.updateStatOnConnection("OnComponentOk12", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("OnComponentOk11", 3, 0);
 					}
 
 					if (execStat) {
@@ -2927,7 +2942,19 @@ public class test1_automatise implements TalendJob {
 					}
 
 					if (execStat) {
-						runStat.updateStatOnConnection("out", 3, 0);
+						runStat.updateStatOnConnection("row6", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("OnComponentOk7", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row4", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row3", 3, 0);
 					}
 
 					if (execStat) {
@@ -3115,6 +3142,12 @@ public class test1_automatise implements TalendJob {
 			routines.system.IPersistableRow<row4Struct> {
 		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test1_automatise = new byte[0];
 		static byte[] commonByteArray_LOCAL_PROJECT_test1_automatise = new byte[0];
+		protected static final int DEFAULT_HASHCODE = 1;
+		protected static final int PRIME = 31;
+		protected int hashCode = DEFAULT_HASHCODE;
+		public boolean hashCodeDirty = true;
+
+		public String loopKey;
 
 		public long item1;
 
@@ -3128,6 +3161,104 @@ public class test1_automatise implements TalendJob {
 			return this.item2;
 		}
 
+		public Long item3;
+
+		public Long getItem3() {
+			return this.item3;
+		}
+
+		public Long item4;
+
+		public Long getItem4() {
+			return this.item4;
+		}
+
+		public Long item5;
+
+		public Long getItem5() {
+			return this.item5;
+		}
+
+		public Long item6;
+
+		public Long getItem6() {
+			return this.item6;
+		}
+
+		public Long item7;
+
+		public Long getItem7() {
+			return this.item7;
+		}
+
+		public Long item8;
+
+		public Long getItem8() {
+			return this.item8;
+		}
+
+		public Long item9;
+
+		public Long getItem9() {
+			return this.item9;
+		}
+
+		@Override
+		public int hashCode() {
+			if (this.hashCodeDirty) {
+				final int prime = PRIME;
+				int result = DEFAULT_HASHCODE;
+
+				result = prime * result
+						+ ((this.item7 == null) ? 0 : this.item7.hashCode());
+
+				this.hashCode = result;
+				this.hashCodeDirty = false;
+			}
+			return this.hashCode;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			final row4Struct other = (row4Struct) obj;
+
+			if (this.item7 == null) {
+				if (other.item7 != null)
+					return false;
+
+			} else if (!this.item7.equals(other.item7))
+
+				return false;
+
+			return true;
+		}
+
+		public void copyDataTo(row4Struct other) {
+
+			other.item1 = this.item1;
+			other.item2 = this.item2;
+			other.item3 = this.item3;
+			other.item4 = this.item4;
+			other.item5 = this.item5;
+			other.item6 = this.item6;
+			other.item7 = this.item7;
+			other.item8 = this.item8;
+			other.item9 = this.item9;
+
+		}
+
+		public void copyKeysDataTo(row4Struct other) {
+
+			other.item7 = this.item7;
+
+		}
+
 		public void readData(ObjectInputStream dis) {
 
 			synchronized (commonByteArrayLock_LOCAL_PROJECT_test1_automatise) {
@@ -3139,6 +3270,55 @@ public class test1_automatise implements TalendJob {
 					this.item1 = dis.readLong();
 
 					this.item2 = dis.readLong();
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item3 = null;
+					} else {
+						this.item3 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item4 = null;
+					} else {
+						this.item4 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item5 = null;
+					} else {
+						this.item5 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item6 = null;
+					} else {
+						this.item6 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item7 = null;
+					} else {
+						this.item7 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item8 = null;
+					} else {
+						this.item8 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item9 = null;
+					} else {
+						this.item9 = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -3160,6 +3340,69 @@ public class test1_automatise implements TalendJob {
 
 				dos.writeLong(this.item2);
 
+				// Long
+
+				if (this.item3 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item3);
+				}
+
+				// Long
+
+				if (this.item4 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item4);
+				}
+
+				// Long
+
+				if (this.item5 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item5);
+				}
+
+				// Long
+
+				if (this.item6 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item6);
+				}
+
+				// Long
+
+				if (this.item7 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item7);
+				}
+
+				// Long
+
+				if (this.item8 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item8);
+				}
+
+				// Long
+
+				if (this.item9 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item9);
+				}
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -3173,6 +3416,13 @@ public class test1_automatise implements TalendJob {
 			sb.append("[");
 			sb.append("item1=" + String.valueOf(item1));
 			sb.append(",item2=" + String.valueOf(item2));
+			sb.append(",item3=" + String.valueOf(item3));
+			sb.append(",item4=" + String.valueOf(item4));
+			sb.append(",item5=" + String.valueOf(item5));
+			sb.append(",item6=" + String.valueOf(item6));
+			sb.append(",item7=" + String.valueOf(item7));
+			sb.append(",item8=" + String.valueOf(item8));
+			sb.append(",item9=" + String.valueOf(item9));
 			sb.append("]");
 
 			return sb.toString();
@@ -3184,6 +3434,11 @@ public class test1_automatise implements TalendJob {
 		public int compareTo(row4Struct other) {
 
 			int returnValue = -1;
+
+			returnValue = checkNullsAndCompare(this.item7, other.item7);
+			if (returnValue != 0) {
+				return returnValue;
+			}
 
 			return returnValue;
 		}
@@ -3313,11 +3568,12 @@ public class test1_automatise implements TalendJob {
 					stmtCreate_tDBOutput_3
 							.execute("CREATE TABLE `"
 									+ tableName_tDBOutput_3
-									+ "`(`item1` BIGINT(2)   not null ,`item2` BIGINT(2)   not null )");
+									+ "`(`item1` BIGINT(2)   not null ,`item2` BIGINT(2)   not null ,`item3` BIGINT(0)  ,`item4` BIGINT(0)  ,`item5` BIGINT(0)  ,`item6` BIGINT(0)  ,`item7` BIGINT(0)  ,`item8` BIGINT(0)  ,`item9` BIGINT(0)  ,primary key(`item7`))");
 				}
 
-				String insert_tDBOutput_3 = "INSERT INTO `" + "item_candidat"
-						+ "` (`item1`,`item2`) VALUES (?,?)";
+				String insert_tDBOutput_3 = "INSERT INTO `"
+						+ "item_candidat"
+						+ "` (`item1`,`item2`,`item3`,`item4`,`item5`,`item6`,`item7`,`item8`,`item9`) VALUES (?,?,?,?,?,?,?,?,?)";
 				int batchSize_tDBOutput_3 = 100;
 				int batchSizeCounter_tDBOutput_3 = 0;
 
@@ -3392,6 +3648,76 @@ public class test1_automatise implements TalendJob {
 										"Null value in non-Nullable column");
 							}
 						}
+						if (colQtyInRs_tDBInput_3 < 3) {
+							row4.item3 = null;
+						} else {
+
+							if (rs_tDBInput_3.getObject(3) != null) {
+								row4.item3 = rs_tDBInput_3.getLong(3);
+							} else {
+								row4.item3 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_3 < 4) {
+							row4.item4 = null;
+						} else {
+
+							if (rs_tDBInput_3.getObject(4) != null) {
+								row4.item4 = rs_tDBInput_3.getLong(4);
+							} else {
+								row4.item4 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_3 < 5) {
+							row4.item5 = null;
+						} else {
+
+							if (rs_tDBInput_3.getObject(5) != null) {
+								row4.item5 = rs_tDBInput_3.getLong(5);
+							} else {
+								row4.item5 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_3 < 6) {
+							row4.item6 = null;
+						} else {
+
+							if (rs_tDBInput_3.getObject(6) != null) {
+								row4.item6 = rs_tDBInput_3.getLong(6);
+							} else {
+								row4.item6 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_3 < 7) {
+							row4.item7 = null;
+						} else {
+
+							if (rs_tDBInput_3.getObject(7) != null) {
+								row4.item7 = rs_tDBInput_3.getLong(7);
+							} else {
+								row4.item7 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_3 < 8) {
+							row4.item8 = null;
+						} else {
+
+							if (rs_tDBInput_3.getObject(8) != null) {
+								row4.item8 = rs_tDBInput_3.getLong(8);
+							} else {
+								row4.item8 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_3 < 9) {
+							row4.item9 = null;
+						} else {
+
+							if (rs_tDBInput_3.getObject(9) != null) {
+								row4.item9 = rs_tDBInput_3.getLong(9);
+							} else {
+								row4.item9 = null;
+							}
+						}
 
 						/**
 						 * [tDBInput_3 begin ] stop
@@ -3437,6 +3763,55 @@ public class test1_automatise implements TalendJob {
 						pstmt_tDBOutput_3.setLong(1, row4.item1);
 
 						pstmt_tDBOutput_3.setLong(2, row4.item2);
+
+						if (row4.item3 == null) {
+							pstmt_tDBOutput_3
+									.setNull(3, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_3.setLong(3, row4.item3);
+						}
+
+						if (row4.item4 == null) {
+							pstmt_tDBOutput_3
+									.setNull(4, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_3.setLong(4, row4.item4);
+						}
+
+						if (row4.item5 == null) {
+							pstmt_tDBOutput_3
+									.setNull(5, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_3.setLong(5, row4.item5);
+						}
+
+						if (row4.item6 == null) {
+							pstmt_tDBOutput_3
+									.setNull(6, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_3.setLong(6, row4.item6);
+						}
+
+						if (row4.item7 == null) {
+							pstmt_tDBOutput_3
+									.setNull(7, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_3.setLong(7, row4.item7);
+						}
+
+						if (row4.item8 == null) {
+							pstmt_tDBOutput_3
+									.setNull(8, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_3.setLong(8, row4.item8);
+						}
+
+						if (row4.item9 == null) {
+							pstmt_tDBOutput_3
+									.setNull(9, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_3.setLong(9, row4.item9);
+						}
 
 						pstmt_tDBOutput_3.addBatch();
 						nb_line_tDBOutput_3++;
@@ -3754,24 +4129,15 @@ public class test1_automatise implements TalendJob {
 				ok_Hash.put("tDBCommit_4", true);
 				end_Hash.put("tDBCommit_4", System.currentTimeMillis());
 
+				if (execStat) {
+					runStat.updateStatOnConnection("OnComponentOk11", 0, "ok");
+				}
+				tJava_1Process(globalMap);
+
 				/**
 				 * [tDBCommit_4 end ] stop
 				 */
 			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tDBCommit_4:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			if (execStat) {
-				runStat.updateStatOnConnection("OnSubjobOk3", 0, "ok");
-			}
-
-			tDBInput_2Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -3808,131 +4174,161 @@ public class test1_automatise implements TalendJob {
 		globalMap.put("tDBCommit_4_SUBPROCESS_STATE", 1);
 	}
 
-	public static class out1Struct implements
-			routines.system.IPersistableRow<out1Struct> {
-		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test1_automatise = new byte[0];
-		static byte[] commonByteArray_LOCAL_PROJECT_test1_automatise = new byte[0];
+	public void tJava_1Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJava_1_SUBPROCESS_STATE", 0);
 
-		public String Item;
+		final boolean execStat = this.execStat;
 
-		public String getItem() {
-			return this.Item;
-		}
+		String iterateId = "";
 
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_LOCAL_PROJECT_test1_automatise.length) {
-					if (length < 1024
-							&& commonByteArray_LOCAL_PROJECT_test1_automatise.length == 0) {
-						commonByteArray_LOCAL_PROJECT_test1_automatise = new byte[1024];
-					} else {
-						commonByteArray_LOCAL_PROJECT_test1_automatise = new byte[2 * length];
-					}
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJava_1 begin ] start
+				 */
+
+				ok_Hash.put("tJava_1", false);
+				start_Hash.put("tJava_1", System.currentTimeMillis());
+
+				currentComponent = "tJava_1";
+
+				int tos_count_tJava_1 = 0;
+
+				/* Recherche des ensembles fréquents */
+
+				String select1 = "SELECT t1.item AS item1";
+				String where1 = " WHERE t1.id = t2.id AND t1.item < t2.item AND t1.item=c.item1 AND t2.item=c.item2";
+				String from1 = " FROM transactions as t1";
+				String groupby1 = " GROUP BY t1.item";
+				String having1 = " HAVING COUNT(*) >=" + context.support;
+				int j;
+				j = 2;
+				while (j <= context.compteur) {
+					select1 = select1 + ", t" + j + ".item AS item" + j;
+					from1 = from1 + ", transactions AS t" + j;
+					groupby1 = groupby1 + ", t" + j + ".item";
+					j = j + 1;
 				}
-				dis.readFully(commonByteArray_LOCAL_PROJECT_test1_automatise,
-						0, length);
-				strReturn = new String(
-						commonByteArray_LOCAL_PROJECT_test1_automatise, 0,
-						length, utf8Charset);
-			}
-			return strReturn;
-		}
+				from1 = from1 + ", item_candidat AS c";
 
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_LOCAL_PROJECT_test1_automatise) {
-
-				try {
-
-					int length = 0;
-
-					this.Item = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
+				j = 3;
+				while (j <= context.compteur) {
+					where1 = where1 + " AND  t" + (j - 1) + ".id=t" + j
+							+ ".id AND  t" + (j - 1) + ".item<t" + j
+							+ ".item AND t" + j + ".item=c.item" + j;
+					j = j + 1;
 
 				}
+				System.out.println(select1 + from1 + where1 + groupby1
+						+ having1 + ";");
+				context.definition_frequent = select1 + from1 + where1
+						+ groupby1 + having1 + ";";
 
-			}
+				/**
+				 * [tJava_1 begin ] stop
+				 */
 
-		}
+				/**
+				 * [tJava_1 main ] start
+				 */
 
-		public void writeData(ObjectOutputStream dos) {
+				currentComponent = "tJava_1";
+
+				tos_count_tJava_1++;
+
+				/**
+				 * [tJava_1 main ] stop
+				 */
+
+				/**
+				 * [tJava_1 process_data_begin ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				/**
+				 * [tJava_1 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tJava_1 process_data_end ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				/**
+				 * [tJava_1 process_data_end ] stop
+				 */
+
+				/**
+				 * [tJava_1 end ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				ok_Hash.put("tJava_1", true);
+				end_Hash.put("tJava_1", System.currentTimeMillis());
+
+				if (execStat) {
+					runStat.updateStatOnConnection("OnComponentOk12", 0, "ok");
+				}
+				tDBInput_2Process(globalMap);
+
+				/**
+				 * [tJava_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
 			try {
 
-				// String
+				/**
+				 * [tJava_1 finally ] start
+				 */
 
-				writeString(this.Item, dos);
+				currentComponent = "tJava_1";
 
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+				/**
+				 * [tJava_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
 			}
-
+			resourceMap = null;
 		}
 
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("Item=" + Item);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(out1Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
+		globalMap.put("tJava_1_SUBPROCESS_STATE", 1);
 	}
 
-	public static class outStruct implements
-			routines.system.IPersistableRow<outStruct> {
+	public static class row6Struct implements
+			routines.system.IPersistableRow<row6Struct> {
 		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test1_automatise = new byte[0];
 		static byte[] commonByteArray_LOCAL_PROJECT_test1_automatise = new byte[0];
 
@@ -3948,6 +4344,48 @@ public class test1_automatise implements TalendJob {
 			return this.item2;
 		}
 
+		public Long item3;
+
+		public Long getItem3() {
+			return this.item3;
+		}
+
+		public Long item4;
+
+		public Long getItem4() {
+			return this.item4;
+		}
+
+		public Long item5;
+
+		public Long getItem5() {
+			return this.item5;
+		}
+
+		public Long item6;
+
+		public Long getItem6() {
+			return this.item6;
+		}
+
+		public Long item7;
+
+		public Long getItem7() {
+			return this.item7;
+		}
+
+		public Long item8;
+
+		public Long getItem8() {
+			return this.item8;
+		}
+
+		public Long item9;
+
+		public Long getItem9() {
+			return this.item9;
+		}
+
 		public void readData(ObjectInputStream dis) {
 
 			synchronized (commonByteArrayLock_LOCAL_PROJECT_test1_automatise) {
@@ -3959,6 +4397,55 @@ public class test1_automatise implements TalendJob {
 					this.item1 = dis.readLong();
 
 					this.item2 = dis.readLong();
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item3 = null;
+					} else {
+						this.item3 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item4 = null;
+					} else {
+						this.item4 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item5 = null;
+					} else {
+						this.item5 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item6 = null;
+					} else {
+						this.item6 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item7 = null;
+					} else {
+						this.item7 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item8 = null;
+					} else {
+						this.item8 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item9 = null;
+					} else {
+						this.item9 = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -3980,6 +4467,69 @@ public class test1_automatise implements TalendJob {
 
 				dos.writeLong(this.item2);
 
+				// Long
+
+				if (this.item3 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item3);
+				}
+
+				// Long
+
+				if (this.item4 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item4);
+				}
+
+				// Long
+
+				if (this.item5 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item5);
+				}
+
+				// Long
+
+				if (this.item6 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item6);
+				}
+
+				// Long
+
+				if (this.item7 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item7);
+				}
+
+				// Long
+
+				if (this.item8 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item8);
+				}
+
+				// Long
+
+				if (this.item9 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item9);
+				}
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -3993,6 +4543,13 @@ public class test1_automatise implements TalendJob {
 			sb.append("[");
 			sb.append("item1=" + String.valueOf(item1));
 			sb.append(",item2=" + String.valueOf(item2));
+			sb.append(",item3=" + String.valueOf(item3));
+			sb.append(",item4=" + String.valueOf(item4));
+			sb.append(",item5=" + String.valueOf(item5));
+			sb.append(",item6=" + String.valueOf(item6));
+			sb.append(",item7=" + String.valueOf(item7));
+			sb.append(",item8=" + String.valueOf(item8));
+			sb.append(",item9=" + String.valueOf(item9));
 			sb.append("]");
 
 			return sb.toString();
@@ -4001,7 +4558,7 @@ public class test1_automatise implements TalendJob {
 		/**
 		 * Compare keys
 		 */
-		public int compareTo(outStruct other) {
+		public int compareTo(row6Struct other) {
 
 			int returnValue = -1;
 
@@ -4037,22 +4594,58 @@ public class test1_automatise implements TalendJob {
 		final static byte[] commonByteArrayLock_LOCAL_PROJECT_test1_automatise = new byte[0];
 		static byte[] commonByteArray_LOCAL_PROJECT_test1_automatise = new byte[0];
 
-		public long item;
-
-		public long getItem() {
-			return this.item;
-		}
-
 		public long item1;
 
 		public long getItem1() {
 			return this.item1;
 		}
 
-		public long COUNT_distinct_T1_id__;
+		public long item2;
 
-		public long getCOUNT_distinct_T1_id__() {
-			return this.COUNT_distinct_T1_id__;
+		public long getItem2() {
+			return this.item2;
+		}
+
+		public Long item3;
+
+		public Long getItem3() {
+			return this.item3;
+		}
+
+		public Long item4;
+
+		public Long getItem4() {
+			return this.item4;
+		}
+
+		public Long item5;
+
+		public Long getItem5() {
+			return this.item5;
+		}
+
+		public Long item6;
+
+		public Long getItem6() {
+			return this.item6;
+		}
+
+		public Long item7;
+
+		public Long getItem7() {
+			return this.item7;
+		}
+
+		public Long item8;
+
+		public Long getItem8() {
+			return this.item8;
+		}
+
+		public Long item9;
+
+		public Long getItem9() {
+			return this.item9;
 		}
 
 		public void readData(ObjectInputStream dis) {
@@ -4063,11 +4656,58 @@ public class test1_automatise implements TalendJob {
 
 					int length = 0;
 
-					this.item = dis.readLong();
-
 					this.item1 = dis.readLong();
 
-					this.COUNT_distinct_T1_id__ = dis.readLong();
+					this.item2 = dis.readLong();
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item3 = null;
+					} else {
+						this.item3 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item4 = null;
+					} else {
+						this.item4 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item5 = null;
+					} else {
+						this.item5 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item6 = null;
+					} else {
+						this.item6 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item7 = null;
+					} else {
+						this.item7 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item8 = null;
+					} else {
+						this.item8 = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.item9 = null;
+					} else {
+						this.item9 = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -4083,15 +4723,74 @@ public class test1_automatise implements TalendJob {
 
 				// long
 
-				dos.writeLong(this.item);
-
-				// long
-
 				dos.writeLong(this.item1);
 
 				// long
 
-				dos.writeLong(this.COUNT_distinct_T1_id__);
+				dos.writeLong(this.item2);
+
+				// Long
+
+				if (this.item3 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item3);
+				}
+
+				// Long
+
+				if (this.item4 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item4);
+				}
+
+				// Long
+
+				if (this.item5 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item5);
+				}
+
+				// Long
+
+				if (this.item6 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item6);
+				}
+
+				// Long
+
+				if (this.item7 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item7);
+				}
+
+				// Long
+
+				if (this.item8 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item8);
+				}
+
+				// Long
+
+				if (this.item9 == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.item9);
+				}
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -4104,10 +4803,15 @@ public class test1_automatise implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("item=" + String.valueOf(item));
-			sb.append(",item1=" + String.valueOf(item1));
-			sb.append(",COUNT_distinct_T1_id__="
-					+ String.valueOf(COUNT_distinct_T1_id__));
+			sb.append("item1=" + String.valueOf(item1));
+			sb.append(",item2=" + String.valueOf(item2));
+			sb.append(",item3=" + String.valueOf(item3));
+			sb.append(",item4=" + String.valueOf(item4));
+			sb.append(",item5=" + String.valueOf(item5));
+			sb.append(",item6=" + String.valueOf(item6));
+			sb.append(",item7=" + String.valueOf(item7));
+			sb.append(",item8=" + String.valueOf(item8));
+			sb.append(",item9=" + String.valueOf(item9));
 			sb.append("]");
 
 			return sb.toString();
@@ -4170,8 +4874,7 @@ public class test1_automatise implements TalendJob {
 				globalResumeTicket = true;
 
 				row3Struct row3 = new row3Struct();
-				out1Struct out1 = new out1Struct();
-				outStruct out = new outStruct();
+				row6Struct row6 = new row6Struct();
 
 				/**
 				 * [tFileOutputDelimited_2 begin ] start
@@ -4186,7 +4889,7 @@ public class test1_automatise implements TalendJob {
 				if (execStat) {
 					if (resourceMap.get("inIterateVComp") == null) {
 
-						runStat.updateStatOnConnection("out1" + iterateId, 0, 0);
+						runStat.updateStatOnConnection("row6" + iterateId, 0, 0);
 
 					}
 				}
@@ -4296,7 +4999,7 @@ public class test1_automatise implements TalendJob {
 				if (execStat) {
 					if (resourceMap.get("inIterateVComp") == null) {
 
-						runStat.updateStatOnConnection("out" + iterateId, 0, 0);
+						runStat.updateStatOnConnection("row3" + iterateId, 0, 0);
 
 					}
 				}
@@ -4361,11 +5064,12 @@ public class test1_automatise implements TalendJob {
 					stmtCreate_tDBOutput_4
 							.execute("CREATE TABLE `"
 									+ tableName_tDBOutput_4
-									+ "`(`item1` BIGINT(2)   not null ,`item2` BIGINT(2)   not null )");
+									+ "`(`item1` BIGINT(2)   not null ,`item2` BIGINT(2)   not null ,`item3` BIGINT(0)  ,`item4` BIGINT(0)  ,`item5` BIGINT(0)  ,`item6` BIGINT(0)  ,`item7` BIGINT(0)  ,`item8` BIGINT(0)  ,`item9` BIGINT(0)  )");
 				}
 
-				String insert_tDBOutput_4 = "INSERT INTO `" + "item_frequent"
-						+ "` (`item1`,`item2`) VALUES (?,?)";
+				String insert_tDBOutput_4 = "INSERT INTO `"
+						+ "item_frequent"
+						+ "` (`item1`,`item2`,`item3`,`item4`,`item5`,`item6`,`item7`,`item8`,`item9`) VALUES (?,?,?,?,?,?,?,?,?)";
 				int batchSize_tDBOutput_4 = 100;
 				int batchSizeCounter_tDBOutput_4 = 0;
 
@@ -4375,46 +5079,6 @@ public class test1_automatise implements TalendJob {
 
 				/**
 				 * [tDBOutput_4 begin ] stop
-				 */
-
-				/**
-				 * [tMap_1 begin ] start
-				 */
-
-				ok_Hash.put("tMap_1", false);
-				start_Hash.put("tMap_1", System.currentTimeMillis());
-
-				currentComponent = "tMap_1";
-
-				if (execStat) {
-					if (resourceMap.get("inIterateVComp") == null) {
-
-						runStat.updateStatOnConnection("row3" + iterateId, 0, 0);
-
-					}
-				}
-
-				int tos_count_tMap_1 = 0;
-
-				// ###############################
-				// # Lookup's keys initialization
-				// ###############################
-
-				// ###############################
-				// # Vars initialization
-				class Var__tMap_1__Struct {
-				}
-				Var__tMap_1__Struct Var__tMap_1 = new Var__tMap_1__Struct();
-				// ###############################
-
-				// ###############################
-				// # Outputs initialization
-				out1Struct out1_tmp = new out1Struct();
-				outStruct out_tmp = new outStruct();
-				// ###############################
-
-				/**
-				 * [tMap_1 begin ] stop
 				 */
 
 				/**
@@ -4440,8 +5104,7 @@ public class test1_automatise implements TalendJob {
 				java.sql.Statement stmt_tDBInput_2 = conn_tDBInput_2
 						.createStatement();
 
-				String dbquery_tDBInput_2 = "SELECT t1.item, t2.item, COUNT(distinct(t1.id))\nFROM transactions as t1, transactions AS t2, item_candidat AS c\nWHERE"
-						+ " t1.id = t2.id AND t1.item < t2.item\nAND t1.item=c.item1 AND t2.item=c.item2\nGROUP BY t1.item, t2.item";
+				String dbquery_tDBInput_2 = context.definition_frequent;
 
 				globalMap.put("tDBInput_2_QUERY", dbquery_tDBInput_2);
 				java.sql.ResultSet rs_tDBInput_2 = null;
@@ -4460,37 +5123,95 @@ public class test1_automatise implements TalendJob {
 						nb_line_tDBInput_2++;
 
 						if (colQtyInRs_tDBInput_2 < 1) {
-							row3.item = 0;
+							row3.item1 = 0;
 						} else {
 
 							if (rs_tDBInput_2.getObject(1) != null) {
-								row3.item = rs_tDBInput_2.getLong(1);
+								row3.item1 = rs_tDBInput_2.getLong(1);
 							} else {
 								throw new RuntimeException(
 										"Null value in non-Nullable column");
 							}
 						}
 						if (colQtyInRs_tDBInput_2 < 2) {
-							row3.item1 = 0;
+							row3.item2 = 0;
 						} else {
 
 							if (rs_tDBInput_2.getObject(2) != null) {
-								row3.item1 = rs_tDBInput_2.getLong(2);
+								row3.item2 = rs_tDBInput_2.getLong(2);
 							} else {
 								throw new RuntimeException(
 										"Null value in non-Nullable column");
 							}
 						}
 						if (colQtyInRs_tDBInput_2 < 3) {
-							row3.COUNT_distinct_T1_id__ = 0;
+							row3.item3 = null;
 						} else {
 
 							if (rs_tDBInput_2.getObject(3) != null) {
-								row3.COUNT_distinct_T1_id__ = rs_tDBInput_2
-										.getLong(3);
+								row3.item3 = rs_tDBInput_2.getLong(3);
 							} else {
-								throw new RuntimeException(
-										"Null value in non-Nullable column");
+								row3.item3 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_2 < 4) {
+							row3.item4 = null;
+						} else {
+
+							if (rs_tDBInput_2.getObject(4) != null) {
+								row3.item4 = rs_tDBInput_2.getLong(4);
+							} else {
+								row3.item4 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_2 < 5) {
+							row3.item5 = null;
+						} else {
+
+							if (rs_tDBInput_2.getObject(5) != null) {
+								row3.item5 = rs_tDBInput_2.getLong(5);
+							} else {
+								row3.item5 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_2 < 6) {
+							row3.item6 = null;
+						} else {
+
+							if (rs_tDBInput_2.getObject(6) != null) {
+								row3.item6 = rs_tDBInput_2.getLong(6);
+							} else {
+								row3.item6 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_2 < 7) {
+							row3.item7 = null;
+						} else {
+
+							if (rs_tDBInput_2.getObject(7) != null) {
+								row3.item7 = rs_tDBInput_2.getLong(7);
+							} else {
+								row3.item7 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_2 < 8) {
+							row3.item8 = null;
+						} else {
+
+							if (rs_tDBInput_2.getObject(8) != null) {
+								row3.item8 = rs_tDBInput_2.getLong(8);
+							} else {
+								row3.item8 = null;
+							}
+						}
+						if (colQtyInRs_tDBInput_2 < 9) {
+							row3.item9 = null;
+						} else {
+
+							if (rs_tDBInput_2.getObject(9) != null) {
+								row3.item9 = rs_tDBInput_2.getLong(9);
+							} else {
+								row3.item9 = null;
 							}
 						}
 
@@ -4521,10 +5242,10 @@ public class test1_automatise implements TalendJob {
 						 */
 
 						/**
-						 * [tMap_1 main ] start
+						 * [tDBOutput_4 main ] start
 						 */
 
-						currentComponent = "tMap_1";
+						currentComponent = "tDBOutput_4";
 
 						// row3
 						// row3
@@ -4534,71 +5255,117 @@ public class test1_automatise implements TalendJob {
 									1, 1);
 						}
 
-						boolean hasCasePrimitiveKeyWithNull_tMap_1 = false;
+						row6 = null;
+						whetherReject_tDBOutput_4 = false;
+						pstmt_tDBOutput_4.setLong(1, row3.item1);
 
-						// ###############################
-						// # Input tables (lookups)
-						boolean rejectedInnerJoin_tMap_1 = false;
-						boolean mainRowRejected_tMap_1 = false;
+						pstmt_tDBOutput_4.setLong(2, row3.item2);
 
-						// ###############################
-						{ // start of Var scope
+						if (row3.item3 == null) {
+							pstmt_tDBOutput_4
+									.setNull(3, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_4.setLong(3, row3.item3);
+						}
 
-							// ###############################
-							// # Vars tables
+						if (row3.item4 == null) {
+							pstmt_tDBOutput_4
+									.setNull(4, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_4.setLong(4, row3.item4);
+						}
 
-							Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
-							// ###############################
-							// # Output tables
+						if (row3.item5 == null) {
+							pstmt_tDBOutput_4
+									.setNull(5, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_4.setLong(5, row3.item5);
+						}
 
-							out1 = null;
-							out = null;
+						if (row3.item6 == null) {
+							pstmt_tDBOutput_4
+									.setNull(6, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_4.setLong(6, row3.item6);
+						}
 
-							// # Output table : 'out1'
-							// # Filter conditions
-							if (
+						if (row3.item7 == null) {
+							pstmt_tDBOutput_4
+									.setNull(7, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_4.setLong(7, row3.item7);
+						}
 
-							row3.COUNT_distinct_T1_id__ >= context.support
+						if (row3.item8 == null) {
+							pstmt_tDBOutput_4
+									.setNull(8, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_4.setLong(8, row3.item8);
+						}
 
-							) {
-								out1_tmp.Item = row3.item + "  " + row3.item1;
-								out1 = out1_tmp;
-							} // closing filter/reject
+						if (row3.item9 == null) {
+							pstmt_tDBOutput_4
+									.setNull(9, java.sql.Types.INTEGER);
+						} else {
+							pstmt_tDBOutput_4.setLong(9, row3.item9);
+						}
 
-							// # Output table : 'out'
-							// # Filter conditions
-							if (
+						pstmt_tDBOutput_4.addBatch();
+						nb_line_tDBOutput_4++;
 
-							row3.COUNT_distinct_T1_id__ >= context.support
+						batchSizeCounter_tDBOutput_4++;
+						if (!whetherReject_tDBOutput_4) {
+							row6 = new row6Struct();
+							row6.item1 = row3.item1;
+							row6.item2 = row3.item2;
+							row6.item3 = row3.item3;
+							row6.item4 = row3.item4;
+							row6.item5 = row3.item5;
+							row6.item6 = row3.item6;
+							row6.item7 = row3.item7;
+							row6.item8 = row3.item8;
+							row6.item9 = row3.item9;
+						}
+						if (batchSize_tDBOutput_4 <= batchSizeCounter_tDBOutput_4) {
+							try {
+								int countSum_tDBOutput_4 = 0;
+								for (int countEach_tDBOutput_4 : pstmt_tDBOutput_4
+										.executeBatch()) {
+									countSum_tDBOutput_4 += (countEach_tDBOutput_4 == java.sql.Statement.EXECUTE_FAILED ? 0
+											: 1);
+								}
+								insertedCount_tDBOutput_4 += countSum_tDBOutput_4;
+							} catch (java.sql.BatchUpdateException e) {
+								int countSum_tDBOutput_4 = 0;
+								for (int countEach_tDBOutput_4 : e
+										.getUpdateCounts()) {
+									countSum_tDBOutput_4 += (countEach_tDBOutput_4 < 0 ? 0
+											: countEach_tDBOutput_4);
+								}
+								insertedCount_tDBOutput_4 += countSum_tDBOutput_4;
+								System.err.println(e.getMessage());
+							}
 
-							) {
-								out_tmp.item1 = row3.item;
-								out_tmp.item2 = row3.item1;
-								out = out_tmp;
-							} // closing filter/reject
-								// ###############################
+							batchSizeCounter_tDBOutput_4 = 0;
+						}
 
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_1 = false;
-
-						tos_count_tMap_1++;
+						tos_count_tDBOutput_4++;
 
 						/**
-						 * [tMap_1 main ] stop
+						 * [tDBOutput_4 main ] stop
 						 */
 
 						/**
-						 * [tMap_1 process_data_begin ] start
+						 * [tDBOutput_4 process_data_begin ] start
 						 */
 
-						currentComponent = "tMap_1";
+						currentComponent = "tDBOutput_4";
 
 						/**
-						 * [tMap_1 process_data_begin ] stop
+						 * [tDBOutput_4 process_data_begin ] stop
 						 */
-						// Start of branch "out1"
-						if (out1 != null) {
+						// Start of branch "row6"
+						if (row6 != null) {
 
 							/**
 							 * [tFileOutputDelimited_2 main ] start
@@ -4606,17 +5373,53 @@ public class test1_automatise implements TalendJob {
 
 							currentComponent = "tFileOutputDelimited_2";
 
-							// out1
-							// out1
+							// row6
+							// row6
 
 							if (execStat) {
-								runStat.updateStatOnConnection("out1"
+								runStat.updateStatOnConnection("row6"
 										+ iterateId, 1, 1);
 							}
 
 							StringBuilder sb_tFileOutputDelimited_2 = new StringBuilder();
-							if (out1.Item != null) {
-								sb_tFileOutputDelimited_2.append(out1.Item);
+							sb_tFileOutputDelimited_2.append(row6.item1);
+							sb_tFileOutputDelimited_2
+									.append(OUT_DELIM_tFileOutputDelimited_2);
+							sb_tFileOutputDelimited_2.append(row6.item2);
+							sb_tFileOutputDelimited_2
+									.append(OUT_DELIM_tFileOutputDelimited_2);
+							if (row6.item3 != null) {
+								sb_tFileOutputDelimited_2.append(row6.item3);
+							}
+							sb_tFileOutputDelimited_2
+									.append(OUT_DELIM_tFileOutputDelimited_2);
+							if (row6.item4 != null) {
+								sb_tFileOutputDelimited_2.append(row6.item4);
+							}
+							sb_tFileOutputDelimited_2
+									.append(OUT_DELIM_tFileOutputDelimited_2);
+							if (row6.item5 != null) {
+								sb_tFileOutputDelimited_2.append(row6.item5);
+							}
+							sb_tFileOutputDelimited_2
+									.append(OUT_DELIM_tFileOutputDelimited_2);
+							if (row6.item6 != null) {
+								sb_tFileOutputDelimited_2.append(row6.item6);
+							}
+							sb_tFileOutputDelimited_2
+									.append(OUT_DELIM_tFileOutputDelimited_2);
+							if (row6.item7 != null) {
+								sb_tFileOutputDelimited_2.append(row6.item7);
+							}
+							sb_tFileOutputDelimited_2
+									.append(OUT_DELIM_tFileOutputDelimited_2);
+							if (row6.item8 != null) {
+								sb_tFileOutputDelimited_2.append(row6.item8);
+							}
+							sb_tFileOutputDelimited_2
+									.append(OUT_DELIM_tFileOutputDelimited_2);
+							if (row6.item9 != null) {
+								sb_tFileOutputDelimited_2.append(row6.item9);
 							}
 							sb_tFileOutputDelimited_2
 									.append(OUT_DELIM_ROWSEP_tFileOutputDelimited_2);
@@ -4655,95 +5458,16 @@ public class test1_automatise implements TalendJob {
 							 * [tFileOutputDelimited_2 process_data_end ] stop
 							 */
 
-						} // End of branch "out1"
-
-						// Start of branch "out"
-						if (out != null) {
-
-							/**
-							 * [tDBOutput_4 main ] start
-							 */
-
-							currentComponent = "tDBOutput_4";
-
-							// out
-							// out
-
-							if (execStat) {
-								runStat.updateStatOnConnection("out"
-										+ iterateId, 1, 1);
-							}
-
-							whetherReject_tDBOutput_4 = false;
-							pstmt_tDBOutput_4.setLong(1, out.item1);
-
-							pstmt_tDBOutput_4.setLong(2, out.item2);
-
-							pstmt_tDBOutput_4.addBatch();
-							nb_line_tDBOutput_4++;
-
-							batchSizeCounter_tDBOutput_4++;
-							if (!whetherReject_tDBOutput_4) {
-							}
-							if (batchSize_tDBOutput_4 <= batchSizeCounter_tDBOutput_4) {
-								try {
-									int countSum_tDBOutput_4 = 0;
-									for (int countEach_tDBOutput_4 : pstmt_tDBOutput_4
-											.executeBatch()) {
-										countSum_tDBOutput_4 += (countEach_tDBOutput_4 == java.sql.Statement.EXECUTE_FAILED ? 0
-												: 1);
-									}
-									insertedCount_tDBOutput_4 += countSum_tDBOutput_4;
-								} catch (java.sql.BatchUpdateException e) {
-									int countSum_tDBOutput_4 = 0;
-									for (int countEach_tDBOutput_4 : e
-											.getUpdateCounts()) {
-										countSum_tDBOutput_4 += (countEach_tDBOutput_4 < 0 ? 0
-												: countEach_tDBOutput_4);
-									}
-									insertedCount_tDBOutput_4 += countSum_tDBOutput_4;
-									System.err.println(e.getMessage());
-								}
-
-								batchSizeCounter_tDBOutput_4 = 0;
-							}
-
-							tos_count_tDBOutput_4++;
-
-							/**
-							 * [tDBOutput_4 main ] stop
-							 */
-
-							/**
-							 * [tDBOutput_4 process_data_begin ] start
-							 */
-
-							currentComponent = "tDBOutput_4";
-
-							/**
-							 * [tDBOutput_4 process_data_begin ] stop
-							 */
-
-							/**
-							 * [tDBOutput_4 process_data_end ] start
-							 */
-
-							currentComponent = "tDBOutput_4";
-
-							/**
-							 * [tDBOutput_4 process_data_end ] stop
-							 */
-
-						} // End of branch "out"
+						} // End of branch "row6"
 
 						/**
-						 * [tMap_1 process_data_end ] start
+						 * [tDBOutput_4 process_data_end ] start
 						 */
 
-						currentComponent = "tMap_1";
+						currentComponent = "tDBOutput_4";
 
 						/**
-						 * [tMap_1 process_data_end ] stop
+						 * [tDBOutput_4 process_data_end ] stop
 						 */
 
 						/**
@@ -4779,63 +5503,6 @@ public class test1_automatise implements TalendJob {
 
 				/**
 				 * [tDBInput_2 end ] stop
-				 */
-
-				/**
-				 * [tMap_1 end ] start
-				 */
-
-				currentComponent = "tMap_1";
-
-				// ###############################
-				// # Lookup hashes releasing
-				// ###############################
-
-				if (execStat) {
-					if (resourceMap.get("inIterateVComp") == null
-							|| !((Boolean) resourceMap.get("inIterateVComp"))) {
-						runStat.updateStatOnConnection("row3" + iterateId, 2, 0);
-					}
-				}
-
-				ok_Hash.put("tMap_1", true);
-				end_Hash.put("tMap_1", System.currentTimeMillis());
-
-				/**
-				 * [tMap_1 end ] stop
-				 */
-
-				/**
-				 * [tFileOutputDelimited_2 end ] start
-				 */
-
-				currentComponent = "tFileOutputDelimited_2";
-
-				if (outtFileOutputDelimited_2 != null) {
-					outtFileOutputDelimited_2.flush();
-					outtFileOutputDelimited_2.close();
-				}
-
-				globalMap.put("tFileOutputDelimited_2_NB_LINE",
-						nb_line_tFileOutputDelimited_2);
-				globalMap.put("tFileOutputDelimited_2_FILE_NAME",
-						fileName_tFileOutputDelimited_2);
-
-				resourceMap.put("finish_tFileOutputDelimited_2", true);
-
-				if (execStat) {
-					if (resourceMap.get("inIterateVComp") == null
-							|| !((Boolean) resourceMap.get("inIterateVComp"))) {
-						runStat.updateStatOnConnection("out1" + iterateId, 2, 0);
-					}
-				}
-
-				ok_Hash.put("tFileOutputDelimited_2", true);
-				end_Hash.put("tFileOutputDelimited_2",
-						System.currentTimeMillis());
-
-				/**
-				 * [tFileOutputDelimited_2 end ] stop
 				 */
 
 				/**
@@ -4905,12 +5572,45 @@ public class test1_automatise implements TalendJob {
 				if (execStat) {
 					if (resourceMap.get("inIterateVComp") == null
 							|| !((Boolean) resourceMap.get("inIterateVComp"))) {
-						runStat.updateStatOnConnection("out" + iterateId, 2, 0);
+						runStat.updateStatOnConnection("row3" + iterateId, 2, 0);
 					}
 				}
 
 				ok_Hash.put("tDBOutput_4", true);
 				end_Hash.put("tDBOutput_4", System.currentTimeMillis());
+
+				/**
+				 * [tDBOutput_4 end ] stop
+				 */
+
+				/**
+				 * [tFileOutputDelimited_2 end ] start
+				 */
+
+				currentComponent = "tFileOutputDelimited_2";
+
+				if (outtFileOutputDelimited_2 != null) {
+					outtFileOutputDelimited_2.flush();
+					outtFileOutputDelimited_2.close();
+				}
+
+				globalMap.put("tFileOutputDelimited_2_NB_LINE",
+						nb_line_tFileOutputDelimited_2);
+				globalMap.put("tFileOutputDelimited_2_FILE_NAME",
+						fileName_tFileOutputDelimited_2);
+
+				resourceMap.put("finish_tFileOutputDelimited_2", true);
+
+				if (execStat) {
+					if (resourceMap.get("inIterateVComp") == null
+							|| !((Boolean) resourceMap.get("inIterateVComp"))) {
+						runStat.updateStatOnConnection("row6" + iterateId, 2, 0);
+					}
+				}
+
+				ok_Hash.put("tFileOutputDelimited_2", true);
+				end_Hash.put("tFileOutputDelimited_2",
+						System.currentTimeMillis());
 
 				if (execStat) {
 					runStat.updateStatOnConnection("OnComponentOk9", 0, "ok");
@@ -4918,7 +5618,7 @@ public class test1_automatise implements TalendJob {
 				tDBCommit_5Process(globalMap);
 
 				/**
-				 * [tDBOutput_4 end ] stop
+				 * [tFileOutputDelimited_2 end ] stop
 				 */
 
 			}// end the resume
@@ -4949,13 +5649,21 @@ public class test1_automatise implements TalendJob {
 				 */
 
 				/**
-				 * [tMap_1 finally ] start
+				 * [tDBOutput_4 finally ] start
 				 */
 
-				currentComponent = "tMap_1";
+				currentComponent = "tDBOutput_4";
+
+				if (resourceMap.get("statementClosed_tDBOutput_4") == null) {
+					java.sql.PreparedStatement pstmtToClose_tDBOutput_4 = null;
+					if ((pstmtToClose_tDBOutput_4 = (java.sql.PreparedStatement) resourceMap
+							.remove("pstmt_tDBOutput_4")) != null) {
+						pstmtToClose_tDBOutput_4.close();
+					}
+				}
 
 				/**
-				 * [tMap_1 finally ] stop
+				 * [tDBOutput_4 finally ] stop
 				 */
 
 				/**
@@ -4977,24 +5685,6 @@ public class test1_automatise implements TalendJob {
 
 				/**
 				 * [tFileOutputDelimited_2 finally ] stop
-				 */
-
-				/**
-				 * [tDBOutput_4 finally ] start
-				 */
-
-				currentComponent = "tDBOutput_4";
-
-				if (resourceMap.get("statementClosed_tDBOutput_4") == null) {
-					java.sql.PreparedStatement pstmtToClose_tDBOutput_4 = null;
-					if ((pstmtToClose_tDBOutput_4 = (java.sql.PreparedStatement) resourceMap
-							.remove("pstmt_tDBOutput_4")) != null) {
-						pstmtToClose_tDBOutput_4.close();
-					}
-				}
-
-				/**
-				 * [tDBOutput_4 finally ] stop
 				 */
 
 			} catch (java.lang.Exception e) {
@@ -6072,6 +6762,10 @@ public class test1_automatise implements TalendJob {
 
 			context.generation_candidat = (String) context
 					.getProperty("generation_candidat");
+			context.setContextType("definition_frequent", "id_String");
+
+			context.definition_frequent = (String) context
+					.getProperty("definition_frequent");
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
 			ie.printStackTrace();
@@ -6122,6 +6816,10 @@ public class test1_automatise implements TalendJob {
 			if (parentContextMap.containsKey("generation_candidat")) {
 				context.generation_candidat = (String) parentContextMap
 						.get("generation_candidat");
+			}
+			if (parentContextMap.containsKey("definition_frequent")) {
+				context.definition_frequent = (String) parentContextMap
+						.get("definition_frequent");
 			}
 		}
 
@@ -6373,6 +7071,6 @@ public class test1_automatise implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 172392 characters generated by Talend Open Studio for Data Integration on the
- * 10 mai 2019 09:50:01 CEST
+ * 192822 characters generated by Talend Open Studio for Data Integration on the
+ * 10 mai 2019 14:37:04 CEST
  ************************************************************************************************/
