@@ -18,6 +18,7 @@
     <module>jobs/process/test_automatise_0.1</module>
     <module>jobs/process/test2_automatise_0.1</module>
     <module>jobs/process/apriori_automatise_0.1</module>
+    <module>jobs/process/naif_automatise_igraphique_0.1</module>
     <module>jobs/process/naif_automatise_0.1</module>
   </modules>
   <properties>
