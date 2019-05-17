@@ -468,6 +468,61 @@ public class NAIF_automatise_IGraphique implements TalendJob {
 		}
 	}
 
+	public void tPrejob_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tPrejob_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tDBConnection_1_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tDBConnection_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tDBRow_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tDBRow_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tPostjob_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tPostjob_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tDBCommit_3_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tDBCommit_3_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tFileInputDelimited_1_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -657,59 +712,59 @@ public class NAIF_automatise_IGraphique implements TalendJob {
 		tJava_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tPostjob_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tPostjob_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tDBCommit_3_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tDBCommit_3_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tPrejob_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tPrejob_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tDBConnection_1_error(Exception exception,
+	public void tPrejob_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
-		end_Hash.put(errorComponent, System.currentTimeMillis());
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
 
-		status = "failure";
-
-		tDBConnection_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tDBRow_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
+	public void tDBConnection_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
-		end_Hash.put(errorComponent, System.currentTimeMillis());
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
 
-		status = "failure";
+	}
 
-		tDBRow_1_onSubJobError(exception, errorComponent, globalMap);
+	public void tDBRow_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tPostjob_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tDBCommit_3_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
 	}
 
 	public void tFileInputDelimited_1_onSubJobError(Exception exception,
@@ -789,59 +844,711 @@ public class NAIF_automatise_IGraphique implements TalendJob {
 
 	}
 
-	public void tPostjob_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
+	public void tPrejob_1Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
+		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 0);
 
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
+		final boolean execStat = this.execStat;
 
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tPrejob_1 begin ] start
+				 */
+
+				ok_Hash.put("tPrejob_1", false);
+				start_Hash.put("tPrejob_1", System.currentTimeMillis());
+
+				currentComponent = "tPrejob_1";
+
+				int tos_count_tPrejob_1 = 0;
+
+				/**
+				 * [tPrejob_1 begin ] stop
+				 */
+
+				/**
+				 * [tPrejob_1 main ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				tos_count_tPrejob_1++;
+
+				/**
+				 * [tPrejob_1 main ] stop
+				 */
+
+				/**
+				 * [tPrejob_1 process_data_begin ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				/**
+				 * [tPrejob_1 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tPrejob_1 process_data_end ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				/**
+				 * [tPrejob_1 process_data_end ] stop
+				 */
+
+				/**
+				 * [tPrejob_1 end ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				ok_Hash.put("tPrejob_1", true);
+				end_Hash.put("tPrejob_1", System.currentTimeMillis());
+
+				if (execStat) {
+					runStat.updateStatOnConnection("OnComponentOk1", 0, "ok");
+				}
+				tDBConnection_1Process(globalMap);
+
+				/**
+				 * [tPrejob_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tPrejob_1 finally ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				/**
+				 * [tPrejob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tDBCommit_3_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
+	public void tDBConnection_1Process(
+			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
+		globalMap.put("tDBConnection_1_SUBPROCESS_STATE", 0);
 
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
+		final boolean execStat = this.execStat;
 
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tDBConnection_1 begin ] start
+				 */
+
+				ok_Hash.put("tDBConnection_1", false);
+				start_Hash.put("tDBConnection_1", System.currentTimeMillis());
+
+				currentComponent = "tDBConnection_1";
+
+				int tos_count_tDBConnection_1 = 0;
+
+				String properties_tDBConnection_1 = context.test_AdditionalParams;
+				if (properties_tDBConnection_1 == null
+						|| properties_tDBConnection_1.trim().length() == 0) {
+					properties_tDBConnection_1 += "rewriteBatchedStatements=true";
+				} else if (properties_tDBConnection_1 != null
+						&& !properties_tDBConnection_1
+								.contains("rewriteBatchedStatements")) {
+					properties_tDBConnection_1 += "&rewriteBatchedStatements=true";
+				}
+
+				String url_tDBConnection_1 = "jdbc:mysql://"
+						+ context.test_Server + ":" + context.test_Port + "/"
+						+ context.test_Database + "?"
+						+ properties_tDBConnection_1;
+				String dbUser_tDBConnection_1 = context.test_Login;
+
+				final String decryptedPassword_tDBConnection_1 = context.test_Password;
+				String dbPwd_tDBConnection_1 = decryptedPassword_tDBConnection_1;
+
+				java.sql.Connection conn_tDBConnection_1 = null;
+
+				String driverClass_tDBConnection_1 = "com.mysql.jdbc.Driver";
+				java.lang.Class.forName(driverClass_tDBConnection_1);
+
+				conn_tDBConnection_1 = java.sql.DriverManager.getConnection(
+						url_tDBConnection_1, dbUser_tDBConnection_1,
+						dbPwd_tDBConnection_1);
+
+				globalMap.put("conn_tDBConnection_1", conn_tDBConnection_1);
+				if (null != conn_tDBConnection_1) {
+
+					conn_tDBConnection_1.setAutoCommit(false);
+				}
+
+				globalMap.put("conn_tDBConnection_1", conn_tDBConnection_1);
+
+				globalMap.put("db_tDBConnection_1", context.test_Database);
+
+				/**
+				 * [tDBConnection_1 begin ] stop
+				 */
+
+				/**
+				 * [tDBConnection_1 main ] start
+				 */
+
+				currentComponent = "tDBConnection_1";
+
+				tos_count_tDBConnection_1++;
+
+				/**
+				 * [tDBConnection_1 main ] stop
+				 */
+
+				/**
+				 * [tDBConnection_1 process_data_begin ] start
+				 */
+
+				currentComponent = "tDBConnection_1";
+
+				/**
+				 * [tDBConnection_1 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tDBConnection_1 process_data_end ] start
+				 */
+
+				currentComponent = "tDBConnection_1";
+
+				/**
+				 * [tDBConnection_1 process_data_end ] stop
+				 */
+
+				/**
+				 * [tDBConnection_1 end ] start
+				 */
+
+				currentComponent = "tDBConnection_1";
+
+				ok_Hash.put("tDBConnection_1", true);
+				end_Hash.put("tDBConnection_1", System.currentTimeMillis());
+
+				/**
+				 * [tDBConnection_1 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tDBConnection_1:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			if (execStat) {
+				runStat.updateStatOnConnection("OnSubjobOk2", 0, "ok");
+			}
+
+			tDBRow_1Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tDBConnection_1 finally ] start
+				 */
+
+				currentComponent = "tDBConnection_1";
+
+				/**
+				 * [tDBConnection_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tDBConnection_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tPrejob_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
+	public void tDBRow_1Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
+		globalMap.put("tDBRow_1_SUBPROCESS_STATE", 0);
 
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
+		final boolean execStat = this.execStat;
 
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tDBRow_1 begin ] start
+				 */
+
+				ok_Hash.put("tDBRow_1", false);
+				start_Hash.put("tDBRow_1", System.currentTimeMillis());
+
+				currentComponent = "tDBRow_1";
+
+				int tos_count_tDBRow_1 = 0;
+
+				java.sql.Connection conn_tDBRow_1 = null;
+				String query_tDBRow_1 = "";
+				boolean whetherReject_tDBRow_1 = false;
+				conn_tDBRow_1 = (java.sql.Connection) globalMap
+						.get("conn_tDBConnection_1");
+
+				resourceMap.put("conn_tDBRow_1", conn_tDBRow_1);
+				java.sql.Statement stmt_tDBRow_1 = conn_tDBRow_1
+						.createStatement();
+				resourceMap.put("stmt_tDBRow_1", stmt_tDBRow_1);
+
+				/**
+				 * [tDBRow_1 begin ] stop
+				 */
+
+				/**
+				 * [tDBRow_1 main ] start
+				 */
+
+				currentComponent = "tDBRow_1";
+
+				query_tDBRow_1 = "TRUNCATE TABLE transactions";
+				whetherReject_tDBRow_1 = false;
+				globalMap.put("tDBRow_1_QUERY", query_tDBRow_1);
+				try {
+					stmt_tDBRow_1.execute(query_tDBRow_1);
+
+				} catch (java.lang.Exception e) {
+					whetherReject_tDBRow_1 = true;
+
+					System.err.print(e.getMessage());
+
+				}
+
+				tos_count_tDBRow_1++;
+
+				/**
+				 * [tDBRow_1 main ] stop
+				 */
+
+				/**
+				 * [tDBRow_1 process_data_begin ] start
+				 */
+
+				currentComponent = "tDBRow_1";
+
+				/**
+				 * [tDBRow_1 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tDBRow_1 process_data_end ] start
+				 */
+
+				currentComponent = "tDBRow_1";
+
+				/**
+				 * [tDBRow_1 process_data_end ] stop
+				 */
+
+				/**
+				 * [tDBRow_1 end ] start
+				 */
+
+				currentComponent = "tDBRow_1";
+
+				stmt_tDBRow_1.close();
+				resourceMap.remove("stmt_tDBRow_1");
+				resourceMap.put("statementClosed_tDBRow_1", true);
+				resourceMap.put("finish_tDBRow_1", true);
+
+				ok_Hash.put("tDBRow_1", true);
+				end_Hash.put("tDBRow_1", System.currentTimeMillis());
+
+				/**
+				 * [tDBRow_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tDBRow_1 finally ] start
+				 */
+
+				currentComponent = "tDBRow_1";
+
+				if (resourceMap.get("statementClosed_tDBRow_1") == null) {
+					java.sql.Statement stmtToClose_tDBRow_1 = null;
+					if ((stmtToClose_tDBRow_1 = (java.sql.Statement) resourceMap
+							.remove("stmt_tDBRow_1")) != null) {
+						stmtToClose_tDBRow_1.close();
+					}
+				}
+
+				/**
+				 * [tDBRow_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tDBRow_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tDBConnection_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
+	public void tPostjob_1Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
+		globalMap.put("tPostjob_1_SUBPROCESS_STATE", 0);
 
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
+		final boolean execStat = this.execStat;
 
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tPostjob_1 begin ] start
+				 */
+
+				ok_Hash.put("tPostjob_1", false);
+				start_Hash.put("tPostjob_1", System.currentTimeMillis());
+
+				currentComponent = "tPostjob_1";
+
+				int tos_count_tPostjob_1 = 0;
+
+				/**
+				 * [tPostjob_1 begin ] stop
+				 */
+
+				/**
+				 * [tPostjob_1 main ] start
+				 */
+
+				currentComponent = "tPostjob_1";
+
+				tos_count_tPostjob_1++;
+
+				/**
+				 * [tPostjob_1 main ] stop
+				 */
+
+				/**
+				 * [tPostjob_1 process_data_begin ] start
+				 */
+
+				currentComponent = "tPostjob_1";
+
+				/**
+				 * [tPostjob_1 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tPostjob_1 process_data_end ] start
+				 */
+
+				currentComponent = "tPostjob_1";
+
+				/**
+				 * [tPostjob_1 process_data_end ] stop
+				 */
+
+				/**
+				 * [tPostjob_1 end ] start
+				 */
+
+				currentComponent = "tPostjob_1";
+
+				ok_Hash.put("tPostjob_1", true);
+				end_Hash.put("tPostjob_1", System.currentTimeMillis());
+
+				if (execStat) {
+					runStat.updateStatOnConnection("OnComponentOk2", 0, "ok");
+				}
+				tDBCommit_3Process(globalMap);
+
+				/**
+				 * [tPostjob_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tPostjob_1 finally ] start
+				 */
+
+				currentComponent = "tPostjob_1";
+
+				/**
+				 * [tPostjob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tPostjob_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tDBRow_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
+	public void tDBCommit_3Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
+		globalMap.put("tDBCommit_3_SUBPROCESS_STATE", 0);
 
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
+		final boolean execStat = this.execStat;
 
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception()
+						.getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tDBCommit_3 begin ] start
+				 */
+
+				ok_Hash.put("tDBCommit_3", false);
+				start_Hash.put("tDBCommit_3", System.currentTimeMillis());
+
+				currentComponent = "tDBCommit_3";
+
+				int tos_count_tDBCommit_3 = 0;
+
+				/**
+				 * [tDBCommit_3 begin ] stop
+				 */
+
+				/**
+				 * [tDBCommit_3 main ] start
+				 */
+
+				currentComponent = "tDBCommit_3";
+
+				java.sql.Connection conn_tDBCommit_3 = (java.sql.Connection) globalMap
+						.get("conn_tDBConnection_1");
+
+				if (conn_tDBCommit_3 != null && !conn_tDBCommit_3.isClosed()) {
+
+					try {
+
+						conn_tDBCommit_3.commit();
+
+					} finally {
+
+						conn_tDBCommit_3.close();
+
+					}
+
+				}
+
+				tos_count_tDBCommit_3++;
+
+				/**
+				 * [tDBCommit_3 main ] stop
+				 */
+
+				/**
+				 * [tDBCommit_3 process_data_begin ] start
+				 */
+
+				currentComponent = "tDBCommit_3";
+
+				/**
+				 * [tDBCommit_3 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tDBCommit_3 process_data_end ] start
+				 */
+
+				currentComponent = "tDBCommit_3";
+
+				/**
+				 * [tDBCommit_3 process_data_end ] stop
+				 */
+
+				/**
+				 * [tDBCommit_3 end ] start
+				 */
+
+				currentComponent = "tDBCommit_3";
+
+				ok_Hash.put("tDBCommit_3", true);
+				end_Hash.put("tDBCommit_3", System.currentTimeMillis());
+
+				/**
+				 * [tDBCommit_3 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			runStat.stopThreadStat();
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tDBCommit_3 finally ] start
+				 */
+
+				currentComponent = "tDBCommit_3";
+
+				/**
+				 * [tDBCommit_3 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tDBCommit_3_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row1Struct implements
@@ -3267,19 +3974,7 @@ public class NAIF_automatise_IGraphique implements TalendJob {
 					NB_ITERATE_tJava_1++;
 
 					if (execStat) {
-						runStat.updateStatOnConnection("row3", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row12", 3, 0);
-					}
-
-					if (execStat) {
 						runStat.updateStatOnConnection("row6", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row10", 3, 0);
 					}
 
 					if (execStat) {
@@ -3287,11 +3982,23 @@ public class NAIF_automatise_IGraphique implements TalendJob {
 					}
 
 					if (execStat) {
-						runStat.updateStatOnConnection("OnComponentOk11", 3, 0);
+						runStat.updateStatOnConnection("row10", 3, 0);
 					}
 
 					if (execStat) {
 						runStat.updateStatOnConnection("OnComponentOk9", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row12", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row3", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("OnComponentOk11", 3, 0);
 					}
 
 					if (execStat) {
@@ -4799,713 +5506,6 @@ public class NAIF_automatise_IGraphique implements TalendJob {
 		globalMap.put("tJava_2_SUBPROCESS_STATE", 1);
 	}
 
-	public void tPostjob_1Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tPostjob_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-			// TDI-39566 avoid throwing an useless Exception
-			boolean resumeIt = true;
-			if (globalResumeTicket == false && resumeEntryMethodName != null) {
-				String currentMethodName = new java.lang.Exception()
-						.getStackTrace()[0].getMethodName();
-				resumeIt = resumeEntryMethodName.equals(currentMethodName);
-			}
-			if (resumeIt || globalResumeTicket) { // start the resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tPostjob_1 begin ] start
-				 */
-
-				ok_Hash.put("tPostjob_1", false);
-				start_Hash.put("tPostjob_1", System.currentTimeMillis());
-
-				currentComponent = "tPostjob_1";
-
-				int tos_count_tPostjob_1 = 0;
-
-				/**
-				 * [tPostjob_1 begin ] stop
-				 */
-
-				/**
-				 * [tPostjob_1 main ] start
-				 */
-
-				currentComponent = "tPostjob_1";
-
-				tos_count_tPostjob_1++;
-
-				/**
-				 * [tPostjob_1 main ] stop
-				 */
-
-				/**
-				 * [tPostjob_1 process_data_begin ] start
-				 */
-
-				currentComponent = "tPostjob_1";
-
-				/**
-				 * [tPostjob_1 process_data_begin ] stop
-				 */
-
-				/**
-				 * [tPostjob_1 process_data_end ] start
-				 */
-
-				currentComponent = "tPostjob_1";
-
-				/**
-				 * [tPostjob_1 process_data_end ] stop
-				 */
-
-				/**
-				 * [tPostjob_1 end ] start
-				 */
-
-				currentComponent = "tPostjob_1";
-
-				ok_Hash.put("tPostjob_1", true);
-				end_Hash.put("tPostjob_1", System.currentTimeMillis());
-
-				if (execStat) {
-					runStat.updateStatOnConnection("OnComponentOk2", 0, "ok");
-				}
-				tDBCommit_3Process(globalMap);
-
-				/**
-				 * [tPostjob_1 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			runStat.stopThreadStat();
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tPostjob_1 finally ] start
-				 */
-
-				currentComponent = "tPostjob_1";
-
-				/**
-				 * [tPostjob_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tPostjob_1_SUBPROCESS_STATE", 1);
-	}
-
-	public void tDBCommit_3Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tDBCommit_3_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-			// TDI-39566 avoid throwing an useless Exception
-			boolean resumeIt = true;
-			if (globalResumeTicket == false && resumeEntryMethodName != null) {
-				String currentMethodName = new java.lang.Exception()
-						.getStackTrace()[0].getMethodName();
-				resumeIt = resumeEntryMethodName.equals(currentMethodName);
-			}
-			if (resumeIt || globalResumeTicket) { // start the resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tDBCommit_3 begin ] start
-				 */
-
-				ok_Hash.put("tDBCommit_3", false);
-				start_Hash.put("tDBCommit_3", System.currentTimeMillis());
-
-				currentComponent = "tDBCommit_3";
-
-				int tos_count_tDBCommit_3 = 0;
-
-				/**
-				 * [tDBCommit_3 begin ] stop
-				 */
-
-				/**
-				 * [tDBCommit_3 main ] start
-				 */
-
-				currentComponent = "tDBCommit_3";
-
-				java.sql.Connection conn_tDBCommit_3 = (java.sql.Connection) globalMap
-						.get("conn_tDBConnection_1");
-
-				if (conn_tDBCommit_3 != null && !conn_tDBCommit_3.isClosed()) {
-
-					try {
-
-						conn_tDBCommit_3.commit();
-
-					} finally {
-
-						conn_tDBCommit_3.close();
-
-					}
-
-				}
-
-				tos_count_tDBCommit_3++;
-
-				/**
-				 * [tDBCommit_3 main ] stop
-				 */
-
-				/**
-				 * [tDBCommit_3 process_data_begin ] start
-				 */
-
-				currentComponent = "tDBCommit_3";
-
-				/**
-				 * [tDBCommit_3 process_data_begin ] stop
-				 */
-
-				/**
-				 * [tDBCommit_3 process_data_end ] start
-				 */
-
-				currentComponent = "tDBCommit_3";
-
-				/**
-				 * [tDBCommit_3 process_data_end ] stop
-				 */
-
-				/**
-				 * [tDBCommit_3 end ] start
-				 */
-
-				currentComponent = "tDBCommit_3";
-
-				ok_Hash.put("tDBCommit_3", true);
-				end_Hash.put("tDBCommit_3", System.currentTimeMillis());
-
-				/**
-				 * [tDBCommit_3 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			runStat.stopThreadStat();
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tDBCommit_3 finally ] start
-				 */
-
-				currentComponent = "tDBCommit_3";
-
-				/**
-				 * [tDBCommit_3 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tDBCommit_3_SUBPROCESS_STATE", 1);
-	}
-
-	public void tPrejob_1Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-			// TDI-39566 avoid throwing an useless Exception
-			boolean resumeIt = true;
-			if (globalResumeTicket == false && resumeEntryMethodName != null) {
-				String currentMethodName = new java.lang.Exception()
-						.getStackTrace()[0].getMethodName();
-				resumeIt = resumeEntryMethodName.equals(currentMethodName);
-			}
-			if (resumeIt || globalResumeTicket) { // start the resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tPrejob_1 begin ] start
-				 */
-
-				ok_Hash.put("tPrejob_1", false);
-				start_Hash.put("tPrejob_1", System.currentTimeMillis());
-
-				currentComponent = "tPrejob_1";
-
-				int tos_count_tPrejob_1 = 0;
-
-				/**
-				 * [tPrejob_1 begin ] stop
-				 */
-
-				/**
-				 * [tPrejob_1 main ] start
-				 */
-
-				currentComponent = "tPrejob_1";
-
-				tos_count_tPrejob_1++;
-
-				/**
-				 * [tPrejob_1 main ] stop
-				 */
-
-				/**
-				 * [tPrejob_1 process_data_begin ] start
-				 */
-
-				currentComponent = "tPrejob_1";
-
-				/**
-				 * [tPrejob_1 process_data_begin ] stop
-				 */
-
-				/**
-				 * [tPrejob_1 process_data_end ] start
-				 */
-
-				currentComponent = "tPrejob_1";
-
-				/**
-				 * [tPrejob_1 process_data_end ] stop
-				 */
-
-				/**
-				 * [tPrejob_1 end ] start
-				 */
-
-				currentComponent = "tPrejob_1";
-
-				ok_Hash.put("tPrejob_1", true);
-				end_Hash.put("tPrejob_1", System.currentTimeMillis());
-
-				if (execStat) {
-					runStat.updateStatOnConnection("OnComponentOk1", 0, "ok");
-				}
-				tDBConnection_1Process(globalMap);
-
-				/**
-				 * [tPrejob_1 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			runStat.stopThreadStat();
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tPrejob_1 finally ] start
-				 */
-
-				currentComponent = "tPrejob_1";
-
-				/**
-				 * [tPrejob_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 1);
-	}
-
-	public void tDBConnection_1Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tDBConnection_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-			// TDI-39566 avoid throwing an useless Exception
-			boolean resumeIt = true;
-			if (globalResumeTicket == false && resumeEntryMethodName != null) {
-				String currentMethodName = new java.lang.Exception()
-						.getStackTrace()[0].getMethodName();
-				resumeIt = resumeEntryMethodName.equals(currentMethodName);
-			}
-			if (resumeIt || globalResumeTicket) { // start the resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tDBConnection_1 begin ] start
-				 */
-
-				ok_Hash.put("tDBConnection_1", false);
-				start_Hash.put("tDBConnection_1", System.currentTimeMillis());
-
-				currentComponent = "tDBConnection_1";
-
-				int tos_count_tDBConnection_1 = 0;
-
-				String properties_tDBConnection_1 = context.test_AdditionalParams;
-				if (properties_tDBConnection_1 == null
-						|| properties_tDBConnection_1.trim().length() == 0) {
-					properties_tDBConnection_1 += "rewriteBatchedStatements=true";
-				} else if (properties_tDBConnection_1 != null
-						&& !properties_tDBConnection_1
-								.contains("rewriteBatchedStatements")) {
-					properties_tDBConnection_1 += "&rewriteBatchedStatements=true";
-				}
-
-				String url_tDBConnection_1 = "jdbc:mysql://"
-						+ context.test_Server + ":" + context.test_Port + "/"
-						+ context.test_Database + "?"
-						+ properties_tDBConnection_1;
-				String dbUser_tDBConnection_1 = context.test_Login;
-
-				final String decryptedPassword_tDBConnection_1 = context.test_Password;
-				String dbPwd_tDBConnection_1 = decryptedPassword_tDBConnection_1;
-
-				java.sql.Connection conn_tDBConnection_1 = null;
-
-				String driverClass_tDBConnection_1 = "com.mysql.jdbc.Driver";
-				java.lang.Class.forName(driverClass_tDBConnection_1);
-
-				conn_tDBConnection_1 = java.sql.DriverManager.getConnection(
-						url_tDBConnection_1, dbUser_tDBConnection_1,
-						dbPwd_tDBConnection_1);
-
-				globalMap.put("conn_tDBConnection_1", conn_tDBConnection_1);
-				if (null != conn_tDBConnection_1) {
-
-					conn_tDBConnection_1.setAutoCommit(false);
-				}
-
-				globalMap.put("conn_tDBConnection_1", conn_tDBConnection_1);
-
-				globalMap.put("db_tDBConnection_1", context.test_Database);
-
-				/**
-				 * [tDBConnection_1 begin ] stop
-				 */
-
-				/**
-				 * [tDBConnection_1 main ] start
-				 */
-
-				currentComponent = "tDBConnection_1";
-
-				tos_count_tDBConnection_1++;
-
-				/**
-				 * [tDBConnection_1 main ] stop
-				 */
-
-				/**
-				 * [tDBConnection_1 process_data_begin ] start
-				 */
-
-				currentComponent = "tDBConnection_1";
-
-				/**
-				 * [tDBConnection_1 process_data_begin ] stop
-				 */
-
-				/**
-				 * [tDBConnection_1 process_data_end ] start
-				 */
-
-				currentComponent = "tDBConnection_1";
-
-				/**
-				 * [tDBConnection_1 process_data_end ] stop
-				 */
-
-				/**
-				 * [tDBConnection_1 end ] start
-				 */
-
-				currentComponent = "tDBConnection_1";
-
-				ok_Hash.put("tDBConnection_1", true);
-				end_Hash.put("tDBConnection_1", System.currentTimeMillis());
-
-				/**
-				 * [tDBConnection_1 end ] stop
-				 */
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tDBConnection_1:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			if (execStat) {
-				runStat.updateStatOnConnection("OnSubjobOk2", 0, "ok");
-			}
-
-			tDBRow_1Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			runStat.stopThreadStat();
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tDBConnection_1 finally ] start
-				 */
-
-				currentComponent = "tDBConnection_1";
-
-				/**
-				 * [tDBConnection_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tDBConnection_1_SUBPROCESS_STATE", 1);
-	}
-
-	public void tDBRow_1Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tDBRow_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-			// TDI-39566 avoid throwing an useless Exception
-			boolean resumeIt = true;
-			if (globalResumeTicket == false && resumeEntryMethodName != null) {
-				String currentMethodName = new java.lang.Exception()
-						.getStackTrace()[0].getMethodName();
-				resumeIt = resumeEntryMethodName.equals(currentMethodName);
-			}
-			if (resumeIt || globalResumeTicket) { // start the resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tDBRow_1 begin ] start
-				 */
-
-				ok_Hash.put("tDBRow_1", false);
-				start_Hash.put("tDBRow_1", System.currentTimeMillis());
-
-				currentComponent = "tDBRow_1";
-
-				int tos_count_tDBRow_1 = 0;
-
-				java.sql.Connection conn_tDBRow_1 = null;
-				String query_tDBRow_1 = "";
-				boolean whetherReject_tDBRow_1 = false;
-				conn_tDBRow_1 = (java.sql.Connection) globalMap
-						.get("conn_tDBConnection_1");
-
-				resourceMap.put("conn_tDBRow_1", conn_tDBRow_1);
-				java.sql.Statement stmt_tDBRow_1 = conn_tDBRow_1
-						.createStatement();
-				resourceMap.put("stmt_tDBRow_1", stmt_tDBRow_1);
-
-				/**
-				 * [tDBRow_1 begin ] stop
-				 */
-
-				/**
-				 * [tDBRow_1 main ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				query_tDBRow_1 = "TRUNCATE TABLE transactions";
-				whetherReject_tDBRow_1 = false;
-				globalMap.put("tDBRow_1_QUERY", query_tDBRow_1);
-				try {
-					stmt_tDBRow_1.execute(query_tDBRow_1);
-
-				} catch (java.lang.Exception e) {
-					whetherReject_tDBRow_1 = true;
-
-					System.err.print(e.getMessage());
-
-				}
-
-				tos_count_tDBRow_1++;
-
-				/**
-				 * [tDBRow_1 main ] stop
-				 */
-
-				/**
-				 * [tDBRow_1 process_data_begin ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				/**
-				 * [tDBRow_1 process_data_begin ] stop
-				 */
-
-				/**
-				 * [tDBRow_1 process_data_end ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				/**
-				 * [tDBRow_1 process_data_end ] stop
-				 */
-
-				/**
-				 * [tDBRow_1 end ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				stmt_tDBRow_1.close();
-				resourceMap.remove("stmt_tDBRow_1");
-				resourceMap.put("statementClosed_tDBRow_1", true);
-				resourceMap.put("finish_tDBRow_1", true);
-
-				ok_Hash.put("tDBRow_1", true);
-				end_Hash.put("tDBRow_1", System.currentTimeMillis());
-
-				/**
-				 * [tDBRow_1 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			runStat.stopThreadStat();
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tDBRow_1 finally ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				if (resourceMap.get("statementClosed_tDBRow_1") == null) {
-					java.sql.Statement stmtToClose_tDBRow_1 = null;
-					if ((stmtToClose_tDBRow_1 = (java.sql.Statement) resourceMap
-							.remove("stmt_tDBRow_1")) != null) {
-						stmtToClose_tDBRow_1.close();
-					}
-				}
-
-				/**
-				 * [tDBRow_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tDBRow_1_SUBPROCESS_STATE", 1);
-	}
-
 	public String resuming_logs_dir_path = null;
 	public String resuming_checkpoint_path = null;
 	public String parent_part_launcher = null;
@@ -6063,5 +6063,5 @@ public class NAIF_automatise_IGraphique implements TalendJob {
 }
 /************************************************************************************************
  * 160484 characters generated by Talend Open Studio for Data Integration on the
- * 13 mai 2019 15:11:00 CEST
+ * 16 mai 2019 11:45:42 CEST
  ************************************************************************************************/

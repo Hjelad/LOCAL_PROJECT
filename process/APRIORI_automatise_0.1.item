@@ -4,7 +4,7 @@
     <contextParameter comment="" name="chemin_entree" prompt="chemin_entree?" promptNeeded="false" type="id_String" value="&quot;C:/Users/Marine/Desktop/test-2.csv&quot;"/>
     <contextParameter comment="" name="chemin_sortie" prompt="chemin_sortie?" promptNeeded="false" type="id_String" value="&quot;C:/Users/Marine/Desktop/resultat_apriori.csv&quot;"/>
     <contextParameter comment="" name="support" prompt="support?" promptNeeded="false" type="id_Integer" value="6"/>
-    <contextParameter comment="" name="taille" prompt="taille?" promptNeeded="false" type="id_Integer" value="4"/>
+    <contextParameter comment="" name="taille" prompt="taille?" promptNeeded="false" type="id_Integer" value="6"/>
     <contextParameter comment="" name="test_Port" prompt="test_Port?" promptNeeded="false" repositoryContextId="_k3IcYHAEEempiuEJMBfqgQ" type="id_String" value="3306"/>
     <contextParameter comment="" name="test_Server" prompt="test_Server?" promptNeeded="false" repositoryContextId="_k3IcYHAEEempiuEJMBfqgQ" type="id_String" value="localhost"/>
     <contextParameter comment="" name="test_Database" prompt="test_Database?" promptNeeded="false" repositoryContextId="_k3IcYHAEEempiuEJMBfqgQ" type="id_String" value="test"/>
@@ -123,11 +123,11 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="704" posY="32">
+  <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tMysqlConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="32">
+  <node componentName="tMysqlConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="192" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBConnection_1" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_gqErgGziEem6kMiPxXiOtQ" show="false"/>
@@ -271,7 +271,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="VARCHAR" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMysqlRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="32">
+  <node componentName="tMysqlRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="352" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBRow_1" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_gqErgGziEem6kMiPxXiOtQ" show="false"/>
@@ -454,7 +454,7 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tDBCommit_2"/>
   </node>
-  <node componentName="tMysqlCommit" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="832" posY="32">
+  <node componentName="tMysqlCommit" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBCommit_3" show="false"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tDBConnection_1"/>
     <elementParameter field="CHECK" name="CLOSE" value="true"/>
@@ -485,7 +485,7 @@
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="String select = &quot;SELECT &quot;;&#xA;String where = &quot; WHERE &quot;; &#xA;String from =&quot; FROM item_frequent AS t1, item_frequent AS t2&quot;;&#xA;int i=1;&#xA;&#xA;if(context.compteur>2){&#xA;&#x9;while(i&lt;context.compteur){&#xA;&#x9;&#x9;select= select+&quot;t1.item&quot;+i+&quot; AS item&quot;+i+&quot;, &quot; ;&#xA;&#x9;&#x9;i=i+1;&#xA;&#x9;}&#xA;&#x9;select = select + &quot;t2.item&quot;+(i-1)+&quot; AS item&quot;+i;&#xA;}&#xA;else {select = select + &quot;t1.item1 AS item1, t2.item1 AS item2&quot;;}&#xA;&#xA;i=2;&#xA;if(context.compteur>2){&#xA;&#x9;where = where+&quot;t1.item1 = t2.item1&quot;;&#xA;&#x9;while(i&lt;context.compteur-1){&#xA;&#x9;&#x9;where = where +&quot; AND t1.item&quot;+i+&quot;=t2.item&quot;+i;&#xA;&#x9;&#x9;i=i+1;&#xA;&#x9;}&#xA;&#x9;where = where + &quot; AND t1.item&quot;+i+&quot;&lt;t2.item&quot;+i;&#xA;}&#xA;else { where = where +&quot;t1.item1&lt;t2.item1&quot;;}&#xA;context.generation_candidat=&quot;INSERT INTO item_candidat(&quot;+select+from+where+&quot;);&quot;;&#xA;System.out.println(&quot;Generation candidat niveau : &quot;+context.compteur+&quot; : &quot;+context.generation_candidat);&#xA;&#xA;&#xA;String create = &quot;CREATE TABLE item_candidat (item1 INT&quot;;&#xA;i=2;&#xA;while(i&lt;=context.compteur){&#xA;&#x9;create=create+&quot;, item&quot;+i+&quot; INT&quot;;&#xA;&#x9;i=i+1;&#xA;}&#xA;create=create+&quot;);&quot;;&#xA;context.creation_table_candidat=create; &#xA;System.out.println(context.creation_table_candidat);"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="String select = &quot;SELECT &quot;;&#xA;String where = &quot; WHERE &quot;; &#xA;String from =&quot; FROM item_frequent AS t1, item_frequent AS t2&quot;;&#xA;int i=1;&#xA;&#xA;if(context.compteur>2){&#xA;&#x9;while(i&lt;context.compteur){&#xA;&#x9;&#x9;select= select+&quot;t1.item&quot;+i+&quot; AS item&quot;+i+&quot;, &quot; ;&#xA;&#x9;&#x9;i=i+1;&#xA;&#x9;}&#xA;&#x9;select = select + &quot;t2.item&quot;+(i-1)+&quot; AS item&quot;+i;&#xA;}&#xA;else {select = select + &quot;t1.item1 AS item1, t2.item1 AS item2&quot;;}&#xA;&#xA;i=2;&#xA;if(context.compteur>2){&#xA;&#x9;where = where+&quot;t1.item1 = t2.item1&quot;;&#xA;&#x9;while(i&lt;context.compteur-1){&#xA;&#x9;&#x9;where = where +&quot; AND t1.item&quot;+i+&quot;=t2.item&quot;+i;&#xA;&#x9;&#x9;i=i+1;&#xA;&#x9;}&#xA;&#x9;where = where + &quot; AND t1.item&quot;+i+&quot;&lt;t2.item&quot;+i;&#xA;}&#xA;else { where = where +&quot;t1.item1&lt;t2.item1&quot;;}&#xA;context.generation_candidat=&quot;INSERT INTO item_candidat(&quot;+select+from+where+&quot;);&quot;;&#xA;/*System.out.println(&quot;Generation candidat niveau : &quot;+context.compteur+&quot; : &quot;+context.generation_candidat);*/&#xA;&#xA;&#xA;String create = &quot;CREATE TABLE item_candidat (item1 INT&quot;;&#xA;i=2;&#xA;while(i&lt;=context.compteur){&#xA;&#x9;create=create+&quot;, item&quot;+i+&quot; INT&quot;;&#xA;&#x9;i=i+1;&#xA;}&#xA;create=create+&quot;);&quot;;&#xA;context.creation_table_candidat=create; &#xA;/*System.out.println(context.creation_table_candidat);*/"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_2">
@@ -611,7 +611,7 @@
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="704" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="/*Recherche des ensembles fréquents*/&#xA;&#xA;String select1 = &quot;SELECT t1.item AS item1&quot;;&#xA;String where1 = &quot; WHERE t1.id = t2.id AND t1.item &lt; t2.item AND t1.item=c.item1 AND t2.item=c.item2&quot;;&#xA;String from1 =&quot; FROM transactions as t1&quot;;&#xA;String groupby1 = &quot; GROUP BY t1.item&quot;;&#xA;String having1 =&quot; HAVING COUNT(*) >=&quot;+context.support;&#xA;int j;&#xA;j=2;&#xA;while (j&lt;=context.compteur){&#xA;&#x9;select1 = select1 + &quot;, t&quot;+j+&quot;.item AS item&quot;+j;&#xA;&#x9;from1 = from1 + &quot;, transactions AS t&quot;+j;&#xA;&#x9;groupby1 = groupby1+&quot;, t&quot;+j+&quot;.item&quot;;&#xA;&#x9;j=j+1;&#xA;}&#xA;from1= from1 +&quot;, item_candidat AS c&quot;;&#xA;&#xA;j=3;&#xA;while (j&lt;=context.compteur){&#xA;&#x9;where1 = where1 + &quot; AND  t&quot;+(j-1)+&quot;.id=t&quot;+j+&quot;.id AND  t&quot;+(j-1)+&quot;.item&lt;t&quot;+j+&quot;.item AND t&quot;+j+&quot;.item=c.item&quot;+j;&#xA;&#x9;j=j+1;&#xA;&#x9;&#xA;}&#xA;context.definition_frequent=&quot;INSERT INTO item_frequent(&quot;+select1+from1+where1+groupby1+having1+&quot;);&quot;;&#xA;System.out.println(&quot;Definition frequent niveau : &quot;+context.compteur+&quot; : &quot;+context.definition_frequent);&#xA;&#xA;&#xA;String create1 = &quot;CREATE TABLE item_frequent (item1 INT&quot;;&#xA;j=2;&#xA;while(j&lt;=context.compteur){&#xA;&#x9;create1=create1+&quot;, item&quot;+j+&quot; INT&quot;;&#xA;&#x9;j=j+1;&#xA;}&#xA;create1=create1+&quot;);&quot;;&#xA;context.creation_table_frequent=create1; &#xA;System.out.println(context.creation_table_frequent);"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="/*Recherche des ensembles fréquents*/&#xA;&#xA;String select1 = &quot;SELECT t1.item AS item1&quot;;&#xA;String where1 = &quot; WHERE t1.id = t2.id AND t1.item &lt; t2.item AND t1.item=c.item1 AND t2.item=c.item2&quot;;&#xA;String from1 =&quot; FROM transactions as t1&quot;;&#xA;String groupby1 = &quot; GROUP BY t1.item&quot;;&#xA;String having1 =&quot; HAVING COUNT(*) >=&quot;+context.support;&#xA;int j;&#xA;j=2;&#xA;while (j&lt;=context.compteur){&#xA;&#x9;select1 = select1 + &quot;, t&quot;+j+&quot;.item AS item&quot;+j;&#xA;&#x9;from1 = from1 + &quot;, transactions AS t&quot;+j;&#xA;&#x9;groupby1 = groupby1+&quot;, t&quot;+j+&quot;.item&quot;;&#xA;&#x9;j=j+1;&#xA;}&#xA;from1= from1 +&quot;, item_candidat AS c&quot;;&#xA;&#xA;j=3;&#xA;while (j&lt;=context.compteur){&#xA;&#x9;where1 = where1 + &quot; AND  t&quot;+(j-1)+&quot;.id=t&quot;+j+&quot;.id AND  t&quot;+(j-1)+&quot;.item&lt;t&quot;+j+&quot;.item AND t&quot;+j+&quot;.item=c.item&quot;+j;&#xA;&#x9;j=j+1;&#xA;&#x9;&#xA;}&#xA;context.definition_frequent=&quot;INSERT INTO item_frequent(&quot;+select1+from1+where1+groupby1+having1+&quot;);&quot;;&#xA;/*System.out.println(&quot;Definition frequent niveau : &quot;+context.compteur+&quot; : &quot;+context.definition_frequent);*/&#xA;&#xA;&#xA;String create1 = &quot;CREATE TABLE item_frequent (item1 INT&quot;;&#xA;j=2;&#xA;while(j&lt;=context.compteur){&#xA;&#x9;create1=create1+&quot;, item&quot;+j+&quot; INT&quot;;&#xA;&#x9;j=j+1;&#xA;}&#xA;create1=create1+&quot;);&quot;;&#xA;context.creation_table_frequent=create1; &#xA;/*System.out.println(context.creation_table_frequent);*/"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_1">
@@ -750,7 +750,7 @@
       <column comment="" defaultValue="" key="false" length="-1" name="item" nullable="false" pattern="" precision="-1" sourceType="BIGINT" type="id_Long" originalLength="-1" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="4" offsetLabelY="-10" posX="1120" posY="288">
+  <node componentName="tMysqlInput" componentVersion="0.102" offsetLabelX="4" offsetLabelY="-10" posX="1248" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDBInput_2" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:PROPERTY_TYPE" value="REPOSITORY" show="false"/>
     <elementParameter field="TECHNICAL" name="PROPERTY:REPOSITORY_PROPERTY_TYPE" value="_gqErgGziEem6kMiPxXiOtQ" show="false"/>
@@ -803,7 +803,7 @@
       <column comment="" defaultValue="" key="false" length="11" name="item6" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" originalLength="-1" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1280" posY="288">
+  <node componentName="tFileOutputDelimited" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1408" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tFileOutputDelimited_2" show="false"/>
     <elementParameter field="CHECK" name="USESTREAM" value="false"/>
     <elementParameter field="TEXT" name="STREAMNAME" value="outputStream" show="false"/>
@@ -843,23 +843,25 @@
       <column comment="" defaultValue="" key="false" length="11" name="item6" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" originalLength="-1" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tChronometerStop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="992" posY="32">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tChronometerStop_1" show="false"/>
+  <node componentName="tChronometerStop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="416">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tChronometerStop_2" show="false"/>
     <elementParameter field="RADIO" name="SINCE_BEGINNING" value="true"/>
     <elementParameter field="RADIO" name="SINCE_STARTER" value="false"/>
     <elementParameter field="COMPONENT_LIST" name="STARTER" value="" show="false"/>
     <elementParameter field="CHECK" name="DISPLAY" value="true"/>
     <elementParameter field="CHECK" name="DISPLAY_COMPONENT_NAME" value="true"/>
-    <elementParameter field="TEXT" name="CAPTION" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="CAPTION" value="&quot;Frequent taille &quot;+context.compteur"/>
     <elementParameter field="CHECK" name="DISPLAY_READABLE_DURATION" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
   </node>
-  <node componentName="tChronometerStart" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="192" posY="32">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tChronometerStart_1" show="false"/>
-    <elementParameter field="TEXT" name="CAPTION" value="&quot;&quot;" show="false"/>
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1536" posY="416">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_3" show="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="if(((Integer)globalMap.get(&quot;tDBInput_2_NB_LINE&quot;))==0){&#xA;&#x9;context.compteur=context.taille+1;&#xA;&#x9;System.out.println(&quot;Plus de frequent&quot;);&#xA;}"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJava_3"/>
   </node>
-  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tChronometerStart_1">
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tDBConnection_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPostjob_1" offsetLabelX="0" offsetLabelY="0" source="tPostjob_1" target="tDBCommit_3">
@@ -892,9 +894,6 @@
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tDBCommit_2" offsetLabelX="0" offsetLabelY="0" source="tDBCommit_2" target="tDBInput_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk4" show="false"/>
-  </connection>
-  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tDBCommit_3" offsetLabelX="0" offsetLabelY="0" source="tDBCommit_3" target="tChronometerStop_1">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk10" show="false"/>
   </connection>
   <connection connectorName="RUN_IF" label="If" lineStyle="6" metaname="tDBCommit_1" offsetLabelX="0" offsetLabelY="0" source="tDBCommit_1" target="tLoop_1">
     <elementParameter field="MEMO_JAVA" name="CONDITION" value="context.taille>1"/>
@@ -943,7 +942,10 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row12" show="false"/>
   </connection>
-  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tChronometerStart_1" offsetLabelX="0" offsetLabelY="0" source="tChronometerStart_1" target="tDBConnection_1">
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tFileOutputDelimited_2" offsetLabelX="0" offsetLabelY="0" source="tFileOutputDelimited_2" target="tJava_3">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk10" show="false"/>
+  </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJava_3" offsetLabelX="0" offsetLabelY="0" source="tJava_3" target="tChronometerStop_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk11" show="false"/>
   </connection>
   <subjob>
@@ -1009,12 +1011,12 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tChronometerStop_1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tChronometerStop_2" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tChronometerStart_1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_3" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="92;131;150" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="207;226;236"/>
   </subjob>

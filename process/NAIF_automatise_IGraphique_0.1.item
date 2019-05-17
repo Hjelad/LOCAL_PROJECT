@@ -3,8 +3,8 @@
   <context confirmationNeeded="false" name="Default">
     <contextParameter comment="" name="chemin_entree" prompt="chemin_entree?" promptNeeded="false" type="id_String" value="&quot;C:/Users/Marine/Desktop/test-2.csv&quot;"/>
     <contextParameter comment="" name="chemin_sortie" prompt="chemin_sortie?" promptNeeded="false" type="id_String" value="&quot;C:/Users/Marine/Desktop/resultat_naif.csv&quot;"/>
-    <contextParameter comment="" name="support" prompt="support?" promptNeeded="false" type="id_Integer" value="7"/>
-    <contextParameter comment="" name="taille" prompt="taille?" promptNeeded="false" type="id_Integer" value="4"/>
+    <contextParameter comment="" name="support" prompt="support?" promptNeeded="false" type="id_Integer" value="6"/>
+    <contextParameter comment="" name="taille" prompt="taille?" promptNeeded="false" type="id_Integer" value="5"/>
     <contextParameter comment="" name="test_Port" prompt="test_Port?" promptNeeded="false" repositoryContextId="_k3IcYHAEEempiuEJMBfqgQ" type="id_String" value="3306"/>
     <contextParameter comment="" name="test_Server" prompt="test_Server?" promptNeeded="false" repositoryContextId="_k3IcYHAEEempiuEJMBfqgQ" type="id_String" value="localhost"/>
     <contextParameter comment="" name="test_Database" prompt="test_Database?" promptNeeded="false" repositoryContextId="_k3IcYHAEEempiuEJMBfqgQ" type="id_String" value="test"/>

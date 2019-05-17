@@ -20,6 +20,7 @@
     <module>jobs/process/apriori_automatise_0.1</module>
     <module>jobs/process/naif_automatise_igraphique_0.1</module>
     <module>jobs/process/naif_automatise_0.1</module>
+    <module>jobs/process/fusion_automatise_0.1</module>
   </modules>
   <properties>
     <talend.project.name>LOCAL_PROJECT</talend.project.name>
