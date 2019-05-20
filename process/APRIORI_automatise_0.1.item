@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" defaultContext="Default" jobType="Standard">
   <context confirmationNeeded="false" name="Default">
-    <contextParameter comment="" name="chemin_entree" prompt="chemin_entree?" promptNeeded="false" type="id_String" value="&quot;C:/Users/Marine/Desktop/test-2.csv&quot;"/>
+    <contextParameter comment="" name="chemin_entree" prompt="chemin_entree?" promptNeeded="false" type="id_String" value="&quot;C:/Users/Marine/Desktop/in.csv&quot;"/>
     <contextParameter comment="" name="chemin_sortie" prompt="chemin_sortie?" promptNeeded="false" type="id_String" value="&quot;C:/Users/Marine/Desktop/resultat_apriori.csv&quot;"/>
-    <contextParameter comment="" name="support" prompt="support?" promptNeeded="false" type="id_Integer" value="6"/>
+    <contextParameter comment="" name="support" prompt="support?" promptNeeded="false" type="id_Integer" value="7"/>
     <contextParameter comment="" name="taille" prompt="taille?" promptNeeded="false" type="id_Integer" value="6"/>
     <contextParameter comment="" name="test_Port" prompt="test_Port?" promptNeeded="false" repositoryContextId="_k3IcYHAEEempiuEJMBfqgQ" type="id_String" value="3306"/>
     <contextParameter comment="" name="test_Server" prompt="test_Server?" promptNeeded="false" repositoryContextId="_k3IcYHAEEempiuEJMBfqgQ" type="id_String" value="localhost"/>
@@ -16,6 +16,7 @@
     <contextParameter comment="" name="definition_frequent" prompt="definition_frequent?" promptNeeded="false" type="id_String" value=""/>
     <contextParameter comment="" name="creation_table_frequent" prompt="creation_table_frequent?" promptNeeded="false" type="id_String" value=""/>
     <contextParameter comment="" name="creation_table_candidat" prompt="creation_table_candidat?" promptNeeded="false" type="id_String" value=""/>
+    <contextParameter comment="" name="delimitateur" prompt="delimitateur?" promptNeeded="false" type="id_String" value="&quot;,&quot;"/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
@@ -157,7 +158,7 @@
     <elementParameter field="CHECK" name="CSV_OPTION" value="false"/>
     <elementParameter field="TEXT" name="ROWSEPARATOR" value="&quot;\n&quot;"/>
     <elementParameter field="OPENED_LIST" name="CSVROWSEPARATOR" value="&quot;\n&quot;" show="false"/>
-    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;;&quot;"/>
+    <elementParameter field="TEXT" name="FIELDSEPARATOR" value="context.delimitateur"/>
     <elementParameter field="TEXT" name="ESCAPE_CHAR" value="&quot;&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="TEXT_ENCLOSURE" value="&quot;&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="HEADER" value="1"/>
@@ -405,7 +406,7 @@
   </node>
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="512" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon les schémas d'entrée et de sortie&#xD;&#xA;output_row.item1= Long.toString(input_row.item1);&#xD;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="//Code généré selon les schémas d'entrée et de sortie&#xD;&#xA;System.out.println(&quot;Compteur : 1&quot;);&#xA;System.out.println(&quot;Nombre de fréquents insérés &quot;+((Integer)globalMap.get(&quot;tDBInput_1_NB_LINE&quot;)));&#xA;output_row.item1= Long.toString(input_row.item1);&#xD;&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_2">
@@ -485,7 +486,7 @@
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="String select = &quot;SELECT &quot;;&#xA;String where = &quot; WHERE &quot;; &#xA;String from =&quot; FROM item_frequent AS t1, item_frequent AS t2&quot;;&#xA;int i=1;&#xA;&#xA;if(context.compteur>2){&#xA;&#x9;while(i&lt;context.compteur){&#xA;&#x9;&#x9;select= select+&quot;t1.item&quot;+i+&quot; AS item&quot;+i+&quot;, &quot; ;&#xA;&#x9;&#x9;i=i+1;&#xA;&#x9;}&#xA;&#x9;select = select + &quot;t2.item&quot;+(i-1)+&quot; AS item&quot;+i;&#xA;}&#xA;else {select = select + &quot;t1.item1 AS item1, t2.item1 AS item2&quot;;}&#xA;&#xA;i=2;&#xA;if(context.compteur>2){&#xA;&#x9;where = where+&quot;t1.item1 = t2.item1&quot;;&#xA;&#x9;while(i&lt;context.compteur-1){&#xA;&#x9;&#x9;where = where +&quot; AND t1.item&quot;+i+&quot;=t2.item&quot;+i;&#xA;&#x9;&#x9;i=i+1;&#xA;&#x9;}&#xA;&#x9;where = where + &quot; AND t1.item&quot;+i+&quot;&lt;t2.item&quot;+i;&#xA;}&#xA;else { where = where +&quot;t1.item1&lt;t2.item1&quot;;}&#xA;context.generation_candidat=&quot;INSERT INTO item_candidat(&quot;+select+from+where+&quot;);&quot;;&#xA;/*System.out.println(&quot;Generation candidat niveau : &quot;+context.compteur+&quot; : &quot;+context.generation_candidat);*/&#xA;&#xA;&#xA;String create = &quot;CREATE TABLE item_candidat (item1 INT&quot;;&#xA;i=2;&#xA;while(i&lt;=context.compteur){&#xA;&#x9;create=create+&quot;, item&quot;+i+&quot; INT&quot;;&#xA;&#x9;i=i+1;&#xA;}&#xA;create=create+&quot;);&quot;;&#xA;context.creation_table_candidat=create; &#xA;/*System.out.println(context.creation_table_candidat);*/"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="System.out.println(&quot;Compteur : &quot;+context.compteur);&#xA;String select = &quot;SELECT &quot;;&#xA;String where = &quot; WHERE &quot;; &#xA;String from =&quot; FROM item_frequent AS t1, item_frequent AS t2&quot;;&#xA;int i=1;&#xA;&#xA;if(context.compteur>2){&#xA;&#x9;while(i&lt;context.compteur){&#xA;&#x9;&#x9;select= select+&quot;t1.item&quot;+i+&quot; AS item&quot;+i+&quot;, &quot; ;&#xA;&#x9;&#x9;i=i+1;&#xA;&#x9;}&#xA;&#x9;select = select + &quot;t2.item&quot;+(i-1)+&quot; AS item&quot;+i;&#xA;}&#xA;else {select = select + &quot;t1.item1 AS item1, t2.item1 AS item2&quot;;}&#xA;&#xA;i=2;&#xA;if(context.compteur>2){&#xA;&#x9;where = where+&quot;t1.item1 = t2.item1&quot;;&#xA;&#x9;while(i&lt;context.compteur-1){&#xA;&#x9;&#x9;where = where +&quot; AND t1.item&quot;+i+&quot;=t2.item&quot;+i;&#xA;&#x9;&#x9;i=i+1;&#xA;&#x9;}&#xA;&#x9;where = where + &quot; AND t1.item&quot;+i+&quot;&lt;t2.item&quot;+i;&#xA;}&#xA;else { where = where +&quot;t1.item1&lt;t2.item1&quot;;}&#xA;context.generation_candidat=&quot;INSERT INTO item_candidat(&quot;+select+from+where+&quot;);&quot;;&#xA;/*System.out.println(&quot;Generation candidat niveau : &quot;+context.compteur+&quot; : &quot;+context.generation_candidat);*/&#xA;&#xA;&#xA;String create = &quot;CREATE TABLE item_candidat (item1 INT&quot;;&#xA;i=2;&#xA;while(i&lt;=context.compteur){&#xA;&#x9;create=create+&quot;, item&quot;+i+&quot; INT&quot;;&#xA;&#x9;i=i+1;&#xA;}&#xA;create=create+&quot;);&quot;;&#xA;context.creation_table_candidat=create; &#xA;/*System.out.println(context.creation_table_candidat);*/"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_2">
@@ -843,7 +844,7 @@
       <column comment="" defaultValue="" key="false" length="11" name="item6" nullable="true" pattern="" precision="0" sourceType="INT" type="id_Integer" originalLength="-1" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tChronometerStop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="416">
+  <node componentName="tChronometerStop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1696" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tChronometerStop_2" show="false"/>
     <elementParameter field="RADIO" name="SINCE_BEGINNING" value="true"/>
     <elementParameter field="RADIO" name="SINCE_STARTER" value="false"/>
@@ -856,7 +857,7 @@
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1536" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_3" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="if(((Integer)globalMap.get(&quot;tDBInput_2_NB_LINE&quot;))==0){&#xA;&#x9;context.compteur=context.taille+1;&#xA;&#x9;System.out.println(&quot;Plus de frequent&quot;);&#xA;}"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="System.out.println(&quot;Nombre de fréquents insérés &quot;+((Integer)globalMap.get(&quot;tDBInput_2_NB_LINE&quot;)));&#xA;if(((Integer)globalMap.get(&quot;tDBInput_2_NB_LINE&quot;))&lt;context.compteur){&#xA;&#x9;context.compteur=context.taille+1;&#xA;&#x9;System.out.println(&quot;Plus de frequent&quot;);&#xA;}"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_3"/>

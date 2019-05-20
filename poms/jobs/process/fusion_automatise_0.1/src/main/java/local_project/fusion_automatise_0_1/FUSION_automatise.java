@@ -162,6 +162,12 @@ public class FUSION_automatise implements TalendJob {
 
 			}
 
+			if (delimitateur != null) {
+
+				this.setProperty("delimitateur", delimitateur.toString());
+
+			}
+
 			if (test_Port != null) {
 
 				this.setProperty("test_Port", test_Port.toString());
@@ -257,6 +263,12 @@ public class FUSION_automatise implements TalendJob {
 
 		public Integer getTaille() {
 			return this.taille;
+		}
+
+		public String delimitateur;
+
+		public String getDelimitateur() {
+			return this.delimitateur;
 		}
 
 		public String test_Port;
@@ -877,17 +889,6 @@ public class FUSION_automatise implements TalendJob {
 		tDBConnection_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tDBRow_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tDBRow_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
 	public void tFileInputDelimited_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1076,17 +1077,6 @@ public class FUSION_automatise implements TalendJob {
 	}
 
 	public void tDBConnection_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tDBRow_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1310,13 +1300,18 @@ public class FUSION_automatise implements TalendJob {
 						}
 					}
 				}
-				if (!whetherExist_tDBOutput_1) {
-					try (java.sql.Statement stmtCreate_tDBOutput_1 = conn_tDBOutput_1
+				if (whetherExist_tDBOutput_1) {
+					try (java.sql.Statement stmtDrop_tDBOutput_1 = conn_tDBOutput_1
 							.createStatement()) {
-						stmtCreate_tDBOutput_1.execute("CREATE TABLE `"
-								+ tableName_tDBOutput_1
-								+ "`(`ID` INT(100)  ,`Item` INT(100)  )");
+						stmtDrop_tDBOutput_1.execute("DROP TABLE `"
+								+ tableName_tDBOutput_1 + "`");
 					}
+				}
+				try (java.sql.Statement stmtCreate_tDBOutput_1 = conn_tDBOutput_1
+						.createStatement()) {
+					stmtCreate_tDBOutput_1.execute("CREATE TABLE `"
+							+ tableName_tDBOutput_1
+							+ "`(`ID` INT(100)  ,`Item` INT(100)  )");
 				}
 
 				String insert_tDBOutput_1 = "INSERT INTO `" + "transactions"
@@ -1363,8 +1358,9 @@ public class FUSION_automatise implements TalendJob {
 					}
 					try {
 						fid_tFileInputDelimited_1 = new org.talend.fileprocess.FileInputDelimited(
-								context.chemin_entree, "US-ASCII", ";", "\n",
-								false, 1, 0, -1, -1, false);
+								context.chemin_entree, "US-ASCII",
+								context.delimitateur, "\n", false, 1, 0, -1,
+								-1, false);
 					} catch (java.lang.Exception e) {
 
 						System.err.println(e.getMessage());
@@ -3162,47 +3158,7 @@ public class FUSION_automatise implements TalendJob {
 					NB_ITERATE_tJava_6++;
 
 					if (execStat) {
-						runStat.updateStatOnConnection("row8", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row16", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("OnComponentOk14", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("OnComponentOk5", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row17", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row14", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row13", 3, 0);
-					}
-
-					if (execStat) {
 						runStat.updateStatOnConnection("row6", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row11", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("If2", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row9", 3, 0);
 					}
 
 					if (execStat) {
@@ -3210,15 +3166,7 @@ public class FUSION_automatise implements TalendJob {
 					}
 
 					if (execStat) {
-						runStat.updateStatOnConnection("row4", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row10", 3, 0);
-					}
-
-					if (execStat) {
-						runStat.updateStatOnConnection("row3", 3, 0);
+						runStat.updateStatOnConnection("row11", 3, 0);
 					}
 
 					if (execStat) {
@@ -3226,11 +3174,15 @@ public class FUSION_automatise implements TalendJob {
 					}
 
 					if (execStat) {
-						runStat.updateStatOnConnection("OnComponentOk12", 3, 0);
+						runStat.updateStatOnConnection("row14", 3, 0);
 					}
 
 					if (execStat) {
-						runStat.updateStatOnConnection("OnComponentOk13", 3, 0);
+						runStat.updateStatOnConnection("row16", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row4", 3, 0);
 					}
 
 					if (execStat) {
@@ -3238,7 +3190,11 @@ public class FUSION_automatise implements TalendJob {
 					}
 
 					if (execStat) {
-						runStat.updateStatOnConnection("OnComponentOk9", 3, 0);
+						runStat.updateStatOnConnection("If2", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row8", 3, 0);
 					}
 
 					if (execStat) {
@@ -3246,7 +3202,47 @@ public class FUSION_automatise implements TalendJob {
 					}
 
 					if (execStat) {
+						runStat.updateStatOnConnection("OnComponentOk9", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row10", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row9", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("OnComponentOk5", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row3", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("OnComponentOk12", 3, 0);
+					}
+
+					if (execStat) {
 						runStat.updateStatOnConnection("If3", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row17", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("row13", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("OnComponentOk13", 3, 0);
+					}
+
+					if (execStat) {
+						runStat.updateStatOnConnection("OnComponentOk14", 3, 0);
 					}
 
 					if (execStat) {
@@ -3266,7 +3262,7 @@ public class FUSION_automatise implements TalendJob {
 
 					int tos_count_tJava_6 = 0;
 
-					System.out.println(context.compteur);
+					System.out.println("Compteur : " + context.compteur);
 
 					/**
 					 * [tJava_6 begin ] stop
@@ -3843,10 +3839,9 @@ public class FUSION_automatise implements TalendJob {
 				}
 				context.generation_candidat = "INSERT INTO item_candidat("
 						+ select + from + where + ");";
-				/*
-				 * System.out.println("Generation candidat niveau : "+context.
-				 * compteur+" : "+context.generation_candidat);
-				 */
+				System.out.println("Generation candidat niveau : "
+						+ context.compteur + " : "
+						+ context.generation_candidat);
 
 				String create = "CREATE TABLE item_candidat (item1 INT";
 				i = 2;
@@ -3856,7 +3851,7 @@ public class FUSION_automatise implements TalendJob {
 				}
 				create = create + ");";
 				context.creation_table_candidat = create;
-				/* System.out.println(context.creation_table_candidat); */
+				System.out.println(context.creation_table_candidat);
 
 				/**
 				 * [tJava_2 begin ] stop
@@ -4807,10 +4802,9 @@ public class FUSION_automatise implements TalendJob {
 				}
 				context.definition_frequent = "INSERT INTO item_frequent("
 						+ select1 + from1 + where1 + groupby1 + having1 + ");";
-				/*
-				 * System.out.println("Definition frequent niveau : "+context.
-				 * compteur+" : "+context.definition_frequent);
-				 */
+				System.out.println("Definition frequent niveau : "
+						+ context.compteur + " : "
+						+ context.definition_frequent);
 
 				String create1 = "CREATE TABLE item_frequent (item1 INT";
 				j = 2;
@@ -4820,7 +4814,7 @@ public class FUSION_automatise implements TalendJob {
 				}
 				create1 = create1 + ");";
 				context.creation_table_frequent = create1;
-				/* System.out.println(context.creation_table_frequent); */
+				System.out.println(context.creation_table_frequent);
 
 				/**
 				 * [tJava_1 begin ] stop
@@ -6150,6 +6144,8 @@ public class FUSION_automatise implements TalendJob {
 
 				int tos_count_tJava_3 = 0;
 
+				System.out.println(((Integer) globalMap
+						.get("tDBInput_2_NB_LINE")));
 				if (((Integer) globalMap.get("tDBInput_2_NB_LINE")) < context.compteur) {
 					context.compteur = context.taille + 1;
 					System.out.println("Plus de frequent");
@@ -8721,20 +8717,6 @@ public class FUSION_automatise implements TalendJob {
 				 */
 			}// end the resume
 
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tDBConnection_1:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			if (execStat) {
-				runStat.updateStatOnConnection("OnSubjobOk2", 0, "ok");
-			}
-
-			tDBRow_1Process(globalMap);
-
 		} catch (java.lang.Exception e) {
 
 			TalendException te = new TalendException(e, currentComponent,
@@ -8768,161 +8750,6 @@ public class FUSION_automatise implements TalendJob {
 		}
 
 		globalMap.put("tDBConnection_1_SUBPROCESS_STATE", 1);
-	}
-
-	public void tDBRow_1Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tDBRow_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-			// TDI-39566 avoid throwing an useless Exception
-			boolean resumeIt = true;
-			if (globalResumeTicket == false && resumeEntryMethodName != null) {
-				String currentMethodName = new java.lang.Exception()
-						.getStackTrace()[0].getMethodName();
-				resumeIt = resumeEntryMethodName.equals(currentMethodName);
-			}
-			if (resumeIt || globalResumeTicket) { // start the resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tDBRow_1 begin ] start
-				 */
-
-				ok_Hash.put("tDBRow_1", false);
-				start_Hash.put("tDBRow_1", System.currentTimeMillis());
-
-				currentComponent = "tDBRow_1";
-
-				int tos_count_tDBRow_1 = 0;
-
-				java.sql.Connection conn_tDBRow_1 = null;
-				String query_tDBRow_1 = "";
-				boolean whetherReject_tDBRow_1 = false;
-				conn_tDBRow_1 = (java.sql.Connection) globalMap
-						.get("conn_tDBConnection_1");
-
-				resourceMap.put("conn_tDBRow_1", conn_tDBRow_1);
-				java.sql.Statement stmt_tDBRow_1 = conn_tDBRow_1
-						.createStatement();
-				resourceMap.put("stmt_tDBRow_1", stmt_tDBRow_1);
-
-				/**
-				 * [tDBRow_1 begin ] stop
-				 */
-
-				/**
-				 * [tDBRow_1 main ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				query_tDBRow_1 = "TRUNCATE TABLE transactions";
-				whetherReject_tDBRow_1 = false;
-				globalMap.put("tDBRow_1_QUERY", query_tDBRow_1);
-				try {
-					stmt_tDBRow_1.execute(query_tDBRow_1);
-
-				} catch (java.lang.Exception e) {
-					whetherReject_tDBRow_1 = true;
-
-					System.err.print(e.getMessage());
-
-				}
-
-				tos_count_tDBRow_1++;
-
-				/**
-				 * [tDBRow_1 main ] stop
-				 */
-
-				/**
-				 * [tDBRow_1 process_data_begin ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				/**
-				 * [tDBRow_1 process_data_begin ] stop
-				 */
-
-				/**
-				 * [tDBRow_1 process_data_end ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				/**
-				 * [tDBRow_1 process_data_end ] stop
-				 */
-
-				/**
-				 * [tDBRow_1 end ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				stmt_tDBRow_1.close();
-				resourceMap.remove("stmt_tDBRow_1");
-				resourceMap.put("statementClosed_tDBRow_1", true);
-				resourceMap.put("finish_tDBRow_1", true);
-
-				ok_Hash.put("tDBRow_1", true);
-				end_Hash.put("tDBRow_1", System.currentTimeMillis());
-
-				/**
-				 * [tDBRow_1 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			runStat.stopThreadStat();
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tDBRow_1 finally ] start
-				 */
-
-				currentComponent = "tDBRow_1";
-
-				if (resourceMap.get("statementClosed_tDBRow_1") == null) {
-					java.sql.Statement stmtToClose_tDBRow_1 = null;
-					if ((stmtToClose_tDBRow_1 = (java.sql.Statement) resourceMap
-							.remove("stmt_tDBRow_1")) != null) {
-						stmtToClose_tDBRow_1.close();
-					}
-				}
-
-				/**
-				 * [tDBRow_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tDBRow_1_SUBPROCESS_STATE", 1);
 	}
 
 	public String resuming_logs_dir_path = null;
@@ -9097,6 +8924,9 @@ public class FUSION_automatise implements TalendJob {
 						"taille", e.getMessage()));
 				context.taille = null;
 			}
+			context.setContextType("delimitateur", "id_String");
+
+			context.delimitateur = (String) context.getProperty("delimitateur");
 			context.setContextType("test_Port", "id_String");
 
 			context.test_Port = (String) context.getProperty("test_Port");
@@ -9187,6 +9017,10 @@ public class FUSION_automatise implements TalendJob {
 			}
 			if (parentContextMap.containsKey("taille")) {
 				context.taille = (Integer) parentContextMap.get("taille");
+			}
+			if (parentContextMap.containsKey("delimitateur")) {
+				context.delimitateur = (String) parentContextMap
+						.get("delimitateur");
 			}
 			if (parentContextMap.containsKey("test_Port")) {
 				context.test_Port = (String) parentContextMap.get("test_Port");
@@ -9481,6 +9315,6 @@ public class FUSION_automatise implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 243449 characters generated by Talend Open Studio for Data Integration on the
- * 17 mai 2019 11:31:17 CEST
+ * 239562 characters generated by Talend Open Studio for Data Integration on the
+ * 20 mai 2019 11:14:42 CEST
  ************************************************************************************************/
