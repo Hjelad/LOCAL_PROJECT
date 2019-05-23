@@ -10,17 +10,14 @@
   <url>http://www.talend.org/</url>
   <modules>
     <module>code/routines</module>
-    <module>jobs/process/test_mysql_0.1</module>
-    <module>jobs/process/insert_table_0.1</module>
     <module>jobs/process/test_taile_2_0.1</module>
     <module>jobs/process/test_taille_3_0.1</module>
-    <module>jobs/process/test1_automatise_0.1</module>
-    <module>jobs/process/test_automatise_0.1</module>
-    <module>jobs/process/test2_automatise_0.1</module>
     <module>jobs/process/apriori_automatise_0.1</module>
-    <module>jobs/process/naif_automatise_igraphique_0.1</module>
     <module>jobs/process/naif_automatise_0.1</module>
     <module>jobs/process/fusion_automatise_0.1</module>
+    <module>jobs/process/fusion_automatise_cible_0.1</module>
+    <module>jobs/process/naif_automatise_cible2_0.1</module>
+    <module>jobs/process/apriori_automatise_cible2_0.1</module>
   </modules>
   <properties>
     <talend.project.name>LOCAL_PROJECT</talend.project.name>
