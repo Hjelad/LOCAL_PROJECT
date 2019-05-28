@@ -535,6 +535,15 @@ private class TalendException extends Exception {
 					tDBRow_12_onSubJobError(exception, errorComponent, globalMap);
 			}
 			
+			public void tDBRow_2_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tDBRow_2_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
 			public void tDBRow_1_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 				
 				end_Hash.put(errorComponent, System.currentTimeMillis());
@@ -742,6 +751,11 @@ resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThrea
 
 			}
 			public void tDBRow_12_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
+
+			}
+			public void tDBRow_2_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
 resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
@@ -3009,9 +3023,9 @@ ok_Hash.put("tDBRow_12", true);
 end_Hash.put("tDBRow_12", System.currentTimeMillis());
 
 				if(execStat){   
-   	 				runStat.updateStatOnConnection("OnComponentOk17", 0, "ok");
+   	 				runStat.updateStatOnConnection("OnComponentOk13", 0, "ok");
 				}
-				tDBRow_1Process(globalMap);
+				tDBRow_2Process(globalMap);
 
 
 
@@ -3075,6 +3089,239 @@ end_Hash.put("tDBRow_12", System.currentTimeMillis());
 		
 
 		globalMap.put("tDBRow_12_SUBPROCESS_STATE", 1);
+	}
+	
+
+public void tDBRow_2Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tDBRow_2_SUBPROCESS_STATE", 0);
+
+ final boolean execStat = this.execStat;
+	
+		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
+				globalResumeTicket = true;
+
+
+
+		
+
+
+	
+	/**
+	 * [tDBRow_2 begin ] start
+	 */
+
+	
+
+	
+		
+		ok_Hash.put("tDBRow_2", false);
+		start_Hash.put("tDBRow_2", System.currentTimeMillis());
+		
+	
+	currentComponent="tDBRow_2";
+
+	
+		int tos_count_tDBRow_2 = 0;
+		
+
+	java.sql.Connection conn_tDBRow_2 = null;
+	String query_tDBRow_2 = "";
+	boolean whetherReject_tDBRow_2 = false;
+				conn_tDBRow_2 = (java.sql.Connection)globalMap.get("conn_tDBConnection_1");
+			
+    resourceMap.put("conn_tDBRow_2", conn_tDBRow_2);
+        java.sql.Statement stmt_tDBRow_2 = conn_tDBRow_2.createStatement();
+        resourceMap.put("stmt_tDBRow_2", stmt_tDBRow_2);
+
+ 
+
+
+
+/**
+ * [tDBRow_2 begin ] stop
+ */
+	
+	/**
+	 * [tDBRow_2 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_2";
+
+	
+
+query_tDBRow_2 = "ALTER TABLE transactions_cible  ADD INDEX ID (id, item) USING BTREE";
+whetherReject_tDBRow_2 = false;
+globalMap.put("tDBRow_2_QUERY",query_tDBRow_2);
+try {
+		stmt_tDBRow_2.execute(query_tDBRow_2);
+		
+	} catch (java.lang.Exception e) {
+		whetherReject_tDBRow_2 = true;
+		
+			throw(e);
+			
+	}
+	
+	if(!whetherReject_tDBRow_2) {
+		
+	}
+	
+
+ 
+
+
+	tos_count_tDBRow_2++;
+
+/**
+ * [tDBRow_2 main ] stop
+ */
+	
+	/**
+	 * [tDBRow_2 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_2";
+
+	
+
+ 
+
+
+
+/**
+ * [tDBRow_2 process_data_begin ] stop
+ */
+	
+	/**
+	 * [tDBRow_2 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_2";
+
+	
+
+ 
+
+
+
+/**
+ * [tDBRow_2 process_data_end ] stop
+ */
+	
+	/**
+	 * [tDBRow_2 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_2";
+
+	
+
+	
+        stmt_tDBRow_2.close();
+        resourceMap.remove("stmt_tDBRow_2");
+    resourceMap.put("statementClosed_tDBRow_2", true);
+    resourceMap.put("finish_tDBRow_2", true);
+ 
+
+ok_Hash.put("tDBRow_2", true);
+end_Hash.put("tDBRow_2", System.currentTimeMillis());
+
+				if(execStat){   
+   	 				runStat.updateStatOnConnection("OnComponentOk15", 0, "ok");
+				}
+				tDBRow_1Process(globalMap);
+
+
+
+/**
+ * [tDBRow_2 end ] stop
+ */
+				}//end the resume
+
+				
+
+
+
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [tDBRow_2 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_2";
+
+	
+
+    if (resourceMap.get("statementClosed_tDBRow_2") == null) {
+            java.sql.Statement stmtToClose_tDBRow_2 = null;
+            if ((stmtToClose_tDBRow_2 = (java.sql.Statement) resourceMap.remove("stmt_tDBRow_2")) != null) {
+                stmtToClose_tDBRow_2.close();
+            }
+    }
+ 
+
+
+
+/**
+ * [tDBRow_2 finally ] stop
+ */
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
+				}
+				resourceMap = null;
+			}
+		
+
+		globalMap.put("tDBRow_2_SUBPROCESS_STATE", 1);
 	}
 	
 
@@ -3523,6 +3770,12 @@ public static class row5Struct implements routines.system.IPersistableRow<row5St
     static byte[] commonByteArray_LOCAL_PROJECT_NAIF_automatise_cible2 = new byte[0];
 
 	
+			    public Integer support;
+
+				public Integer getSupport () {
+					return this.support;
+				}
+				
 			    public long item1;
 
 				public long getItem1 () {
@@ -3531,6 +3784,26 @@ public static class row5Struct implements routines.system.IPersistableRow<row5St
 				
 
 
+	private Integer readInteger(ObjectInputStream dis) throws IOException{
+		Integer intReturn;
+        int length = 0;
+        length = dis.readByte();
+		if (length == -1) {
+			intReturn = null;
+		} else {
+	    	intReturn = dis.readInt();
+		}
+		return intReturn;
+	}
+
+	private void writeInteger(Integer intNum, ObjectOutputStream dos) throws IOException{
+		if(intNum == null) {
+            dos.writeByte(-1);
+		} else {
+			dos.writeByte(0);
+	    	dos.writeInt(intNum);
+    	}
+	}
 
     public void readData(ObjectInputStream dis) {
 
@@ -3540,6 +3813,8 @@ public static class row5Struct implements routines.system.IPersistableRow<row5St
 
         		int length = 0;
 		
+						this.support = readInteger(dis);
+					
 			        this.item1 = dis.readLong();
 					
         	} catch (IOException e) {
@@ -3560,6 +3835,10 @@ public static class row5Struct implements routines.system.IPersistableRow<row5St
         try {
 
 		
+					// Integer
+				
+						writeInteger(this.support,dos);
+					
 					// long
 				
 		            	dos.writeLong(this.item1);
@@ -3577,7 +3856,8 @@ public static class row5Struct implements routines.system.IPersistableRow<row5St
 		StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
 		sb.append("[");
-		sb.append("item1="+String.valueOf(item1));
+		sb.append("support="+String.valueOf(support));
+		sb.append(",item1="+String.valueOf(item1));
 	    sb.append("]");
 
 	    return sb.toString();
@@ -3623,6 +3903,12 @@ public static class row2Struct implements routines.system.IPersistableRow<row2St
     static byte[] commonByteArray_LOCAL_PROJECT_NAIF_automatise_cible2 = new byte[0];
 
 	
+			    public Integer support;
+
+				public Integer getSupport () {
+					return this.support;
+				}
+				
 			    public long item1;
 
 				public long getItem1 () {
@@ -3631,6 +3917,26 @@ public static class row2Struct implements routines.system.IPersistableRow<row2St
 				
 
 
+	private Integer readInteger(ObjectInputStream dis) throws IOException{
+		Integer intReturn;
+        int length = 0;
+        length = dis.readByte();
+		if (length == -1) {
+			intReturn = null;
+		} else {
+	    	intReturn = dis.readInt();
+		}
+		return intReturn;
+	}
+
+	private void writeInteger(Integer intNum, ObjectOutputStream dos) throws IOException{
+		if(intNum == null) {
+            dos.writeByte(-1);
+		} else {
+			dos.writeByte(0);
+	    	dos.writeInt(intNum);
+    	}
+	}
 
     public void readData(ObjectInputStream dis) {
 
@@ -3640,6 +3946,8 @@ public static class row2Struct implements routines.system.IPersistableRow<row2St
 
         		int length = 0;
 		
+						this.support = readInteger(dis);
+					
 			        this.item1 = dis.readLong();
 					
         	} catch (IOException e) {
@@ -3660,6 +3968,10 @@ public static class row2Struct implements routines.system.IPersistableRow<row2St
         try {
 
 		
+					// Integer
+				
+						writeInteger(this.support,dos);
+					
 					// long
 				
 		            	dos.writeLong(this.item1);
@@ -3677,7 +3989,8 @@ public static class row2Struct implements routines.system.IPersistableRow<row2St
 		StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
 		sb.append("[");
-		sb.append("item1="+String.valueOf(item1));
+		sb.append("support="+String.valueOf(support));
+		sb.append(",item1="+String.valueOf(item1));
 	    sb.append("]");
 
 	    return sb.toString();
@@ -3863,10 +4176,10 @@ int count_tDBOutput_2=0;
                                     }
                                 }
                                 try(java.sql.Statement stmtCreate_tDBOutput_2 = conn_tDBOutput_2.createStatement()) {
-                                    stmtCreate_tDBOutput_2.execute("CREATE TABLE `" + tableName_tDBOutput_2 + "`(`item1` BIGINT(100)   not null )");
+                                    stmtCreate_tDBOutput_2.execute("CREATE TABLE `" + tableName_tDBOutput_2 + "`(`support` INT(0)  ,`item1` BIGINT(100)   not null )");
                                 }
 
-				String insert_tDBOutput_2 = "INSERT INTO `" + "item_frequent" + "` (`item1`) VALUES (?)";
+				String insert_tDBOutput_2 = "INSERT INTO `" + "item_frequent" + "` (`support`,`item1`) VALUES (?,?)";
 		        int batchSize_tDBOutput_2 = 100;
 	   			int batchSizeCounter_tDBOutput_2=0;
 		            
@@ -3913,7 +4226,7 @@ int count_tDBOutput_2=0;
 		    
 			java.sql.Statement stmt_tDBInput_1 = conn_tDBInput_1.createStatement();
 
-		    String dbquery_tDBInput_1 = "SELECT item AS item1\nFROM transactions_cible\nGROUP  BY item \nHAVING COUNT(item)>="+context.support;
+		    String dbquery_tDBInput_1 = "SELECT COUNT(*) AS support, item AS item1\nFROM transactions_cible\nGROUP  BY item \nHAVING COUNT(item)>="+context.support;
 			
 
             	globalMap.put("tDBInput_1_QUERY",dbquery_tDBInput_1);
@@ -3931,11 +4244,21 @@ int count_tDBOutput_2=0;
 		        nb_line_tDBInput_1++;
 		        
 							if(colQtyInRs_tDBInput_1 < 1) {
-								row2.item1 = 0;
+								row2.support = null;
 							} else {
 		                          
             if(rs_tDBInput_1.getObject(1) != null) {
-                row2.item1 = rs_tDBInput_1.getLong(1);
+                row2.support = rs_tDBInput_1.getInt(1);
+            } else {
+                    row2.support = null;
+            }
+		                    }
+							if(colQtyInRs_tDBInput_1 < 2) {
+								row2.item1 = 0;
+							} else {
+		                          
+            if(rs_tDBInput_1.getObject(2) != null) {
+                row2.item1 = rs_tDBInput_1.getLong(2);
             } else {
                     throw new RuntimeException("Null value in non-Nullable column");
             }
@@ -4020,7 +4343,12 @@ int count_tDBOutput_2=0;
 
             row5 = null;
         whetherReject_tDBOutput_2 = false;
-                            pstmt_tDBOutput_2.setLong(1, row2.item1);
+                            if(row2.support == null) {
+pstmt_tDBOutput_2.setNull(1, java.sql.Types.INTEGER);
+} else {pstmt_tDBOutput_2.setInt(1, row2.support);
+}
+
+                            pstmt_tDBOutput_2.setLong(2, row2.item1);
 
                     pstmt_tDBOutput_2.addBatch();
                     nb_line_tDBOutput_2++;
@@ -4028,6 +4356,7 @@ int count_tDBOutput_2=0;
                       batchSizeCounter_tDBOutput_2++;
             if(!whetherReject_tDBOutput_2) {
                             row5 = new row5Struct();
+                                row5.support = row2.support;
                                 row5.item1 = row2.item1;
             }
                 if ( batchSize_tDBOutput_2 <= batchSizeCounter_tDBOutput_2) {
@@ -4493,6 +4822,12 @@ public static class row17Struct implements routines.system.IPersistableRow<row17
     static byte[] commonByteArray_LOCAL_PROJECT_NAIF_automatise_cible2 = new byte[0];
 
 	
+			    public Integer support;
+
+				public Integer getSupport () {
+					return this.support;
+				}
+				
 			    public String itemset;
 
 				public String getItemset () {
@@ -4501,6 +4836,26 @@ public static class row17Struct implements routines.system.IPersistableRow<row17
 				
 
 
+	private Integer readInteger(ObjectInputStream dis) throws IOException{
+		Integer intReturn;
+        int length = 0;
+        length = dis.readByte();
+		if (length == -1) {
+			intReturn = null;
+		} else {
+	    	intReturn = dis.readInt();
+		}
+		return intReturn;
+	}
+
+	private void writeInteger(Integer intNum, ObjectOutputStream dos) throws IOException{
+		if(intNum == null) {
+            dos.writeByte(-1);
+		} else {
+			dos.writeByte(0);
+	    	dos.writeInt(intNum);
+    	}
+	}
 
 	private String readString(ObjectInputStream dis) throws IOException{
 		String strReturn = null;
@@ -4540,6 +4895,8 @@ public static class row17Struct implements routines.system.IPersistableRow<row17
 
         		int length = 0;
 		
+						this.support = readInteger(dis);
+					
 					this.itemset = readString(dis);
 					
         	} catch (IOException e) {
@@ -4560,6 +4917,10 @@ public static class row17Struct implements routines.system.IPersistableRow<row17
         try {
 
 		
+					// Integer
+				
+						writeInteger(this.support,dos);
+					
 					// String
 				
 						writeString(this.itemset,dos);
@@ -4577,7 +4938,8 @@ public static class row17Struct implements routines.system.IPersistableRow<row17
 		StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
 		sb.append("[");
-		sb.append("itemset="+itemset);
+		sb.append("support="+String.valueOf(support));
+		sb.append(",itemset="+itemset);
 	    sb.append("]");
 
 	    return sb.toString();
@@ -4623,6 +4985,12 @@ public static class row7Struct implements routines.system.IPersistableRow<row7St
     static byte[] commonByteArray_LOCAL_PROJECT_NAIF_automatise_cible2 = new byte[0];
 
 	
+			    public Integer support;
+
+				public Integer getSupport () {
+					return this.support;
+				}
+				
 			    public Integer itemset;
 
 				public Integer getItemset () {
@@ -4660,6 +5028,8 @@ public static class row7Struct implements routines.system.IPersistableRow<row7St
 
         		int length = 0;
 		
+						this.support = readInteger(dis);
+					
 						this.itemset = readInteger(dis);
 					
         	} catch (IOException e) {
@@ -4682,6 +5052,10 @@ public static class row7Struct implements routines.system.IPersistableRow<row7St
 		
 					// Integer
 				
+						writeInteger(this.support,dos);
+					
+					// Integer
+				
 						writeInteger(this.itemset,dos);
 					
         	} catch (IOException e) {
@@ -4697,7 +5071,8 @@ public static class row7Struct implements routines.system.IPersistableRow<row7St
 		StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
 		sb.append("[");
-		sb.append("itemset="+String.valueOf(itemset));
+		sb.append("support="+String.valueOf(support));
+		sb.append(",itemset="+String.valueOf(itemset));
 	    sb.append("]");
 
 	    return sb.toString();
@@ -4848,6 +5223,8 @@ String fileName_tFileOutputDelimited_1 = "";
                         outtFileOutputDelimited_1 = new java.io.BufferedWriter(new java.io.OutputStreamWriter(
                         new java.io.FileOutputStream(fileName_tFileOutputDelimited_1, false),"US-ASCII"));
                                     if(filetFileOutputDelimited_1.length()==0){
+                                        outtFileOutputDelimited_1.write("support");
+                                            outtFileOutputDelimited_1.write(OUT_DELIM_tFileOutputDelimited_1);
                                         outtFileOutputDelimited_1.write("itemset");
                                         outtFileOutputDelimited_1.write(OUT_DELIM_ROWSEP_tFileOutputDelimited_1);
                                         outtFileOutputDelimited_1.flush();
@@ -4936,7 +5313,7 @@ int nb_line_tJavaRow_1 = 0;
 		    
 			java.sql.Statement stmt_tDBInput_4 = conn_tDBInput_4.createStatement();
 
-		    String dbquery_tDBInput_4 = "SELECT item1 AS itemset FROM item_frequent";
+		    String dbquery_tDBInput_4 = "SELECT support, item1 AS itemset FROM item_frequent";
 			
 
             	globalMap.put("tDBInput_4_QUERY",dbquery_tDBInput_4);
@@ -4954,11 +5331,21 @@ int nb_line_tJavaRow_1 = 0;
 		        nb_line_tDBInput_4++;
 		        
 							if(colQtyInRs_tDBInput_4 < 1) {
-								row7.itemset = null;
+								row7.support = null;
 							} else {
 		                          
             if(rs_tDBInput_4.getObject(1) != null) {
-                row7.itemset = rs_tDBInput_4.getInt(1);
+                row7.support = rs_tDBInput_4.getInt(1);
+            } else {
+                    row7.support = null;
+            }
+		                    }
+							if(colQtyInRs_tDBInput_4 < 2) {
+								row7.itemset = null;
+							} else {
+		                          
+            if(rs_tDBInput_4.getObject(2) != null) {
+                row7.itemset = rs_tDBInput_4.getInt(2);
             } else {
                     row7.itemset = null;
             }
@@ -5040,6 +5427,7 @@ int nb_line_tJavaRow_1 = 0;
 		
 
     //Code généré selon les schémas d'entrée et de sortie
+row17.support = row7.support;
 row17.itemset= Long.toString(row7.itemset);
 
     nb_line_tJavaRow_1++;   
@@ -5100,6 +5488,12 @@ row17.itemset= Long.toString(row7.itemset);
 
 
                     StringBuilder sb_tFileOutputDelimited_1 = new StringBuilder();
+                            if(row17.support != null) {
+                        sb_tFileOutputDelimited_1.append(
+                            row17.support
+                        );
+                            }
+                            sb_tFileOutputDelimited_1.append(OUT_DELIM_tFileOutputDelimited_1);
                             if(row17.itemset != null) {
                         sb_tFileOutputDelimited_1.append(
                             row17.itemset
@@ -6080,11 +6474,19 @@ globalMap.put("tLoop_1_CURRENT_ITERATION",current_iteration_tLoop_1);
 	
 	
 					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk5", 3, 0);
+	       				runStat.updateStatOnConnection("OnComponentOk14", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row13", 3, 0);
 					}           			
 				
 					if(execStat){				
 	       				runStat.updateStatOnConnection("OnComponentOk21", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row15", 3, 0);
 					}           			
 				
 					if(execStat){				
@@ -6096,23 +6498,15 @@ globalMap.put("tLoop_1_CURRENT_ITERATION",current_iteration_tLoop_1);
 					}           			
 				
 					if(execStat){				
-	       				runStat.updateStatOnConnection("row15", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("row16", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("row13", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk14", 3, 0);
+	       				runStat.updateStatOnConnection("OnComponentOk5", 3, 0);
 					}           			
 				
 					if(execStat){				
 	       				runStat.updateStatOnConnection("row3", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row16", 3, 0);
 					}           			
 				
 				if(execStat){
@@ -6336,7 +6730,7 @@ globalMap.put("tLoop_1_CURRENT_ITERATION",current_iteration_tLoop_1);
 
 /*Recherche des ensembles fréquents*/
 
-String select1 = "SELECT t1.item AS item1";
+String select1 = "SELECT COUNT(*) AS support, t1.item AS item1";
 String where1 = " WHERE t1.id = t2.id AND t1.item < t2.item";
 String from1 =" FROM transactions_cible as t1";
 String groupby1 = " GROUP BY t1.item";
@@ -6360,7 +6754,7 @@ context.definition_frequent="INSERT INTO item_frequent("+select1+from1+where1+gr
 System.out.println("Definition frequent niveau : "+context.compteur+" : "+context.definition_frequent);
 
 
-String create1 = "CREATE TABLE item_frequent (item1 INT";
+String create1 = "CREATE TABLE item_frequent (support INT, item1 INT";
 j=2;
 while(j<=context.compteur){
 	create1=create1+", item"+j+" INT";
@@ -7453,6 +7847,12 @@ public static class row10Struct implements routines.system.IPersistableRow<row10
     static byte[] commonByteArray_LOCAL_PROJECT_NAIF_automatise_cible2 = new byte[0];
 
 	
+			    public Integer support;
+
+				public Integer getSupport () {
+					return this.support;
+				}
+				
 			    public Integer item1;
 
 				public Integer getItem1 () {
@@ -7520,6 +7920,8 @@ public static class row10Struct implements routines.system.IPersistableRow<row10
 
         		int length = 0;
 		
+						this.support = readInteger(dis);
+					
 						this.item1 = readInteger(dis);
 					
 						this.item2 = readInteger(dis);
@@ -7550,6 +7952,10 @@ public static class row10Struct implements routines.system.IPersistableRow<row10
         try {
 
 		
+					// Integer
+				
+						writeInteger(this.support,dos);
+					
 					// Integer
 				
 						writeInteger(this.item1,dos);
@@ -7587,7 +7993,8 @@ public static class row10Struct implements routines.system.IPersistableRow<row10
 		StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
 		sb.append("[");
-		sb.append("item1="+String.valueOf(item1));
+		sb.append("support="+String.valueOf(support));
+		sb.append(",item1="+String.valueOf(item1));
 		sb.append(",item2="+String.valueOf(item2));
 		sb.append(",item3="+String.valueOf(item3));
 		sb.append(",item4="+String.valueOf(item4));
@@ -7801,61 +8208,71 @@ resourceMap.put("nb_line_tFileOutputDelimited_3", nb_line_tFileOutputDelimited_3
 		        nb_line_tDBInput_2++;
 		        
 							if(colQtyInRs_tDBInput_2 < 1) {
-								row10.item1 = null;
+								row10.support = null;
 							} else {
 		                          
             if(rs_tDBInput_2.getObject(1) != null) {
-                row10.item1 = rs_tDBInput_2.getInt(1);
+                row10.support = rs_tDBInput_2.getInt(1);
+            } else {
+                    row10.support = null;
+            }
+		                    }
+							if(colQtyInRs_tDBInput_2 < 2) {
+								row10.item1 = null;
+							} else {
+		                          
+            if(rs_tDBInput_2.getObject(2) != null) {
+                row10.item1 = rs_tDBInput_2.getInt(2);
             } else {
                     row10.item1 = null;
             }
 		                    }
-							if(colQtyInRs_tDBInput_2 < 2) {
+							if(colQtyInRs_tDBInput_2 < 3) {
 								row10.item2 = null;
 							} else {
 		                          
-            if(rs_tDBInput_2.getObject(2) != null) {
-                row10.item2 = rs_tDBInput_2.getInt(2);
+            if(rs_tDBInput_2.getObject(3) != null) {
+                row10.item2 = rs_tDBInput_2.getInt(3);
             } else {
                     row10.item2 = null;
             }
 		                    }
-							if(colQtyInRs_tDBInput_2 < 3) {
+							if(colQtyInRs_tDBInput_2 < 4) {
 								row10.item3 = null;
 							} else {
 		                          
-            if(rs_tDBInput_2.getObject(3) != null) {
-                row10.item3 = rs_tDBInput_2.getInt(3);
+            if(rs_tDBInput_2.getObject(4) != null) {
+                row10.item3 = rs_tDBInput_2.getInt(4);
             } else {
                     row10.item3 = null;
             }
 		                    }
-							if(colQtyInRs_tDBInput_2 < 4) {
+							if(colQtyInRs_tDBInput_2 < 5) {
 								row10.item4 = null;
 							} else {
 		                          
-            if(rs_tDBInput_2.getObject(4) != null) {
-                row10.item4 = rs_tDBInput_2.getInt(4);
+            if(rs_tDBInput_2.getObject(5) != null) {
+                row10.item4 = rs_tDBInput_2.getInt(5);
             } else {
                     row10.item4 = null;
             }
 		                    }
-							if(colQtyInRs_tDBInput_2 < 5) {
+							if(colQtyInRs_tDBInput_2 < 6) {
 								row10.item5 = null;
 							} else {
 		                          
-            if(rs_tDBInput_2.getObject(5) != null) {
-                row10.item5 = rs_tDBInput_2.getInt(5);
+            if(rs_tDBInput_2.getObject(6) != null) {
+                row10.item5 = rs_tDBInput_2.getInt(6);
             } else {
                     row10.item5 = null;
             }
 		                    }
-							if(colQtyInRs_tDBInput_2 < 6) {
+							if(colQtyInRs_tDBInput_2 < 7) {
 								row10.item6 = null;
 							} else {
 		                          
-            if(rs_tDBInput_2.getObject(6) != null) {
-                row10.item6 = rs_tDBInput_2.getInt(6);
+            if(rs_tDBInput_2.getObject(7) != null) {
+                row10.item6 = rs_tDBInput_2.getInt(7);
             } else {
                     row10.item6 = null;
             }
@@ -7938,6 +8355,12 @@ resourceMap.put("nb_line_tFileOutputDelimited_3", nb_line_tFileOutputDelimited_3
 
 
                     StringBuilder sb_tFileOutputDelimited_3 = new StringBuilder();
+                            if(row10.support != null) {
+                        sb_tFileOutputDelimited_3.append(
+                            row10.support
+                        );
+                            }
+                            sb_tFileOutputDelimited_3.append(OUT_DELIM_tFileOutputDelimited_3);
                             if(row10.item1 != null) {
                         sb_tFileOutputDelimited_3.append(
                             row10.item1
@@ -9166,6 +9589,6 @@ if (execStat) {
     ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- *     191053 characters generated by Talend Open Studio for Data Integration 
- *     on the 22 mai 2019 14:06:31 CEST
+ *     200623 characters generated by Talend Open Studio for Data Integration 
+ *     on the 24 mai 2019 16:13:54 CEST
  ************************************************************************************************/
