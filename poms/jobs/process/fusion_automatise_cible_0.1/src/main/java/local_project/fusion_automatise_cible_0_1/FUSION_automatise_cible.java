@@ -481,6 +481,24 @@ private class TalendException extends Exception {
 					tDBConnection_1_onSubJobError(exception, errorComponent, globalMap);
 			}
 			
+			public void tDBRow_14_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tDBRow_14_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
+			public void tDBRow_15_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tDBRow_14_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
 			public void tPostjob_1_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 				
 				end_Hash.put(errorComponent, System.currentTimeMillis());
@@ -851,6 +869,11 @@ resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThrea
 resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
 			}
+			public void tDBRow_14_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
+
+			}
 			public void tPostjob_1_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
 resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
@@ -1185,6 +1208,7 @@ public void tDBConnection_1Process(final java.util.Map<String, Object> globalMap
 
 
 
+		
 
 
 	
@@ -1326,6 +1350,10 @@ public void tDBConnection_1Process(final java.util.Map<String, Object> globalMap
 ok_Hash.put("tDBConnection_1", true);
 end_Hash.put("tDBConnection_1", System.currentTimeMillis());
 
+				if(execStat){   
+   	 				runStat.updateStatOnConnection("OnComponentOk25", 0, "ok");
+				}
+				tDBRow_14Process(globalMap);
 
 
 
@@ -1383,6 +1411,542 @@ end_Hash.put("tDBConnection_1", System.currentTimeMillis());
 		
 
 		globalMap.put("tDBConnection_1_SUBPROCESS_STATE", 1);
+	}
+	
+
+
+public static class row18Struct implements routines.system.IPersistableRow<row18Struct> {
+    final static byte[] commonByteArrayLock_LOCAL_PROJECT_FUSION_automatise_cible = new byte[0];
+    static byte[] commonByteArray_LOCAL_PROJECT_FUSION_automatise_cible = new byte[0];
+
+	
+
+
+
+    public void readData(ObjectInputStream dis) {
+
+		synchronized(commonByteArrayLock_LOCAL_PROJECT_FUSION_automatise_cible) {
+
+        	try {
+
+        		int length = 0;
+		
+
+		
+
+        }
+
+		
+			finally {}
+		
+
+      }
+
+
+    }
+
+    public void writeData(ObjectOutputStream dos) {
+        try {
+
+		
+        }
+
+			finally {}
+		
+
+    }
+
+
+    public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(super.toString());
+		sb.append("[");
+	    sb.append("]");
+
+	    return sb.toString();
+    }
+
+    /**
+     * Compare keys
+     */
+    public int compareTo(row18Struct other) {
+
+		int returnValue = -1;
+		
+	    return returnValue;
+    }
+
+
+    private int checkNullsAndCompare(Object object1, Object object2) {
+        int returnValue = 0;
+		if (object1 instanceof Comparable && object2 instanceof Comparable) {
+            returnValue = ((Comparable) object1).compareTo(object2);
+        } else if (object1 != null && object2 != null) {
+            returnValue = compareStrings(object1.toString(), object2.toString());
+        } else if (object1 == null && object2 != null) {
+            returnValue = 1;
+        } else if (object1 != null && object2 == null) {
+            returnValue = -1;
+        } else {
+            returnValue = 0;
+        }
+
+        return returnValue;
+    }
+
+    private int compareStrings(String string1, String string2) {
+        return string1.compareTo(string2);
+    }
+
+
+}
+public void tDBRow_14Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tDBRow_14_SUBPROCESS_STATE", 0);
+
+ final boolean execStat = this.execStat;
+	
+		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
+				globalResumeTicket = true;
+
+
+
+		row18Struct row18 = new row18Struct();
+
+
+
+
+	
+	/**
+	 * [tDBRow_15 begin ] start
+	 */
+
+	
+
+	
+		
+		ok_Hash.put("tDBRow_15", false);
+		start_Hash.put("tDBRow_15", System.currentTimeMillis());
+		
+	
+	currentComponent="tDBRow_15";
+
+	
+			if (execStat) {
+				if(resourceMap.get("inIterateVComp") == null){
+					
+						runStat.updateStatOnConnection("row18" + iterateId, 0, 0);
+					
+				}
+			} 
+
+		
+		int tos_count_tDBRow_15 = 0;
+		
+
+	java.sql.Connection conn_tDBRow_15 = null;
+	String query_tDBRow_15 = "";
+	boolean whetherReject_tDBRow_15 = false;
+				conn_tDBRow_15 = (java.sql.Connection)globalMap.get("conn_tDBConnection_1");
+			
+    resourceMap.put("conn_tDBRow_15", conn_tDBRow_15);
+        java.sql.Statement stmt_tDBRow_15 = conn_tDBRow_15.createStatement();
+        resourceMap.put("stmt_tDBRow_15", stmt_tDBRow_15);
+
+ 
+
+
+
+/**
+ * [tDBRow_15 begin ] stop
+ */
+
+
+
+	
+	/**
+	 * [tDBRow_14 begin ] start
+	 */
+
+	
+
+	
+		
+		ok_Hash.put("tDBRow_14", false);
+		start_Hash.put("tDBRow_14", System.currentTimeMillis());
+		
+	
+	currentComponent="tDBRow_14";
+
+	
+		int tos_count_tDBRow_14 = 0;
+		
+
+	java.sql.Connection conn_tDBRow_14 = null;
+	String query_tDBRow_14 = "";
+	boolean whetherReject_tDBRow_14 = false;
+				conn_tDBRow_14 = (java.sql.Connection)globalMap.get("conn_tDBConnection_1");
+			
+    resourceMap.put("conn_tDBRow_14", conn_tDBRow_14);
+        java.sql.Statement stmt_tDBRow_14 = conn_tDBRow_14.createStatement();
+        resourceMap.put("stmt_tDBRow_14", stmt_tDBRow_14);
+
+ 
+
+
+
+/**
+ * [tDBRow_14 begin ] stop
+ */
+	
+	/**
+	 * [tDBRow_14 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_14";
+
+	
+
+		row18 = null;
+		
+query_tDBRow_14 = "TRUNCATE TABLE transactions";
+whetherReject_tDBRow_14 = false;
+globalMap.put("tDBRow_14_QUERY",query_tDBRow_14);
+try {
+		stmt_tDBRow_14.execute(query_tDBRow_14);
+		
+	} catch (java.lang.Exception e) {
+		whetherReject_tDBRow_14 = true;
+		
+				System.err.print(e.getMessage());
+				
+	}
+	
+	if(!whetherReject_tDBRow_14) {
+		
+					row18 = new row18Struct();
+					
+	}
+	
+
+ 
+
+
+	tos_count_tDBRow_14++;
+
+/**
+ * [tDBRow_14 main ] stop
+ */
+	
+	/**
+	 * [tDBRow_14 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_14";
+
+	
+
+ 
+
+
+
+/**
+ * [tDBRow_14 process_data_begin ] stop
+ */
+// Start of branch "row18"
+if(row18 != null) { 
+
+
+
+	
+	/**
+	 * [tDBRow_15 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_15";
+
+	
+
+			//row18
+			//row18
+
+
+			
+				if(execStat){
+					runStat.updateStatOnConnection("row18"+iterateId,1, 1);
+				} 
+			
+
+		
+
+query_tDBRow_15 = "ALTER TABLE transactions ADD INDEX ID(ID,Item)";
+whetherReject_tDBRow_15 = false;
+globalMap.put("tDBRow_15_QUERY",query_tDBRow_15);
+try {
+		stmt_tDBRow_15.execute(query_tDBRow_15);
+		
+	} catch (java.lang.Exception e) {
+		whetherReject_tDBRow_15 = true;
+		
+				System.err.print(e.getMessage());
+				
+	}
+	
+
+ 
+
+
+	tos_count_tDBRow_15++;
+
+/**
+ * [tDBRow_15 main ] stop
+ */
+	
+	/**
+	 * [tDBRow_15 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_15";
+
+	
+
+ 
+
+
+
+/**
+ * [tDBRow_15 process_data_begin ] stop
+ */
+	
+	/**
+	 * [tDBRow_15 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_15";
+
+	
+
+ 
+
+
+
+/**
+ * [tDBRow_15 process_data_end ] stop
+ */
+
+} // End of branch "row18"
+
+
+
+
+	
+	/**
+	 * [tDBRow_14 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_14";
+
+	
+
+ 
+
+
+
+/**
+ * [tDBRow_14 process_data_end ] stop
+ */
+	
+	/**
+	 * [tDBRow_14 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_14";
+
+	
+
+	
+        stmt_tDBRow_14.close();
+        resourceMap.remove("stmt_tDBRow_14");
+    resourceMap.put("statementClosed_tDBRow_14", true);
+    resourceMap.put("finish_tDBRow_14", true);
+ 
+
+ok_Hash.put("tDBRow_14", true);
+end_Hash.put("tDBRow_14", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tDBRow_14 end ] stop
+ */
+
+	
+	/**
+	 * [tDBRow_15 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_15";
+
+	
+
+	
+        stmt_tDBRow_15.close();
+        resourceMap.remove("stmt_tDBRow_15");
+    resourceMap.put("statementClosed_tDBRow_15", true);
+    resourceMap.put("finish_tDBRow_15", true);
+			if(execStat){
+				if(resourceMap.get("inIterateVComp") == null || !((Boolean)resourceMap.get("inIterateVComp"))){
+			 		runStat.updateStatOnConnection("row18"+iterateId,2, 0); 
+			 	}
+			}
+		
+ 
+
+ok_Hash.put("tDBRow_15", true);
+end_Hash.put("tDBRow_15", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tDBRow_15 end ] stop
+ */
+
+
+
+				}//end the resume
+
+				
+
+
+
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [tDBRow_14 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_14";
+
+	
+
+    if (resourceMap.get("statementClosed_tDBRow_14") == null) {
+            java.sql.Statement stmtToClose_tDBRow_14 = null;
+            if ((stmtToClose_tDBRow_14 = (java.sql.Statement) resourceMap.remove("stmt_tDBRow_14")) != null) {
+                stmtToClose_tDBRow_14.close();
+            }
+    }
+ 
+
+
+
+/**
+ * [tDBRow_14 finally ] stop
+ */
+
+	
+	/**
+	 * [tDBRow_15 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDBRow_15";
+
+	
+
+    if (resourceMap.get("statementClosed_tDBRow_15") == null) {
+            java.sql.Statement stmtToClose_tDBRow_15 = null;
+            if ((stmtToClose_tDBRow_15 = (java.sql.Statement) resourceMap.remove("stmt_tDBRow_15")) != null) {
+                stmtToClose_tDBRow_15.close();
+            }
+    }
+ 
+
+
+
+/**
+ * [tDBRow_15 finally ] stop
+ */
+
+
+
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
+				}
+				resourceMap = null;
+			}
+		
+
+		globalMap.put("tDBRow_14_SUBPROCESS_STATE", 1);
 	}
 	
 
@@ -2022,13 +2586,10 @@ int count_tDBOutput_1=0;
                                         }
                                     }
                                 }
-                                if(whetherExist_tDBOutput_1) {
-                                    try (java.sql.Statement stmtDrop_tDBOutput_1 = conn_tDBOutput_1.createStatement()) {
-                                        stmtDrop_tDBOutput_1.execute("DROP TABLE `" + tableName_tDBOutput_1 + "`" );
+                                if(!whetherExist_tDBOutput_1) {
+                                    try (java.sql.Statement stmtCreate_tDBOutput_1 = conn_tDBOutput_1.createStatement()) {
+                                        stmtCreate_tDBOutput_1.execute("CREATE TABLE `" + tableName_tDBOutput_1 + "`(`ID` INT(100)  ,`Item` INT(100)  )");
                                     }
-                                }
-                                try(java.sql.Statement stmtCreate_tDBOutput_1 = conn_tDBOutput_1.createStatement()) {
-                                    stmtCreate_tDBOutput_1.execute("CREATE TABLE `" + tableName_tDBOutput_1 + "`(`ID` INT(100)  ,`Item` INT(100)  )");
                                 }
 
 				String insert_tDBOutput_1 = "INSERT INTO `" + "transactions" + "` (`ID`,`Item`) VALUES (?,?)";
@@ -6130,47 +6691,7 @@ globalMap.put("tLoop_1_CURRENT_ITERATION",current_iteration_tLoop_1);
 	
 	
 					if(execStat){				
-	       				runStat.updateStatOnConnection("row8", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk10", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk5", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("row16", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("row10", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("row4", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("row6", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("If3", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk11", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk12", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk21", 3, 0);
+	       				runStat.updateStatOnConnection("OnComponentOk14", 3, 0);
 					}           			
 				
 					if(execStat){				
@@ -6178,11 +6699,63 @@ globalMap.put("tLoop_1_CURRENT_ITERATION",current_iteration_tLoop_1);
 					}           			
 				
 					if(execStat){				
+	       				runStat.updateStatOnConnection("OnComponentOk12", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("OnComponentOk13", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row4", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row10", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("OnComponentOk9", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row6", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("OnComponentOk11", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("OnComponentOk10", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row16", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row9", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("OnComponentOk5", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("row8", 3, 0);
+					}           			
+				
+					if(execStat){				
 	       				runStat.updateStatOnConnection("row3", 3, 0);
 					}           			
 				
 					if(execStat){				
-	       				runStat.updateStatOnConnection("row12", 3, 0);
+	       				runStat.updateStatOnConnection("row14", 3, 0);
+					}           			
+				
+					if(execStat){				
+	       				runStat.updateStatOnConnection("If3", 3, 0);
 					}           			
 				
 					if(execStat){				
@@ -6194,19 +6767,7 @@ globalMap.put("tLoop_1_CURRENT_ITERATION",current_iteration_tLoop_1);
 					}           			
 				
 					if(execStat){				
-	       				runStat.updateStatOnConnection("row14", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk13", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("row9", 3, 0);
-					}           			
-				
-					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk9", 3, 0);
+	       				runStat.updateStatOnConnection("OnComponentOk21", 3, 0);
 					}           			
 				
 					if(execStat){				
@@ -6214,7 +6775,7 @@ globalMap.put("tLoop_1_CURRENT_ITERATION",current_iteration_tLoop_1);
 					}           			
 				
 					if(execStat){				
-	       				runStat.updateStatOnConnection("OnComponentOk14", 3, 0);
+	       				runStat.updateStatOnConnection("row12", 3, 0);
 					}           			
 				
 				if(execStat){
@@ -13571,6 +14132,6 @@ if (execStat) {
     ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- *     275414 characters generated by Talend Open Studio for Data Integration 
- *     on the 24 mai 2019 16:13:11 CEST
+ *     284965 characters generated by Talend Open Studio for Data Integration 
+ *     on the 29 mai 2019 11:32:57 CEST
  ************************************************************************************************/
